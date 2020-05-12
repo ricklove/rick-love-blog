@@ -6,8 +6,6 @@ author: "Rick Love"
 excerpt: "Build your own React based Blog with Gatsby"
 ---
 
-## Build a Blog using Gatsby
-
 Gatsby is a static site generator based on React.
 
 What this practically means is that you can create a great website that is super fast, but still allows you to code in the best UI Framework (React) to customize and create powerful components.
