@@ -33,7 +33,7 @@ So, here is some newer Typescript written for a fun little project where I was $
 ```
 
 
-```C#
+```CSharp
 
 // But years before that I was writing in C#
 
