@@ -13,6 +13,7 @@ Remove all the placeholder content and fill your blog with you.
 - Open `pages/about.md`
 - Write a short bio about yourself as a new software developer
 
+
 ## Remove the Placeholder Content
 
 We won't delete this yet, so you can look back on it for a reference.
@@ -22,6 +23,51 @@ We won't delete this yet, so you can look back on it for a reference.
 - Rename `pages/showcase.md` to `pages/showcase.md.old`
 
 Later, when you no longer need a reference, you can delete these files.
+
+
+## Customize the Site Navigation
+
+- Open `gatsby-config.js`
+- Customize the `siteMetadata` near the top of the file
+    - Change the title, author, etc.
+    - Comment out the showcase and example nave sections
+    - Example:
+
+```javascript
+
+// ...
+  siteMetadata: {
+    title: `blog_rick_love`,
+    description: `It's about development mostly`,
+    copyrights: '2020 Copyright Rick Love',
+    author: `Rick Love`,
+    logo: {
+      src: '',
+      alt: '',
+    },
+    logoText: 'blog_rick_love',
+    defaultTheme: 'dark',
+    postsPerPage: 5,
+    showMenuItems: 2,
+    menuMoreText: 'Show more',
+    mainMenu: [
+      {
+        title: 'About',
+        path: '/about',
+      },
+      // {
+      //   title: 'Showcase',
+      //   path: '/showcase',
+      // },
+      // {
+      //   title: 'Example',
+      //   path: '/example',
+      // },
+    ],
+  },
+// ...
+
+```
 
 
 ## Commit and Push to Deploy
