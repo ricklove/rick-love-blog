@@ -22,5 +22,10 @@
     },
     "include": [
         "src",
+        "*.ts",
+        "gatsby-ssr.js",
+        "gatsby-browser.js",
+        "gatsby-node.js",
+        "gatsby-config.js",
     ]
 }
