@@ -12,11 +12,13 @@ module.exports = {
     plugins: [
         `graphql`,
         `@typescript-eslint`,
+        `promise`,
     ],
     extends: [
         `airbnb-typescript`,
         `eslint-config-react-app`,
         `plugin:@typescript-eslint/recommended`,
+        "plugin:promise/recommended",
         "prettier",
         "prettier/react",
         "prettier/@typescript-eslint",
