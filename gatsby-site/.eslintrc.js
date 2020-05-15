@@ -14,7 +14,7 @@ module.exports = {
         `@typescript-eslint`,
     ],
     extends: [
-        // `eslint-config-react-app`,
+        `eslint-config-react-app`,
         `plugin:@typescript-eslint/recommended`,
     ],
 
