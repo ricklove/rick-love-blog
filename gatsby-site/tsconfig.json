@@ -1,7 +1,5 @@
 {
     "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
         "lib": [
             "dom",
             "es2017"
@@ -17,6 +15,6 @@
         "skipLibCheck": true
     },
     "include": [
-        "./src/**/*"
+        "src"
     ],
 }
