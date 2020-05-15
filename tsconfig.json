@@ -13,9 +13,14 @@
         "strict": true,
         "noImplicitAny": true,
         "downlevelIteration": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "plugins": [
+            {
+                "name": "typescript-plugin-css-modules"
+            }
+        ]
     },
     "include": [
-        "src"
+        "src",
     ]
 }

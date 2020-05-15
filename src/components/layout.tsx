@@ -1,13 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { useStaticQuery, graphql } from 'gatsby'
-
-import Header from './header'
-import Footer from './footer'
-
-import '../styles/layout.css'
-
-const Layout = ({ children }) => {
+import React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import Header from "./header";
+import Footer from "./footer";
+import "../styles/layout.css";
+const Layout: React.SFC<{}> = ({ children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -29,7 +25,7 @@ const Layout = ({ children }) => {
         }
       }
     }
-  `)
+  `);
   const {
     title,
     logo,
@@ -38,9 +34,8 @@ const Layout = ({ children }) => {
     mainMenu,
     showMenuItems,
     menuMoreText,
-    copyrights,
-  } = data.site.siteMetadata
-
+    copyrights
+  } = data.site.siteMetadata;
   return (
     <div className="container">
       <Header
@@ -55,11 +50,6 @@ const Layout = ({ children }) => {
       <div className="content">{children}</div>
       <Footer copyrights={copyrights} />
     </div>
-  )
-}
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default Layout
+  );
+};
+export default Layout;

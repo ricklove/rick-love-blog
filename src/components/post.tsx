@@ -1,15 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
-import Img, { FluidObject } from 'gatsby-image';
-import Navigation from './navigation';
-import { toKebabCase } from '../helpers';
-
-import style from '../styles/post.module.css';
-
-type ImageData = { childImageSharp: { fluid: FluidObject } };
-type PostData = { frontmatter: { path: string, title: string } };
-
+import React from "react";
+import { Link } from "gatsby";
+import Img, { FluidObject } from "gatsby-image";
+import Navigation from "./navigation";
+import { toKebabCase } from "../helpers";
+import style from "../styles/post.module.css";
+type ImageData = {
+  childImageSharp: {
+    fluid: FluidObject
+  }
+};
+type PostData = {
+  frontmatter: {
+    path: string,
+    title: string
+  }
+};
 const Post = (props: {
   title: string,
   date: string,
@@ -20,7 +25,7 @@ const Post = (props: {
   html: string,
   tags: string[],
   previousPost: PostData,
-  nextPost: PostData,
+  nextPost: PostData
 }) => {
   const {
     title,
@@ -32,14 +37,12 @@ const Post = (props: {
     html,
     tags,
     previousPost,
-    nextPost,
+    nextPost
   } = props;
-
-  const previousPath = previousPost && previousPost.frontmatter.path
-  const previousLabel = previousPost && previousPost.frontmatter.title
-  const nextPath = nextPost && nextPost.frontmatter.path
-  const nextLabel = nextPost && nextPost.frontmatter.title
-
+  const previousPath = previousPost && previousPost.frontmatter.path;
+  const previousLabel = previousPost && previousPost.frontmatter.title;
+  const nextPath = nextPost && nextPost.frontmatter.path;
+  const nextLabel = nextPost && nextPost.frontmatter.title;
   return (
     <div className={style.post}>
       <div className={style.postContent}>
@@ -74,21 +77,18 @@ const Post = (props: {
             </Link>
           </>
         ) : (
-            <>
-              <div dangerouslySetInnerHTML={{ __html: html }} />
-              <Navigation
-                previousPath={previousPath}
-                previousLabel={previousLabel}
-                nextPath={nextPath}
-                nextLabel={nextLabel}
-              />
-            </>
-          )}
+          <>
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+            <Navigation
+              previousPath={previousPath}
+              previousLabel={previousLabel}
+              nextPath={nextPath}
+              nextLabel={nextLabel}
+            />
+          </>
+        )}
       </div>
     </div>
-  )
-}
-
-
-
+  );
+};
 export default Post;

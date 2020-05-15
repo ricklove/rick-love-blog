@@ -12,7 +12,7 @@ export const Header = (props: {
   defaultTheme: string,
   mainMenu: { title: string, path: string }[],
   mainMenuItems: number,
-  menuMoreText: string,
+  menuMoreText: string
 }) => {
   const {
     siteLogo,
@@ -34,8 +34,7 @@ export const Header = (props: {
 
     changeTheme(opositeTheme);
 
-    typeof window !== 'undefined' &&
-      window.localStorage.setItem('theme', opositeTheme);
+    if (typeof window !== 'undefined') { window.localStorage.setItem('theme', opositeTheme); }
   };
   const onToggleMobileMenu = () => toggleMobileMenu(!isMobileMenuVisible);
   const onToggleSubMenu = () => toggleSubMenu(!isSubMenuVisible);

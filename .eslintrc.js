@@ -57,5 +57,7 @@ module.exports = {
     "semi": ["error", "always"],
     "eol-last": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
+    "comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/no-explicit-any": ["error", { fixToUnknown: true }],
   },
 }

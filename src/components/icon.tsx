@@ -1,11 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import style from "../styles/icon.module.css";
 
-import style from '../styles/icon.module.css'
-
-const Icon = props => {
-  const { d, size = '1em', label, style: styles } = props
-
+export const Icon = (props: {
+  d?: string,
+  size?: number,
+  label?: string,
+  style?: React.CSSProperties,
+}) => {
+  const { d, size = "1em", label, style: styles } = props;
   return (
     <span className={style.root} style={styles} role="figure">
       <svg
@@ -19,14 +21,5 @@ const Icon = props => {
       </svg>
       {label && <span className={style.label}>{label}</span>}
     </span>
-  )
-}
-
-Icon.propTypes = {
-  d: PropTypes.string,
-  size: PropTypes.number,
-  label: PropTypes.string,
-  style: PropTypes.object,
-}
-
-export default Icon
+  );
+};
