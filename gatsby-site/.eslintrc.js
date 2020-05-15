@@ -10,18 +10,20 @@ module.exports = {
         __BASE_PATH__: true, // this will rarely, if ever, be used by consumers
     },
     plugins: [
-        `graphql`,
         `@typescript-eslint`,
+        `eslint-comments`,
+        `graphql`,
         `promise`,
     ],
     extends: [
         `airbnb-typescript`,
         `eslint-config-react-app`,
         `plugin:@typescript-eslint/recommended`,
-        "plugin:promise/recommended",
-        "prettier",
-        "prettier/react",
-        "prettier/@typescript-eslint",
+        `plugin:eslint-comments/recommended`,
+        `plugin:promise/recommended`,
+        `prettier`,
+        `prettier/react`,
+        `prettier/@typescript-eslint`,
     ],
 
     rules: {
