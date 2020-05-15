@@ -10,9 +10,12 @@
         "noEmit": true,
         "skipLibCheck": true,
         "resolveJsonModule": true,
-        "strictNullChecks": true,
+        "strict": true,
         "noImplicitAny": true,
         "downlevelIteration": true,
         "sourceMap": true
-    }
+    },
+    "include": [
+        "src"
+    ]
 }

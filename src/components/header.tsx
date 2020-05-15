@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
@@ -7,7 +6,14 @@ import Menu from './menu'
 
 import style from '../styles/header.module.css'
 
-const Header = props => {
+export const Header = (props: {
+  siteLogo: { src: string, alt: string },
+  logoText: string,
+  defaultTheme: string,
+  mainMenu: { title: string, path: string }[],
+  mainMenuItems: number,
+  menuMoreText: string,
+}) => {
   const {
     siteLogo,
     logoText,
@@ -15,7 +21,8 @@ const Header = props => {
     mainMenuItems,
     menuMoreText,
     defaultTheme,
-  } = props
+  } = props;
+
   const defaultThemeState =
     (typeof window !== 'undefined' && window.localStorage.getItem('theme')) ||
     null
@@ -52,12 +59,12 @@ const Header = props => {
               {siteLogo.src ? (
                 <img src={siteLogo.src} alt={siteLogo.alt} />
               ) : (
-                <>
-                  <span className={style.mark}>></span>
-                  <span className={style.text}>{logoText}</span>
-                  <span className={style.cursor} />
-                </>
-              )}
+                  <>
+                    <span className={style.mark}>></span>
+                    <span className={style.text}>{logoText}</span>
+                    <span className={style.cursor} />
+                  </>
+                )}
             </div>
           </Link>
           <span className={style.right}>
@@ -77,19 +84,3 @@ const Header = props => {
     </>
   )
 }
-
-Header.propTypes = {
-  siteLogo: PropTypes.object,
-  logoText: PropTypes.string,
-  defaultTheme: PropTypes.string,
-  mainMenu: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      path: PropTypes.string,
-    }),
-  ),
-  mainMenuItems: PropTypes.number,
-  menuMoreText: PropTypes.string,
-}
-
-export default Header
