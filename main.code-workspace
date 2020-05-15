@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "./gatsby-site"
+		},
+		{
+			"path": ".",
+			"name": "root"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "node_modules\\typescript\\lib"
+	}
+}
