@@ -1,29 +1,31 @@
 import React from "react";
 import { graphql } from "gatsby";
-import SEO from "../components/seo";
-import Layout from "../components/layout";
-import Post from "../components/post";
-import Navigation from "../components/navigation";
+import { SEO } from "../components/seo";
+import { Layout } from "../components/layout";
+import { Post } from "../components/post";
+import { Navigation } from "../components/navigation";
 import "../styles/layout.css";
-type TagsProps = {
-  data: any,
-  pageContext?: {
-    nextPagePath?: string,
-    previousPagePath?: string
-  }
-};
-const Tags: React.SFC<TagsProps> = ({
+import { FluidObject } from "gatsby-image";
+
+export const Tags = ({
   data,
-  pageContext: { nextPagePath, previousPagePath, tag }
+  pageContext: { nextPagePath, previousPagePath, tag } = {},
+}: {
+  data: PostsQueryResult;
+  pageContext?: {
+    nextPagePath?: string;
+    previousPagePath?: string;
+    tag?: string;
+  };
 }) => {
   const {
-    allMarkdownRemark: { edges: posts }
+    allMarkdownRemark: { edges: posts },
   } = data;
   return (
     <>
       <SEO />
       <Layout>
-        <div className="infoBanner">
+        <div className='infoBanner'>
           Posts with tag: <span>#{tag}</span>
         </div>
 
@@ -38,8 +40,8 @@ const Tags: React.SFC<TagsProps> = ({
               author,
               coverImage,
               excerpt,
-              tags
-            }
+              tags,
+            },
           } = node;
           return (
             <Post
@@ -57,13 +59,37 @@ const Tags: React.SFC<TagsProps> = ({
 
         <Navigation
           previousPath={previousPagePath}
-          previousLabel="Newer posts"
+          previousLabel='Newer posts'
           nextPath={nextPagePath}
-          nextLabel="Older posts"
+          nextLabel='Older posts'
         />
       </Layout>
     </>
   );
+};
+
+export type PostsQueryResult = {
+  allMarkdownRemark: {
+    edges: {
+      node: {
+        id: string;
+        excerpt: string;
+        frontmatter: {
+          title: string;
+          date: string;
+          path: string;
+          author: string;
+          excerpt: string;
+          tags: string[];
+          coverImage: {
+            childImageSharp: {
+              fluid: FluidObject;
+            };
+          };
+        };
+      };
+    }[];
+  };
 };
 export const postsQuery = graphql`
   query($limit: Int!, $skip: Int!, $tag: String!) {
@@ -97,4 +123,3 @@ export const postsQuery = graphql`
     }
   }
 `;
-export default Tags;

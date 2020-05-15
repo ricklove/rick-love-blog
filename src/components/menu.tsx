@@ -1,37 +1,45 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from "react";
 import { Link } from "gatsby";
-import Icon from "./icon";
+import { Icon } from "./icon";
 import style from "../styles/menu.module.css";
 
-const MainMenu = ({ mainMenu, mainMenuItems, isMobileMenu }) => {
-  const menu = mainMenu.slice(0);
-  !isMobileMenu && menu.splice(mainMenuItems);
-
-  return menu.map((menuItem, index) => (
-    <li key={index}>
-      <Link to={menuItem.path}>{menuItem.title}</Link>
-    </li>
-  ));
-};
-
-type SubMenuProps = {
-  mainMenu?: {
-    title?: string,
-    path?: string
-  }[],
-  mainMenuItems?: number,
-  onToggleSubMenu?: (...args: any[]) => any
-};
-
-const SubMenu: React.SFC<SubMenuProps> = ({
+const MainMenu = ({
   mainMenu,
   mainMenuItems,
-  onToggleSubMenu
+  isMobileMenu,
+}: {
+  mainMenu: { path: string, title: string }[];
+  mainMenuItems?: number;
+  isMobileMenu?: boolean;
 }) => {
-  const menu = mainMenu.slice(0);
-  menu.splice(0, mainMenuItems);
-  const items = menu.map((menuItem, index) => (
-    <li key={index}>
+  const menu = !isMobileMenu || !mainMenuItems ? { ...mainMenu } : mainMenu.slice(0, mainMenuItems);
+
+  return (<>
+    {menu.map((menuItem) => (
+      <li key={menuItem.path}>
+        <Link to={menuItem.path}>{menuItem.title}</Link>
+      </li>
+    ))}
+  </>);
+};
+
+const SubMenu = ({
+  mainMenu,
+  mainMenuItems,
+  onToggleSubMenu,
+}: {
+  mainMenu: {
+    title: string;
+    path: string;
+  }[];
+  mainMenuItems?: number;
+  onToggleSubMenu?: (...args: unknown[]) => unknown;
+}) => {
+  const menu = mainMenu.slice(mainMenuItems);
+  const items = menu.map((menuItem) => (
+    <li key={menuItem.path}>
       <Link to={menuItem.path}>{menuItem.title}</Link>
     </li>
   ));
@@ -41,9 +49,10 @@ const SubMenu: React.SFC<SubMenuProps> = ({
 
       <div
         className={style.subMenuOverlay}
-        role="button"
+        role='button'
         tabIndex={0}
         onClick={onToggleSubMenu}
+        onKeyUp={onToggleSubMenu}
       />
     </>
   );
@@ -54,21 +63,8 @@ const toggleIcon = `M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
 3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
 13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z`;
 
-type MenuProps = {
-  mainMenu?: {
-    title?: string,
-    path?: string
-  }[],
-  mainMenuItems?: number,
-  menuMoreText?: string,
-  isMobileMenuVisible?: boolean,
-  isSubMenuVisible?: boolean,
-  onToggleMobileMenu?: (...args: any[]) => any,
-  onToggleSubMenu?: (...args: any[]) => any,
-  onChangeTheme?: (...args: any[]) => any
-};
 
-export const Menu: React.SFC<MenuProps> = ({
+export const Menu = ({
   mainMenu,
   mainMenuItems,
   menuMoreText,
@@ -76,31 +72,46 @@ export const Menu: React.SFC<MenuProps> = ({
   isSubMenuVisible,
   onToggleMobileMenu,
   onToggleSubMenu,
-  onChangeTheme
+  onChangeTheme,
+}: {
+  mainMenu: {
+    title: string;
+    path: string;
+  }[];
+  mainMenuItems: number;
+  menuMoreText: string;
+  isMobileMenuVisible: boolean;
+  isSubMenuVisible: boolean;
+  onToggleMobileMenu: (...args: unknown[]) => unknown;
+  onToggleSubMenu: (...args: unknown[]) => unknown;
+  onChangeTheme: (...args: unknown[]) => unknown;
 }) => {
   const isSubMenu = !(mainMenuItems >= mainMenu.length) && mainMenuItems > 0;
   return (
     <>
       <div className={style.mobileMenuContainer}>
         <>
-          {isMobileMenuVisible ? (
+          {isMobileMenuVisible && (
             <>
               <ul className={style.mobileMenu}>
                 <MainMenu mainMenu={mainMenu} isMobileMenu />
               </ul>
 
               <div
-                onClick={onToggleMobileMenu}
                 className={style.mobileMenuOverlay}
+                role='button'
+                tabIndex={0}
+                onClick={onToggleMobileMenu}
+                onKeyUp={onToggleMobileMenu}
               />
             </>
-          ) : null}
+          )}
           <button
             className={style.menuTrigger}
             style={{ color: "inherit" }}
             onClick={onToggleMobileMenu}
-            type="button"
-            aria-label="Menu"
+            type='button'
+            aria-label='Menu'
           >
             <Icon style={{ cursor: "pointer" }} size={24} d={menuIcon} />
           </button>
@@ -109,18 +120,18 @@ export const Menu: React.SFC<MenuProps> = ({
       <div className={style.desktopMenuContainer}>
         <ul className={style.menu}>
           <MainMenu mainMenu={mainMenu} mainMenuItems={mainMenuItems} />
-          {isSubMenu ? (
+          {isSubMenu && (
             <>
               <button
                 className={style.subMenuTrigger}
                 onClick={onToggleSubMenu}
-                type="button"
-                aria-label="Menu"
+                type='button'
+                aria-label='Menu'
               >
                 {menuMoreText || "Menu"}{" "}
-                <span className={style.menuArrow}>></span>
+                <span className={style.menuArrow}>{'>'}</span>
               </button>
-              {isSubMenuVisible ? (
+              {isSubMenuVisible && (
                 <ul className={style.subMenu}>
                   <SubMenu
                     mainMenu={mainMenu}
@@ -128,16 +139,16 @@ export const Menu: React.SFC<MenuProps> = ({
                     onToggleSubMenu={onToggleSubMenu}
                   />
                 </ul>
-              ) : null}
+              )}
             </>
-          ) : null}
+          )}
         </ul>
       </div>
       <button
         className={style.themeToggle}
         onClick={onChangeTheme}
-        type="button"
-        aria-label="Theme toggle"
+        type='button'
+        aria-label='Theme toggle'
       >
         <Icon style={{ cursor: "pointer" }} size={24} d={toggleIcon} />
       </button>

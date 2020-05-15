@@ -6,22 +6,23 @@ import { Menu } from './menu';
 
 import * as style from '../styles/header.module.css';
 
-export const Header = (props: {
-  siteLogo: { src: string, alt: string },
-  logoText: string,
-  defaultTheme: string,
-  mainMenu: { title: string, path: string }[],
-  mainMenuItems: number,
-  menuMoreText: string
+export const Header = ({
+  siteTitle,
+  siteLogo,
+  logoText,
+  mainMenu,
+  mainMenuItems,
+  menuMoreText,
+  defaultTheme,
+}: {
+  siteTitle: string;
+  siteLogo: { src: string, alt: string };
+  logoText: string;
+  defaultTheme: string;
+  mainMenu: { title: string, path: string }[];
+  mainMenuItems: number;
+  menuMoreText: string;
 }) => {
-  const {
-    siteLogo,
-    logoText,
-    mainMenu,
-    mainMenuItems,
-    menuMoreText,
-    defaultTheme,
-  } = props;
 
   const defaultThemeState = (typeof window !== 'undefined' && window.localStorage.getItem('theme')) || undefined;
 
@@ -52,7 +53,7 @@ export const Header = (props: {
       </Helmet>
       <header className={style.header}>
         <div className={style.inner}>
-          <Link to="/">
+          <Link to='/'>
             <div className={style.logo}>
               {siteLogo.src ? (
                 <img src={siteLogo.src} alt={siteLogo.alt} />

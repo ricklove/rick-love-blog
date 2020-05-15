@@ -1,9 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import Header from "./header";
-import Footer from "./footer";
+import { Header } from "./header";
+import { Footer } from "./footer";
 import "../styles/layout.css";
-const Layout: React.SFC<{}> = ({ children }) => {
+
+export const Layout = ({ children }: { children: ReactNode }) => {
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -26,6 +28,18 @@ const Layout: React.SFC<{}> = ({ children }) => {
       }
     }
   `);
+
+  type QueryResult = {
+    title: string;
+    logo: { src: string, alt: string };
+    logoText: string;
+    defaultTheme: string;
+    mainMenu: { title: string, path: string }[];
+    showMenuItems: number;
+    menuMoreText: string;
+    copyrights: string;
+  }
+
   const {
     title,
     logo,
@@ -34,10 +48,11 @@ const Layout: React.SFC<{}> = ({ children }) => {
     mainMenu,
     showMenuItems,
     menuMoreText,
-    copyrights
-  } = data.site.siteMetadata;
+    copyrights,
+  } = data.site.siteMetadata as QueryResult;
+
   return (
-    <div className="container">
+    <div className='container'>
       <Header
         siteTitle={title}
         siteLogo={logo}
@@ -47,9 +62,8 @@ const Layout: React.SFC<{}> = ({ children }) => {
         mainMenuItems={showMenuItems}
         menuMoreText={menuMoreText}
       />
-      <div className="content">{children}</div>
+      <div className='content'>{children}</div>
       <Footer copyrights={copyrights} />
     </div>
   );
 };
-export default Layout;

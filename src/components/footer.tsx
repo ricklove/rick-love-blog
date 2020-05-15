@@ -3,8 +3,7 @@
 import React from 'react';
 
 
-export const Footer = (props: { copyrights: string }) => {
-  const { copyrights } = props;
+export const Footer = ({ copyrights }: { copyrights: string }) => {
 
   return (
     <footer>
@@ -12,15 +11,15 @@ export const Footer = (props: { copyrights: string }) => {
         <div dangerouslySetInnerHTML={{ __html: copyrights }} />
       ) : (
           <>
-            <span className="footerCopyrights">
+            <span className='footerCopyrights'>
               © 2020 Built with
             {' '}
-              <a href="https://www.gatsbyjs.org">Gatsby</a>
+              <a href='https://www.gatsbyjs.org'>Gatsby</a>
             </span>
-            <span className="footerCopyrights">
+            <span className='footerCopyrights'>
               tarter created by
             {' '}
-              <a href="https://radoslawkoziel.pl">panr</a>
+              <a href='https://radoslawkoziel.pl'>panr</a>
             </span>
           </>
         )}

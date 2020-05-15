@@ -1,22 +1,24 @@
 import React from "react";
 import { graphql } from "gatsby";
-import SEO from "../components/seo";
-import Layout from "../components/layout";
-import Post from "../components/post";
-import Navigation from "../components/navigation";
-type IndexProps = {
-  data: any,
-  pageContext?: {
-    nextPagePath?: string,
-    previousPagePath?: string
-  }
-};
-const Index: React.SFC<IndexProps> = ({
+import GatsbyImage, { FluidObject } from "gatsby-image";
+import { SEO } from "../components/seo";
+import { Layout } from "../components/layout";
+import { Post } from "../components/post";
+import { Navigation } from "../components/navigation";
+
+export const Index = ({
   data,
-  pageContext: { nextPagePath, previousPagePath }
+  pageContext,
+}: {
+  data: PostsQueryResult;
+  pageContext?: {
+    nextPagePath?: string;
+    previousPagePath?: string;
+  };
 }) => {
+  const { nextPagePath, previousPagePath } = pageContext ?? {};
   const {
-    allMarkdownRemark: { edges: posts }
+    allMarkdownRemark: { edges: posts },
   } = data;
   return (
     <>
@@ -33,8 +35,8 @@ const Index: React.SFC<IndexProps> = ({
               author,
               coverImage,
               excerpt,
-              tags
-            }
+              tags,
+            },
           } = node;
           return (
             <Post
@@ -52,14 +54,40 @@ const Index: React.SFC<IndexProps> = ({
 
         <Navigation
           previousPath={previousPagePath}
-          previousLabel="Newer posts"
+          previousLabel='Newer posts'
           nextPath={nextPagePath}
-          nextLabel="Older posts"
+          nextLabel='Older posts'
         />
       </Layout>
     </>
   );
 };
+
+
+export type PostsQueryResult = {
+  allMarkdownRemark: {
+    edges: {
+      node: {
+        id: string;
+        excerpt: string;
+        frontmatter: {
+          title: string;
+          date: string;
+          path: string;
+          author: string;
+          excerpt: string;
+          tags: string[];
+          coverImage: {
+            childImageSharp: {
+              fluid: FluidObject;
+            };
+          };
+        };
+      };
+    }[];
+  };
+};
+
 export const postsQuery = graphql`
   query($limit: Int!, $skip: Int!) {
     allMarkdownRemark(
@@ -91,5 +119,4 @@ export const postsQuery = graphql`
       }
     }
   }
-`;
-export default Index;
+` as unknown as PostsQueryResult;

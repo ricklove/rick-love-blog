@@ -57,7 +57,23 @@ module.exports = {
     "semi": ["error", "always"],
     "eol-last": ["error", "always"],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
-    "comma-dangle": ["error", "always-multiline"],
-    "@typescript-eslint/no-explicit-any": ["error", { fixToUnknown: true }],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline"
+    }],
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      "multiline": {
+        "delimiter": "semi",
+        "requireLast": true
+      },
+      "singleline": {
+        "delimiter": "comma",
+        "requireLast": false
+      }
+    }],
+    "jsx-quotes": ["error", "prefer-single"]
   },
 }

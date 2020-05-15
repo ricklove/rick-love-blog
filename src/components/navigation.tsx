@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "gatsby";
 import style from "../styles/navigation.module.css";
-type NavigationProps = {
-  nextPath?: string,
-  previousPath?: string,
-  nextLabel?: string,
-  previousLabel?: string
-};
-const Navigation: React.SFC<NavigationProps> = ({
+
+export const Navigation = ({
   nextPath,
   previousPath,
   nextLabel,
-  previousLabel
+  previousLabel,
+}: {
+  nextPath?: string;
+  previousPath?: string;
+  nextLabel?: string;
+  previousLabel?: string;
 }) =>
   previousPath || nextPath ? (
     <div className={style.navigation}>
@@ -33,4 +33,3 @@ const Navigation: React.SFC<NavigationProps> = ({
       )}
     </div>
   ) : null;
-export default Navigation;

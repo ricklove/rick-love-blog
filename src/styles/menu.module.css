@@ -1,6 +1,5 @@
 .mobileMenuContainer {
   display: none;
-
   @media (--phone) {
     display: flex;
   }
@@ -8,7 +7,6 @@
 
 .desktopMenuContainer {
   display: block;
-
   @media (--phone) {
     display: none;
   }
@@ -25,11 +23,9 @@
   list-style: none;
   border-right: 1px solid;
   margin-right: 18px;
-
   li {
     margin: 0 12px;
   }
-
   &Trigger {
     margin-right: 10px;
     padding: 0;
@@ -42,12 +38,10 @@
     appearance: none;
     cursor: pointer;
   }
-
   a {
     display: inline-block;
     margin-right: 15px;
     text-decoration: none;
-
     &:last-of-type {
       margin-right: 0;
     }
@@ -68,21 +62,17 @@
   border-radius: 5px;
   overflow: hidden;
   z-index: 99;
-
   :global .dark-theme :local & {
     background: #252627;
   }
-
   li {
     margin: 0;
     white-space: nowrap;
-
     a {
       display: block;
       padding: 10px 15px;
     }
   }
-
   &Overlay {
     position: fixed;
     top: 0;
@@ -132,25 +122,20 @@
   right: 70px;
   overflow: hidden;
   z-index: 99;
-
   :global .dark-theme :local & {
     background: var(--dark-background-secondary);
   }
-
   li {
     text-align: left;
     margin: 0;
     white-space: nowrap;
-
     a {
       padding: 10px;
     }
-
     &:hover {
       background: rgba(0, 0, 0, 0.05);
       border-radius: 3px;
       cursor: pointer;
-
       :global .dark-theme :local & {
         background: rgba(0, 0, 0, 0.15);
       }

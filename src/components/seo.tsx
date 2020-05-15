@@ -1,19 +1,28 @@
 import React from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
-type SEOProps = {
-  description?: string,
-  lang?: string,
-  meta?: any[],
-  keywords?: string[],
-  title?: string
-};
-const SEO: React.SFC<SEOProps> = ({
+
+export const SEO = ({
   description,
-  lang,
-  meta,
-  keywords,
-  title
+  lang = 'en',
+  meta = [],
+  keywords = [
+    "gatsby",
+    "minimal",
+    "starter",
+    "blog",
+    "theme",
+    "dark",
+    "light",
+    "personal site",
+  ],
+  title,
+}: {
+  description?: string;
+  lang?: string;
+  meta?: { name: string, content: string }[];
+  keywords?: string[];
+  title?: string;
 }) => {
   const data = useStaticQuery(graphql`
     query DefaultSEOQuery {
@@ -29,75 +38,60 @@ const SEO: React.SFC<SEOProps> = ({
   const {
     title: siteTitle,
     description: siteDescription,
-    author
+    author,
   } = data.site.siteMetadata;
   const metaTitle = title || siteTitle;
   const metaDescription = description || siteDescription;
   return (
     <Helmet
       htmlAttributes={{
-        lang
+        lang,
       }}
       title={metaTitle}
       titleTemplate={title ? `${title} :: ${siteTitle}` : siteTitle}
       meta={[
         {
           name: `description`,
-          content: metaDescription
+          content: metaDescription,
         },
         {
           property: `og:title`,
-          content: metaTitle
+          content: metaTitle,
         },
         {
           property: `og:description`,
-          content: metaDescription
+          content: metaDescription,
         },
         {
           property: `og:type`,
-          content: `website`
+          content: `website`,
         },
         {
           name: `twitter:card`,
-          content: `summary`
+          content: `summary`,
         },
         {
           name: `twitter:title`,
-          content: metaTitle
+          content: metaTitle,
         },
         {
           name: `twitter:description`,
-          content: metaDescription
+          content: metaDescription,
         },
         {
           name: `twitter:creator`,
-          content: author
-        }
+          content: author,
+        },
       ]
         .concat(
           keywords.length > 0
             ? {
-                name: `keywords`,
-                content: keywords.join(`, `)
-              }
-            : []
+              name: `keywords`,
+              content: keywords.join(`, `),
+            }
+            : [],
         )
         .concat(meta)}
     />
   );
 };
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  keywords: [
-    "gatsby",
-    "minimal",
-    "starter",
-    "blog",
-    "theme",
-    "dark",
-    "light",
-    "personal site"
-  ]
-};
-export default SEO;

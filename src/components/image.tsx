@@ -11,7 +11,7 @@ import Img from "gatsby-image";
  * - `gatsby-image`: https://gatsby.app/gatsby-image
  * - `StaticQuery`: https://gatsby.app/staticquery
  */
-const Image = () => {
+export const Image = () => {
   const data = useStaticQuery(graphql`
     query {
       placeholderImage: file(relativePath: { eq: "images" }) {
@@ -25,4 +25,3 @@ const Image = () => {
   `);
   return <Img fluid={data.placeholderImage.childImageSharp.fluid} />;
 };
-export default Image;

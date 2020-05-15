@@ -2,20 +2,20 @@ import React from "react";
 import style from "../styles/icon.module.css";
 
 export const Icon = (props: {
-  d?: string,
-  size?: number,
-  label?: string,
-  style?: React.CSSProperties,
+  d?: string;
+  size?: number;
+  label?: string;
+  style?: React.CSSProperties;
 }) => {
   const { d, size = "1em", label, style: styles } = props;
   return (
-    <span className={style.root} style={styles} role="figure">
+    <span className={style.root} style={styles} role='figure'>
       <svg
-        version="1.1"
+        version='1.1'
         width={size}
         height={size}
-        viewBox="0 0 48 48"
-        xmlns="http://www.w3.org/2000/svg"
+        viewBox='0 0 48 48'
+        xmlns='http://www.w3.org/2000/svg'
       >
         <path d={d} className={style.icon} />
       </svg>
