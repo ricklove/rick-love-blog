@@ -10,7 +10,7 @@ module.exports = {
         __BASE_PATH__: true, // this will rarely, if ever, be used by consumers
     },
     plugins: [
-        // `graphql`,
+        `graphql`,
         `@typescript-eslint`,
     ],
     extends: [
@@ -70,27 +70,27 @@ module.exports = {
         // "jsx-a11y/scope": `warn`,
         // "jsx-a11y/tabindex-no-positive": `warn`,
 
-        // // My Preferences,
-        // "semi": ["error", "always"],
-        // "eol-last": ["error", "always"],
-        // "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
-        // "comma-dangle": ["error", {
-        //     "arrays": "always-multiline",
-        //     "objects": "always-multiline",
-        //     "imports": "always-multiline",
-        //     "exports": "always-multiline",
-        //     "functions": "always-multiline"
-        // }],
-        // "@typescript-eslint/member-delimiter-style": ["error", {
-        //     "multiline": {
-        //         "delimiter": "semi",
-        //         "requireLast": true
-        //     },
-        //     "singleline": {
-        //         "delimiter": "comma",
-        //         "requireLast": false
-        //     }
-        // }],
-        // "jsx-quotes": ["error", "prefer-single"]
+        // My Preferences,
+        "semi": ["error", "always"],
+        "eol-last": ["error", "always"],
+        "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "always-multiline"
+        }],
+        "@typescript-eslint/member-delimiter-style": ["error", {
+            "multiline": {
+                "delimiter": "semi",
+                "requireLast": true
+            },
+            "singleline": {
+                "delimiter": "comma",
+                "requireLast": false
+            }
+        }],
+        "jsx-quotes": ["error", "prefer-single"]
     },
 }
