@@ -21,7 +21,8 @@
   },
   "devDependencies": {
     "eslint-config-react-app": "^5.2.1",
-    "prettier": "2.0.5"
+    "prettier": "2.0.5",
+    "typescript": "^3.9.2"
   },
   "keywords": [
     "gatsby"
