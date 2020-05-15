@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { Link } from 'gatsby'
-import { Helmet } from 'react-helmet'
+import React, { useState } from 'react';
+import { Link } from 'gatsby';
+import { Helmet } from 'react-helmet';
 
-import Menu from './menu'
+import { Menu } from './menu';
 
-import style from '../styles/header.module.css'
+import * as style from '../styles/header.module.css';
 
 export const Header = (props: {
   siteLogo: { src: string, alt: string },
@@ -23,23 +23,22 @@ export const Header = (props: {
     defaultTheme,
   } = props;
 
-  const defaultThemeState =
-    (typeof window !== 'undefined' && window.localStorage.getItem('theme')) ||
-    null
-  const [userTheme, changeTheme] = useState(defaultThemeState)
-  const [isMobileMenuVisible, toggleMobileMenu] = useState(false)
-  const [isSubMenuVisible, toggleSubMenu] = useState(false)
+  const defaultThemeState = (typeof window !== 'undefined' && window.localStorage.getItem('theme')) || undefined;
+
+  const [userTheme, changeTheme] = useState(defaultThemeState);
+  const [isMobileMenuVisible, toggleMobileMenu] = useState(false);
+  const [isSubMenuVisible, toggleSubMenu] = useState(false);
   const onChangeTheme = () => {
     const opositeTheme =
-      (userTheme || defaultTheme) === 'light' ? 'dark' : 'light'
+      (userTheme || defaultTheme) === 'light' ? 'dark' : 'light';
 
-    changeTheme(opositeTheme)
+    changeTheme(opositeTheme);
 
     typeof window !== 'undefined' &&
-      window.localStorage.setItem('theme', opositeTheme)
-  }
-  const onToggleMobileMenu = () => toggleMobileMenu(!isMobileMenuVisible)
-  const onToggleSubMenu = () => toggleSubMenu(!isSubMenuVisible)
+      window.localStorage.setItem('theme', opositeTheme);
+  };
+  const onToggleMobileMenu = () => toggleMobileMenu(!isMobileMenuVisible);
+  const onToggleSubMenu = () => toggleSubMenu(!isSubMenuVisible);
 
   return (
     <>
@@ -60,7 +59,7 @@ export const Header = (props: {
                 <img src={siteLogo.src} alt={siteLogo.alt} />
               ) : (
                   <>
-                    <span className={style.mark}>></span>
+                    <span className={style.mark}>{`>`}</span>
                     <span className={style.text}>{logoText}</span>
                     <span className={style.cursor} />
                   </>
@@ -82,5 +81,5 @@ export const Header = (props: {
         </div>
       </header>
     </>
-  )
-}
+  );
+};
