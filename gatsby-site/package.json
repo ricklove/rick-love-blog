@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "rick-love-blog-gatsby",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A blog based on gatsby boilerplate with minimal support for typescript, eslint, and graphql",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Rick Love <rick@toldpro.com>",
   "dependencies": {
     "gatsby": "^2.21.22",
     "gatsby-image": "^2.4.3",
@@ -39,9 +39,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/ricklove/rick-love-blog"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/ricklove/rick-love-blog/issues"
   }
 }
