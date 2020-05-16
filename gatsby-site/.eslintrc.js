@@ -27,7 +27,6 @@ module.exports = {
         `prettier/react`,
         `prettier/@typescript-eslint`,
     ],
-
     rules: {
         // "import/no-webpack-loader-syntax": [0],
         // // "graphql/template-strings": [
@@ -81,42 +80,57 @@ module.exports = {
         // "jsx-a11y/tabindex-no-positive": `warn`,
 
         // Some good rules from: https://github.com/iamturns/create-exposed-app/blob/master/.eslintrc.js
-        // Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
-        "no-prototype-builtins": "off",
-        // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
+        // Default is bad for sure, but it is required for Gatsby Pages
         "import/prefer-default-export": "off",
         "import/no-default-export": "error",
-        // Too restrictive: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
+        // Allow nameless arrow functions: Gatsby Pages
+        // "import/no-anonymous-default-export": [2, { "allowArrowFunction": true }],
+
+        // Sometimes useful to do so, and typescript still requires types
         "react/destructuring-assignment": "off",
-        // No jsx extension: https://github.com/facebook/create-react-app/issues/87#issuecomment-234627904
-        "react/jsx-filename-extension": "off",
-        // Use function hoisting to improve code readability
+
+        // Tsx react only?
+        // "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".tsx"] }],
+        // React/ReactNative JS mixed with tsx?
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".tsx"] }],
+
+        // Sometimes doesn't matter
         "no-use-before-define": [
             "error",
             { functions: false, classes: true, variables: true },
         ],
-        // Makes no sense to allow type inferrence for expression parameters, but require typing the response
+        "@typescript-eslint/no-use-before-define": [
+            "error",
+            { functions: false, classes: true, variables: true, typedefs: false },
+        ],
+
+        // Many Functions should use an inferred return type
         "@typescript-eslint/explicit-function-return-type": [
             "off",
         ],
-        "@typescript-eslint/no-use-before-define": [
-            "error",
-            { functions: false, classes: true, variables: true, typedefs: true },
-        ],
-        // Common abbreviations are known and readable
+
+        // Allow common abbreviates like: e, err, props, args, len
         "unicorn/prevent-abbreviations": "off",
 
-        // My Preferences,
+
+        // My Preferences:
+
+        // Always use semicolon
         "semi": ["error", "always"],
+
+        // Single line at end of file, no multiple blank lines over 2
         "eol-last": ["error", "always"],
         "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }],
+
+        // Always Comma Dangle with multiline
         "comma-dangle": ["error", {
             "arrays": "always-multiline",
             "objects": "always-multiline",
             "imports": "always-multiline",
             "exports": "always-multiline",
-            "functions": "always-multiline"
+            "functions": "always-multiline",
         }],
+        // Use semicolons to multiline types, comma for single line types
         "@typescript-eslint/member-delimiter-style": ["error", {
             "multiline": {
                 "delimiter": "semi",
@@ -127,6 +141,7 @@ module.exports = {
                 "requireLast": false
             }
         }],
+        // Single Quotes Everywhere!
         "jsx-quotes": ["error", "prefer-single"],
     },
 }
