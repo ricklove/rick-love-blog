@@ -29,6 +29,3 @@ export const Header = ({ siteTitle }: { siteTitle: string }) => (
     </div>
   </header>
 );
-Header.defaultProps = {
-  siteTitle: ``,
-};
