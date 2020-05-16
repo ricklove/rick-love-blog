@@ -10,8 +10,8 @@ import { Header } from './header';
 import './layout.css';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-  const data = useStaticQuery<GatsbyTypes.SiteTitleQueryQuery>(graphql`
-    query SiteTitleQuery {
+  const data = useStaticQuery<GatsbyTypes.SiteTitleQuery>(graphql`
+    query SiteTitle {
       site {
         siteMetadata {
           title
