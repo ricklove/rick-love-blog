@@ -11,7 +11,7 @@ import './layout.css';
 
 
 // Use a normal type
-type SiteTileQuery = {
+type SiteTileStaticQuery = {
   site: {
     siteMetadata: {
       title?: string;
@@ -21,7 +21,7 @@ type SiteTileQuery = {
 };
 
 // Target Generated Code:
-const useSiteTitleQuery = (): SiteTileQuery => {
+const useSiteTitleStaticQuery = (): SiteTileStaticQuery => {
 
   return useStaticQuery(graphql`
   query SiteTileQuery {
@@ -36,7 +36,7 @@ const useSiteTitleQuery = (): SiteTileQuery => {
 };
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-  const data = useSiteTitleQuery();
+  const data = useSiteTitleStaticQuery();
   return (
     <>
       <Header siteTitle={`${data.site.siteMetadata.title ?? ``}`} />
