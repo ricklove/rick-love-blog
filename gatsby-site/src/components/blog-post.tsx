@@ -4,8 +4,10 @@ import { Header } from './header';
 import './layout.css';
 
 export const BlogPost = ({ children }: { children: ReactNode }) => {
+
+    // test 3
     const data = useStaticQuery(graphql`
-        query BlogPostTemplateQ2 {
+        query BlogPostTemplateQ4 {
             markdownRemark {
             frontmatter {
                 title

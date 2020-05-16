@@ -42,7 +42,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.0.0"
+    "react-helmet": "^6.0.0",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.2"
   },
   "devDependencies": {
     "@types/react-helmet": "^6.0.0",
@@ -65,8 +67,6 @@
     "eslint-plugin-unicorn": "^20.0.0",
     "prettier": "2.0.5",
     "react-proptypes-to-typescript": "^1.0.3",
-    "source-map-support": "^0.5.19",
-    "ts-node": "^8.10.1",
-    "typescript": "^3.9.2"
+    "source-map-support": "^0.5.19"
   }
 }

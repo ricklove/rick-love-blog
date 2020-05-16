@@ -1,17 +1,27 @@
 /* eslint-disable no-console */
-import { SourceNodesArgs } from 'gatsby';
+import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
+import { writeFile } from './utils';
+import { generateTypeQuery } from './TypeQuery/generate-type-query';
 
-export const onPreInit = () => {
+export const onPreInit = (args: ParentSpanPluginArgs) => {
   // This runs once for each `gatsby develop` run
-  console.log(`onPreInit START`);
+  // console.log(`onPreInit START`, { args });
 };
-export const onPreExtractQueries = () => {
+export const onPreExtractQueries = (args: ParentSpanPluginArgs) => {
   // This runs once for each `gatsby develop` run
-  console.log(`onPreExtractQueries START`);
+  // console.log(`onPreExtractQueries START`, { args });
 };
-export const preprocessSource = () => {
+export const preprocessSource = (args: PreprocessSourceArgs) => {
   // This runs once for every file (both initial and after change)
-  console.log(`preprocessSource START`);
+  // console.log(`preprocessSource START`, { args });
+
+  const { filename, contents } = args;
+  console.log(`preprocessSource START`, { filename });
+
+  if (filename.includes(`blog-post`)) {
+    const gen = generateTypeQuery(filename);
+    writeFile(`${filename}.gen.ts.test`, `${gen}\n`);
+  }
 };
 
 

@@ -118,6 +118,9 @@ module.exports = {
 
         // My Preferences:
 
+        // Yes, of course we use continue with loops
+        "no-continue": "off",
+
         // Always use semicolon
         "semi": ["error", "always"],
 
