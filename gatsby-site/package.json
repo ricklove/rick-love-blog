@@ -57,6 +57,7 @@
     "eslint-plugin-react-hooks": "^4.0.2",
     "eslint-plugin-unicorn": "^20.0.0",
     "prettier": "2.0.5",
+    "react-proptypes-to-typescript": "^1.0.3",
     "typescript": "^3.9.2"
   }
 }
