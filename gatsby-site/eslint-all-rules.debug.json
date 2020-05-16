@@ -36,6 +36,51 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "no-prototype-builtins": [
+      "off"
+    ],
+    "import/prefer-default-export": [
+      "off"
+    ],
+    "import/no-default-export": [
+      "error"
+    ],
+    "react/destructuring-assignment": [
+      "off",
+      "always"
+    ],
+    "react/jsx-filename-extension": [
+      "off",
+      {
+        "extensions": [
+          ".jsx",
+          ".tsx"
+        ]
+      }
+    ],
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "off"
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true,
+        "typedefs": true
+      }
+    ],
+    "unicorn/prevent-abbreviations": [
+      "off"
+    ],
     "semi": [
       "error",
       "always"
@@ -77,9 +122,6 @@
     "jsx-quotes": [
       "error",
       "prefer-single"
-    ],
-    "unicorn/prevent-abbreviations": [
-      "off"
     ],
     "@typescript-eslint/quotes": [
       0,
@@ -1001,9 +1043,6 @@
     "@typescript-eslint/consistent-type-assertions": [
       "error"
     ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "warn"
-    ],
     "@typescript-eslint/interface-name-prefix": [
       "error"
     ],
@@ -1066,23 +1105,6 @@
       {
         "args": "none",
         "ignoreRestSiblings": true
-      }
-    ],
-    "no-use-before-define": [
-      "off",
-      {
-        "functions": false,
-        "classes": false,
-        "variables": false
-      }
-    ],
-    "@typescript-eslint/no-use-before-define": [
-      "error",
-      {
-        "functions": false,
-        "classes": false,
-        "variables": false,
-        "typedefs": false
       }
     ],
     "@typescript-eslint/no-var-requires": [
@@ -1597,15 +1619,6 @@
     ],
     "flowtype/use-flow-type": [
       "warn"
-    ],
-    "react/jsx-filename-extension": [
-      "error",
-      {
-        "extensions": [
-          ".jsx",
-          ".tsx"
-        ]
-      }
     ],
     "import/no-unresolved": [
       "off",
@@ -2149,10 +2162,6 @@
         "children": "never"
       }
     ],
-    "react/destructuring-assignment": [
-      "error",
-      "always"
-    ],
     "react/no-access-state-in-setstate": [
       "error"
     ],
@@ -2274,9 +2283,6 @@
     "import/newline-after-import": [
       "error"
     ],
-    "import/prefer-default-export": [
-      "error"
-    ],
     "import/no-restricted-paths": [
       "off"
     ],
@@ -2322,9 +2328,6 @@
       "off"
     ],
     "import/group-exports": [
-      "off"
-    ],
-    "import/no-default-export": [
       "off"
     ],
     "import/no-named-export": [
@@ -2735,9 +2738,6 @@
       "error"
     ],
     "no-misleading-character-class": [
-      "error"
-    ],
-    "no-prototype-builtins": [
       "error"
     ],
     "no-setter-return": [

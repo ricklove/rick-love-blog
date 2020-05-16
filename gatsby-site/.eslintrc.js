@@ -80,6 +80,32 @@ module.exports = {
         // "jsx-a11y/scope": `warn`,
         // "jsx-a11y/tabindex-no-positive": `warn`,
 
+        // Some good rules from: https://github.com/iamturns/create-exposed-app/blob/master/.eslintrc.js
+        // Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
+        "no-prototype-builtins": "off",
+        // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
+        "import/prefer-default-export": "off",
+        "import/no-default-export": "error",
+        // Too restrictive: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
+        "react/destructuring-assignment": "off",
+        // No jsx extension: https://github.com/facebook/create-react-app/issues/87#issuecomment-234627904
+        "react/jsx-filename-extension": "off",
+        // Use function hoisting to improve code readability
+        "no-use-before-define": [
+            "error",
+            { functions: false, classes: true, variables: true },
+        ],
+        // Makes no sense to allow type inferrence for expression parameters, but require typing the response
+        "@typescript-eslint/explicit-function-return-type": [
+            "off",
+        ],
+        "@typescript-eslint/no-use-before-define": [
+            "error",
+            { functions: false, classes: true, variables: true, typedefs: true },
+        ],
+        // Common abbreviations are known and readable
+        "unicorn/prevent-abbreviations": "off",
+
         // My Preferences,
         "semi": ["error", "always"],
         "eol-last": ["error", "always"],
@@ -102,6 +128,5 @@ module.exports = {
             }
         }],
         "jsx-quotes": ["error", "prefer-single"],
-        "unicorn/prevent-abbreviations": ["off"],
     },
 }
