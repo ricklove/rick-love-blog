@@ -23,11 +23,15 @@ const createToGql = (sourceFile: ts.SourceFile) => {
     //   };
 
     const toGql_queryBodyRegex = (typeText: string): string => {
-        return typeText
+        const result = typeText
             .replace(/\??:\s*{/g, ` {`)
-            .replace(/\??:([^,;]+[,;])/g, ``)
+            .replace(/\??:\s*(\w+\s*[,/;])/g, ``)
             .replace(/}[,;]/g, `}`)
+            .replace(/\/\*/g, ``)
+            .replace(/\*\//g, ``)
             .trim();
+
+        return result;
     };
 
     const toGql_typeAliasDeclaration = (node: ts.TypeAliasDeclaration) => {
