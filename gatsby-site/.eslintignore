@@ -1,3 +1,4 @@
 .eslintrc.js
 gatsby-*.js
 __generated__
+*.gen.ts

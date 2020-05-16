@@ -38,7 +38,7 @@
                 "ts-node/register"
             ],
             "sourceMaps": true,
-            "cwd": "${workspaceFolder}/src/",
+            "cwd": "${workspaceFolder}/src/_system/TypeQuery/",
             "protocol": "inspector",
             "smartStep": true,
             "skipFiles": [

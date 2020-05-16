@@ -9,7 +9,7 @@ export type GatsbyImageSharpFluidFragment = FluidObject & {
 };
 
 export type PlaceholderImageStaticQuery = {
-  placeholderImage:/* file(relativePath: { eq: "gatsby-astronaut.png" }) */ {
+  placeholderImage?:/* file(relativePath: \\{ eq: "gatsby-astronaut.png" }) */ {
     childImageSharp: {
       fluid/* (maxWidth: 300) */: GatsbyImageSharpFluidFragment;
     };
@@ -18,7 +18,7 @@ export type PlaceholderImageStaticQuery = {
 
 export const Image = () => {
   const data = useStaticQuery(graphql`
-    query PlaceholderImage {
+    query PlaceholderImageStaticQuery {
       placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
         childImageSharp {
           fluid(maxWidth: 300) {
@@ -34,5 +34,5 @@ export const Image = () => {
 
 export const Image2 = () => {
   const data = usePlaceholderImageStaticQuery();
-  return <Img fluid={data.placeholderImage?.childImageSharp?.fluid} />;
+  return <Img fluid={data.placeholderImage?.childImageSharp.fluid} />;
 };

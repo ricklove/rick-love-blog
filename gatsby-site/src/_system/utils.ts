@@ -1,15 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs';
-import { dirname, resolve as resolvePath } from 'path';
+import { dirname, resolve as resolvePath, basename as getFilename } from 'path';
 import { promisify } from 'util';
 
-export { resolvePath };
+export { resolvePath, getFilename };
 
 const _mkdir = promisify(fs.mkdir);
 const _readFile = promisify(fs.readFile);
 const _writeFile = promisify(fs.writeFile);
 const readdir = promisify(fs.readdir);
-const stat = promisify(fs.stat);
 
 export const readFile = async (filePath: string) => _readFile(filePath, { encoding: `utf-8` });
 export const writeFile = async (filePath: string, data: string | Buffer) => {
