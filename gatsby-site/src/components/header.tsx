@@ -1,10 +1,7 @@
 import { Link } from "gatsby";
 import React from "react";
 
-type HeaderProps = {
-  siteTitle?: string;
-};
-export const Header: React.SFC<HeaderProps> = ({ siteTitle }) => (
+export const Header = ({ siteTitle }: { siteTitle: string }) => (
   <header
     style={{
       background: `rebeccapurple`,

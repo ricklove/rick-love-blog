@@ -8,13 +8,12 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
-type SEOProps = {
+export const SEO = ({ description = ``, lang = `en`, meta = [], title }: {
   description?: string;
   lang?: string;
-  meta?: any[];
+  meta?: { name: string, content: string }[];
   title: string;
-};
-export const SEO: React.SFC<SEOProps> = ({ description, lang, meta, title }) => {
+}) => {
   const { site } = useStaticQuery(graphql`
     query {
       site {
@@ -70,9 +69,4 @@ export const SEO: React.SFC<SEOProps> = ({ description, lang, meta, title }) => 
       ].concat(meta)}
     />
   );
-};
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
 };
