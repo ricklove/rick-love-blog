@@ -6,10 +6,10 @@
  */
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import Header from "./header";
+import { Header } from "./header";
 import "./layout.css";
 
-const Layout: React.SFC<{}> = ({ children }) => {
+export const Layout: React.SFC<{}> = ({ children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -39,4 +39,3 @@ const Layout: React.SFC<{}> = ({ children }) => {
     </>
   );
 };
-export default Layout;

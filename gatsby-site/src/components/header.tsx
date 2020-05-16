@@ -4,7 +4,7 @@ import React from "react";
 type HeaderProps = {
   siteTitle?: string;
 };
-const Header: React.SFC<HeaderProps> = ({ siteTitle }) => (
+export const Header: React.SFC<HeaderProps> = ({ siteTitle }) => (
   <header
     style={{
       background: `rebeccapurple`,
@@ -35,4 +35,3 @@ const Header: React.SFC<HeaderProps> = ({ siteTitle }) => (
 Header.defaultProps = {
   siteTitle: ``,
 };
-export default Header;

@@ -14,7 +14,7 @@ type SEOProps = {
   meta?: any[];
   title: string;
 };
-const SEO: React.SFC<SEOProps> = ({ description, lang, meta, title }) => {
+export const SEO: React.SFC<SEOProps> = ({ description, lang, meta, title }) => {
   const { site } = useStaticQuery(graphql`
     query {
       site {
@@ -76,4 +76,3 @@ SEO.defaultProps = {
   meta: [],
   description: ``,
 };
-export default SEO;
