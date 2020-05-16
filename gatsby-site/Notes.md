@@ -5,4 +5,4 @@
 - Convert JS to TSX (and convert prop-types)
     `npx react-proptypes-to-typescript "./src/**/*.js" --remove-original-files`
 - Fix all files with eslint
-    `npx eslint src/** --fix`
+    `npx eslint --ext js,jsx,ts,tsx src --fix`
