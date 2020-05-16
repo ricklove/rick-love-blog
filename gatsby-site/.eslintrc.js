@@ -113,8 +113,12 @@ module.exports = {
         // Allow common abbreviates like: e, err, props, args, len
         "unicorn/prevent-abbreviations": "off",
 
+        // Allow return undefined
+        "unicorn/no-useless-undefined": "off",
+
         // Allow Disable ESLint Rule for whole file
         "eslint-comments/disable-enable-pair": ["error", { "allowWholeFile": true }],
+
 
         // My Preferences:
 

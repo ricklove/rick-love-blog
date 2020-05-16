@@ -18,9 +18,11 @@ export const preprocessSource = (args: PreprocessSourceArgs) => {
   const { filename, contents } = args;
   console.log(`preprocessSource START`, { filename });
 
-  if (filename.includes(`layout`)) {
+  if (filename.endsWith(`.tsx`)) {
     const gen = generateTypeQuery(filename);
-    writeFile(`${filename}.gen.ts.test`, gen);
+    if (gen) {
+      writeFile(`${filename}.gen.ts`, gen);
+    }
   }
 };
 
