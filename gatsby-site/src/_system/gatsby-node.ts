@@ -1,32 +1,33 @@
 /* eslint-disable no-console */
 import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
-import { writeFile } from './utils';
-import { generateTypeQuery } from './TypeQuery/generate-type-query';
+import { writeFile, resolvePath } from './utils';
+import { generateTypeQuery, watchFilesToGenerateTypeQuery } from './TypeQuery/generate-type-query';
+
+export const onCreateDevServer = (args: unknown) => {
+  // This runs once for each `gatsby develop` run
+  console.log(`onCreateDevServer START`);
+};
 
 export const onPreInit = (args: ParentSpanPluginArgs) => {
   // This runs once for each `gatsby develop` run
-  // console.log(`onPreInit START`, { args });
+  console.log(`onPreInit START`, { args });
+  watchFilesToGenerateTypeQuery(resolvePath(`${__dirname}/../`));
 };
 export const onPreExtractQueries = (args: ParentSpanPluginArgs) => {
   // This runs once for each `gatsby develop` run
-  // console.log(`onPreExtractQueries START`, { args });
+  console.log(`onPreExtractQueries START`);
+};
+export const onCreateNode = (args: ParentSpanPluginArgs) => {
+  // This runs once for each `gatsby develop` run
+  console.log(`onCreateNode START`);
 };
 export const preprocessSource = (args: PreprocessSourceArgs) => {
   // NOTE: This only runs for files that are preprocessed by Gatsby!!!
   // This runs once for every file (both initial and after change)
-  // console.log(`preprocessSource START`, { args });
+  console.log(`preprocessSource START`);
 
-  const { filename } = args;
-
-  if (filename.endsWith(`.tsx`)) {
-    console.log(`preprocessSource START`, { filename });
-
-    const gen = generateTypeQuery(filename);
-    if (gen) {
-      console.log(`preprocessSource END`, { filename });
-      writeFile(`${filename}.gen.ts`, gen);
-    }
-  }
+  // const { filename } = args;
+  // generateTypeQuery_onFileChange(filename);
 };
 
 

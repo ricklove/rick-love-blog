@@ -3,6 +3,7 @@
 /* eslint-disable unicorn/no-useless-undefined */
 /* eslint-disable no-console */
 import ts, { SyntaxKind } from 'typescript';
+import { writeFile, watchForFileChanges } from '../utils';
 
 
 const createToGql = (sourceFile: ts.SourceFile) => {
@@ -109,4 +110,23 @@ export const generateTypeQuery = (filename: string): string | undefined => {
 
     const visitor = createToGql(sourceFile);
     return visitor.toGql()?.content ?? undefined;
+};
+
+export const generateTypeQuery_onFileChange = (filename: string) => {
+    if (filename.endsWith(`.tsx`)) {
+        console.log(`preprocessSource Found tsx`, { filename });
+
+        const gen = generateTypeQuery(filename);
+        if (gen) {
+            console.log(`preprocessSource END`, { filename });
+            writeFile(`${filename}.gen.ts`, gen);
+        }
+    }
+};
+
+
+export const watchFilesToGenerateTypeQuery = (pathRoot: string) => {
+    watchForFileChanges(pathRoot, async (files) => {
+        files.forEach(x => generateTypeQuery_onFileChange(x));
+    });
 };
