@@ -56,7 +56,7 @@ export const use${name} = (): ${name} => {
 
     const toGql_node = (node: ts.Node) => {
         if (node.kind === SyntaxKind.TypeAliasDeclaration) {
-            return `${toGql_typeAliasDeclaration(node as ts.TypeAliasDeclaration)}`;
+            return toGql_typeAliasDeclaration(node as ts.TypeAliasDeclaration);
         }
 
         return undefined;
