@@ -4,7 +4,7 @@ import { Header } from './header';
 import './layout.css';
 
 export const BlogPost = ({ children }: { children: ReactNode }) => {
-    const data = useStaticQuery<GatsbyTypes.BlogPostTemplateQ2Query>(graphql`
+    const data = useStaticQuery(graphql`
         query BlogPostTemplateQ2 {
             markdownRemark {
             frontmatter {
