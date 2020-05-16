@@ -10,7 +10,7 @@ type BlogPostTemplateQuery = {
         id: string;
         html: string;
         excerpt: string;
-        frontmatter?: {
+        frontmatter: {
             title?: string;
             // Function calls: date(formatString: "DD MMMM YYYY")
             date?: string & { __formatString: `DD MMMM YYYY` };
@@ -32,6 +32,7 @@ type BlogPostTemplateQuery = {
 
 // Target Generated Code:
 const useBlogPostTemplateQuery = (): BlogPostTemplateQuery => {
+
     return useStaticQuery(graphql`
     query BlogPostTemplateQuery {
         markdownRemark {
@@ -64,13 +65,9 @@ export const BlogPost = ({ children }: { children: ReactNode }) => {
     const data = useBlogPostTemplateQuery();
     return (
         <>
-            {data.markdownRemark.frontmatter && (
-                <>
-                    <div>{data.markdownRemark.frontmatter.title}</div>
-                    <div>{data.markdownRemark.frontmatter.author}</div>
-                    <div>{data.markdownRemark.frontmatter.date}</div>
-                </>
-            )}
+            <div>{data.markdownRemark.frontmatter.title}</div>
+            <div>{data.markdownRemark.frontmatter.author}</div>
+            <div>{data.markdownRemark.frontmatter.date}</div>
         </>
     );
 };
