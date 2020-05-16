@@ -12,7 +12,7 @@ type SiteTileStaticQuery = {
 };
 
 export const useSiteTileStaticQuery = (): SiteTileStaticQuery => {
-  return useStaticQuery(graphql`
+    return useStaticQuery(graphql`
         query SiteTileStaticQuery {
   site {
     siteMetadata {
