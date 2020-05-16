@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
-import { writeFile, resolvePath } from './utils';
-import { generateTypeQuery, watchFilesToGenerateTypeQuery } from './TypeQuery/generate-type-query';
+import { resolvePath } from './utils';
+import { watchFilesToGenerateTypeQuery } from './TypeQuery/generate-type-query';
 
 export const onCreateDevServer = (args: unknown) => {
   // This runs once for each `gatsby develop` run

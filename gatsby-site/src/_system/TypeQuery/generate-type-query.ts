@@ -102,31 +102,43 @@ ${parts.join(`\n`)}
 // };
 
 
-export const generateTypeQuery = (filename: string): string | undefined => {
-    const program = ts.createProgram([filename], {});
-    const sourceFile = program.getSourceFile(filename);
+export const generateTypeQueries = (filenames: string[]) => {
+    const program = ts.createProgram(filenames, {});
 
-    if (!sourceFile) { throw new Error(`Could not find source file`); }
+    const results = filenames.map((filename) => {
+        const sourceFile = program.getSourceFile(filename);
 
-    const visitor = createToGql(sourceFile);
-    return visitor.toGql()?.content ?? undefined;
+        if (!sourceFile) { throw new Error(`generateTypeQueries: Could not find source file: ${filename}`); }
+
+        const visitor = createToGql(sourceFile);
+        return visitor.toGql();
+    });
+
+    return results.filter(x => x?.content);
 };
 
-export const generateTypeQuery_onFileChange = (filename: string) => {
-    if (filename.endsWith(`.tsx`)) {
-        console.log(`preprocessSource Found tsx`, { filename });
+export const generateTypeQuery_onFilesChanged = (filenames: string[]) => {
+    const filenames_tsx = filenames.filter(x => x.endsWith(`.tsx`));
 
-        const gen = generateTypeQuery(filename);
-        if (gen) {
-            console.log(`preprocessSource END`, { filename });
-            writeFile(`${filename}.gen.ts`, gen);
-        }
+    if (filenames_tsx.length > 0) {
+        console.log(`generateTypeQuery_onFilesChanged Tsx Changed`, { filenames_tsx });
+
+        const results = generateTypeQueries(filenames_tsx);
+
+        results.forEach(x => {
+            if (!x) { return; }
+
+            console.log(`generateTypeQuery_onFilesChanged Generated for`, { filename: x.filename });
+            writeFile(`${x.filename}.gen.ts`, x.content);
+        });
     }
 };
 
 
 export const watchFilesToGenerateTypeQuery = (pathRoot: string) => {
-    watchForFileChanges(pathRoot, async (files) => {
-        files.forEach(x => generateTypeQuery_onFileChange(x));
+    watchForFileChanges({ pathRoot, runOnStart: true }, async (files) => {
+        console.log(`watchFilesToGenerateTypeQuery START`, { files });
+        generateTypeQuery_onFilesChanged(files);
+        console.log(`watchFilesToGenerateTypeQuery DONE`);
     });
 };
