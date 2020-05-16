@@ -14,6 +14,7 @@ module.exports = {
         `eslint-comments`,
         `graphql`,
         `promise`,
+        `unicorn`,
     ],
     extends: [
         `airbnb-typescript`,
@@ -21,6 +22,7 @@ module.exports = {
         `plugin:@typescript-eslint/recommended`,
         `plugin:eslint-comments/recommended`,
         `plugin:promise/recommended`,
+        `plugin:unicorn/recommended`,
         `prettier`,
         `prettier/react`,
         `prettier/@typescript-eslint`,
