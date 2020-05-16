@@ -36,6 +36,10 @@ const createToGql = (sourceFile: ts.SourceFile) => {
         const name = node.name.getFullText(sourceFile).trim();
         const typeText = node.type.getFullText(sourceFile).trim();
 
+        if (!name.endsWith(`StaticQuery`)) {
+            return undefined;
+        }
+
         // text += `${JSON.stringify({ kind, name, typeText, raw }, undefined, 2)}\n`;
 
         const queryBody = toGql_queryBodyRegex(typeText);;
@@ -72,34 +76,6 @@ ${parts.join(`\n`)}
 
     return { toGql };
 };
-
-// const createVisitor = (sourceFile: ts.SourceFile) => {
-//     let text = ``;
-
-//     // const vistTypeAliasDeclaration = (node: ts.TypeAliasDeclaration) => {
-//     //     const raw = node.getFullText(sourceFile);
-//     //     const kind = SyntaxKind[node.kind];
-//     //     const name = node.name.getFullText(sourceFile);
-//     //     const typeText = node.type.getFullText(sourceFile);
-
-//     //     text += `${JSON.stringify({ kind, name, typeText, raw }, undefined, 2)}\n`;
-//     // };
-
-//     const visitNode = (node: ts.Node) => {
-//         // if (node.kind === SyntaxKind.TypeAliasDeclaration) {
-//         //     vistTypeAliasDeclaration(node as ts.TypeAliasDeclaration);
-//         // }
-
-//         const r = createToGql(sourceFile).toGql(node);
-//         if (r) {
-//             text += `${r}\n`;
-//         }
-//     };
-
-//     const getText = () => text;
-
-//     return { visitNode, getText };
-// };
 
 
 export const generateTypeQueries = (filenames: string[]) => {
