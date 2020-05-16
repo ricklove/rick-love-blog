@@ -12,7 +12,7 @@ export const SEO = ({ description = ``, lang = `en`, meta = [], title }: {
   description?: string;
   lang?: string;
   meta?: { name: string, content: string }[];
-  title?: string;
+  title: string;
 }) => {
   const { site } = useStaticQuery(graphql`
     query {
