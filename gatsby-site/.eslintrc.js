@@ -13,6 +13,7 @@ module.exports = {
         `@typescript-eslint`,
         `eslint-comments`,
         `graphql`,
+        `import-quotes`,
         `promise`,
         `unicorn`,
     ],
@@ -141,7 +142,10 @@ module.exports = {
                 "requireLast": false
             }
         }],
-        // Single Quotes Everywhere!
+        // Normal Backticks Everywhere except jsx and imports
+        "quotes": ["error", "backtick"],
+        "@typescript-eslint/quotes": ["error", "backtick"],
         "jsx-quotes": ["error", "prefer-single"],
+        "import-quotes/import-quotes": ["error", "single"],
     },
 }

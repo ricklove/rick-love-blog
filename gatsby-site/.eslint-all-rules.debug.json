@@ -31,14 +31,12 @@
     "import",
     "unicorn",
     "promise",
+    "import-quotes",
     "graphql",
     "eslint-comments",
     "@typescript-eslint"
   ],
   "rules": {
-    "no-prototype-builtins": [
-      "off"
-    ],
     "import/prefer-default-export": [
       "off"
     ],
@@ -50,9 +48,10 @@
       "always"
     ],
     "react/jsx-filename-extension": [
-      "off",
+      2,
       {
         "extensions": [
+          ".js",
           ".jsx",
           ".tsx"
         ]
@@ -66,17 +65,17 @@
         "variables": true
       }
     ],
-    "@typescript-eslint/explicit-function-return-type": [
-      "off"
-    ],
     "@typescript-eslint/no-use-before-define": [
       "error",
       {
         "functions": false,
         "classes": true,
         "variables": true,
-        "typedefs": true
+        "typedefs": false
       }
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "off"
     ],
     "unicorn/prevent-abbreviations": [
       "off"
@@ -119,16 +118,21 @@
         }
       }
     ],
+    "quotes": [
+      "error",
+      "backtick"
+    ],
+    "@typescript-eslint/quotes": [
+      "error",
+      "backtick"
+    ],
     "jsx-quotes": [
       "error",
       "prefer-single"
     ],
-    "@typescript-eslint/quotes": [
-      0,
-      "single",
-      {
-        "avoidEscape": true
-      }
+    "import-quotes/import-quotes": [
+      "error",
+      "single"
     ],
     "@typescript-eslint/brace-style": [
       "off",
@@ -383,13 +387,6 @@
       {
         "allowNamedFunctions": false,
         "allowUnboundThis": true
-      }
-    ],
-    "quotes": [
-      0,
-      "single",
-      {
-        "avoidEscape": true
       }
     ],
     "array-bracket-newline": [
@@ -2740,6 +2737,9 @@
     "no-misleading-character-class": [
       "error"
     ],
+    "no-prototype-builtins": [
+      "error"
+    ],
     "no-setter-return": [
       "off"
     ],
@@ -2956,5 +2956,7 @@
       "\\.(coffee|scss|css|less|hbs|svg|json)$"
     ]
   },
-  "ignorePatterns": []
+  "ignorePatterns": [
+    ".eslintrc.js"
+  ]
 }
