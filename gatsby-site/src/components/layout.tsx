@@ -9,20 +9,37 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { Header } from './header';
 import './layout.css';
 
-export const Layout = ({ children }: { children: ReactNode }) => {
 
-  const data = useStaticQuery(graphql`
-    query SiteTitle {
-      site {
-        siteMetadata {
-          title
-        }
+// Use a normal type
+type SiteTileQuery = {
+  site: {
+    siteMetadata: {
+      title?: string;
+      author?: string;
+    };
+  };
+};
+
+// Target Generated Code:
+const useSiteTitleQuery = (): SiteTileQuery => {
+
+  return useStaticQuery(graphql`
+  query SiteTitle {
+    site {
+      siteMetadata {
+        title
+        author
       }
     }
-  `);
+  }
+`);
+};
+
+export const Layout = ({ children }: { children: ReactNode }) => {
+  const data = useSiteTitleQuery();
   return (
     <>
-      <Header siteTitle={data.site?.siteMetadata?.title ?? ``} />
+      <Header siteTitle={`${data.site.siteMetadata.title ?? ``}`} />
       <div
         style={{
           margin: `0 auto`,
@@ -32,8 +49,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       >
         <main>{children}</main>
         <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
+          {`© ${new Date().getFullYear()} ${data.site.siteMetadata.author ?? ``}, Built with `}
           <a href='https://www.gatsbyjs.org'>Gatsby</a>
         </footer>
       </div>
