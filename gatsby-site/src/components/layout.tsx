@@ -4,10 +4,10 @@
  *
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
-import React, { ReactNode } from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import { Header } from "./header";
-import "./layout.css";
+import React, { ReactNode } from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
+import { Header } from './header';
+import './layout.css';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   const data = useStaticQuery<GatsbyTypes.SiteTitleQueryQuery>(graphql`
@@ -21,7 +21,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   `);
   return (
     <>
-      <Header siteTitle={data.site?.siteMetadata?.title ?? ''} />
+      <Header siteTitle={data.site?.siteMetadata?.title ?? ``} />
       <div
         style={{
           margin: `0 auto`,
