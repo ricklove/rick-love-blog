@@ -6,7 +6,6 @@ module.exports = {
     author: `Rick Love`,
   },
   plugins: [
-    `gatsby-plugin-typegen`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,

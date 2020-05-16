@@ -12,7 +12,7 @@ import Img from 'gatsby-image';
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 export const Image = () => {
-  const data = useStaticQuery<GatsbyTypes.PlaceholderImageQuery>(graphql`
+  const data = useStaticQuery(graphql`
     query PlaceholderImage {
       placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
         childImageSharp {
