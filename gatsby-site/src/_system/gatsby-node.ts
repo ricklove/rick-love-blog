@@ -12,15 +12,18 @@ export const onPreExtractQueries = (args: ParentSpanPluginArgs) => {
   // console.log(`onPreExtractQueries START`, { args });
 };
 export const preprocessSource = (args: PreprocessSourceArgs) => {
+  // NOTE: This only runs for files that are preprocessed by Gatsby!!!
   // This runs once for every file (both initial and after change)
   // console.log(`preprocessSource START`, { args });
 
-  const { filename, contents } = args;
-  console.log(`preprocessSource START`, { filename });
+  const { filename } = args;
 
   if (filename.endsWith(`.tsx`)) {
+    console.log(`preprocessSource START`, { filename });
+
     const gen = generateTypeQuery(filename);
     if (gen) {
+      console.log(`preprocessSource END`, { filename });
       writeFile(`${filename}.gen.ts`, gen);
     }
   }
