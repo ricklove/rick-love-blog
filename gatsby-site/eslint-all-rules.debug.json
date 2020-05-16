@@ -78,6 +78,9 @@
       "error",
       "prefer-single"
     ],
+    "unicorn/prevent-abbreviations": [
+      "off"
+    ],
     "@typescript-eslint/quotes": [
       0,
       "single",
@@ -908,9 +911,6 @@
       "error"
     ],
     "unicorn/prefer-type-error": [
-      "error"
-    ],
-    "unicorn/prevent-abbreviations": [
       "error"
     ],
     "unicorn/string-content": [

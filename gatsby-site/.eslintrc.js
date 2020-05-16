@@ -101,6 +101,7 @@ module.exports = {
                 "requireLast": false
             }
         }],
-        "jsx-quotes": ["error", "prefer-single"]
+        "jsx-quotes": ["error", "prefer-single"],
+        "unicorn/prevent-abbreviations": ["off"],
     },
 }
