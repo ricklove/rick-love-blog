@@ -24,7 +24,7 @@ type SiteTileQuery = {
 const useSiteTitleQuery = (): SiteTileQuery => {
 
   return useStaticQuery(graphql`
-  query SiteTitle {
+  query SiteTileQuery {
     site {
       siteMetadata {
         title
