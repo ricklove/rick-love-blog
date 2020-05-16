@@ -4,7 +4,7 @@ import Img from 'gatsby-image';
 
 
 export type PlaceholderImageStaticQuery = {
-  placeholderImage: /* file(relativePath: { eq: "gatsby-astronaut.png" }) */ {
+  placeholderImage/* file(relativePath: { eq: "gatsby-astronaut.png" }) */: {
     childImageSharp: {
       fluid/* (maxWidth: 300) */: {
         // ...GatsbyImageSharpFluid
