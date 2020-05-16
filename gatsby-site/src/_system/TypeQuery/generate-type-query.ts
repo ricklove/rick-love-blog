@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
-import ts from 'typescript';
+import ts, { SyntaxKind } from 'typescript';
 
 const createVisitor = (sourceFile: ts.SourceFile) => {
     let text = ``;
 
     const visitNode = (node: ts.Node) => {
-        console.log(`visitNode`, { kind: node.kind, text: node.getFullText(sourceFile) });
-
-        text += JSON.stringify({ kind: node.kind, text: node.getFullText(sourceFile) });
+        text += `${JSON.stringify({ kind: SyntaxKind[node.kind], raw: node.getFullText(sourceFile) })}\n`;
     };
 
     const getText = () => text;

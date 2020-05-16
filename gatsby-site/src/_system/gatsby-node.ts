@@ -20,7 +20,7 @@ export const preprocessSource = (args: PreprocessSourceArgs) => {
 
   if (filename.includes(`blog-post`)) {
     const gen = generateTypeQuery(filename);
-    writeFile(`${filename}.gen.ts.test`, `${gen}\n`);
+    writeFile(`${filename}.gen.ts.test`, gen);
   }
 };
 
