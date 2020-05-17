@@ -6,6 +6,7 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 import React, { ReactNode } from 'react';
+import { useStaticQuery, graphql } from 'gatsby';
 import { Header } from './header';
 import './layout.css';
 
@@ -19,7 +20,7 @@ type SiteTileStaticQuery = {
 };
 
 export const useSiteTileStaticQuery = (): SiteTileStaticQuery => {
-    return useStaticQuery(graphql`
+  return useStaticQuery(graphql`
         query SiteTileStaticQuery {
   site {
     siteMetadata {

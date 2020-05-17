@@ -26,7 +26,7 @@ const createToGql = (sourceFile: ts.SourceFile) => {
 
     const toGql_queryBodyRegex = (typeText: string): string => {
         const result = typeText
-            .replace(/:\s*GatsbyImageSharpFluidFragment\s*;/g, `{...GatsbyImageSharpFluid}`)
+            .replace(/:\s*FluidObject\s*;/g, `{...GatsbyImageSharpFluid}`)
             .replace(/\??:\s*{/g, ` {`)
             .replace(/\??:\s*(\w+\s*[,/;])/g, ``)
             .replace(/}[,;]/g, `}`)

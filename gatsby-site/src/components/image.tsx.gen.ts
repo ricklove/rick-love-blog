@@ -2,23 +2,24 @@
 import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Img, { FluidObject } from 'gatsby-image';
+import { TQGatsbyImage } from '../_system/TypeQuery/built-ins';
 
-type GatsbyImageSharpFluidFragment = FluidObject & {
-  /* ...GatsbyImageSharpFluid */
+type PlaceholderImageStaticQuery_Ideal = {
+  placeholderImage?: TQGatsbyImage<'gatsby-astronaut.png', 300>;
 };
 
 type PlaceholderImageStaticQuery = {
   placeholderImage?:/* file(relativePath: \\{ eq: "gatsby-astronaut.png" }) */ {
     childImageSharp: {
-      fluid/* (maxWidth: 300) */: GatsbyImageSharpFluidFragment;
+      fluid/* (maxWidth: 300) */: FluidObject;
     };
   };
 };
 
 export const usePlaceholderImageStaticQuery = (): PlaceholderImageStaticQuery => {
-    return useStaticQuery(graphql`
+  return useStaticQuery(graphql`
         query PlaceholderImageStaticQuery {
-  placeholderImage?: file(relativePath: { eq: "gatsby-astronaut.png" })  {
+  placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" })  {
     childImageSharp {
       fluid (maxWidth: 300) {...GatsbyImageSharpFluid}
     }
