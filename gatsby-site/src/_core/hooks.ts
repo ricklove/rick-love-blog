@@ -6,10 +6,9 @@ import { delay } from './utils/async';
 // TODO: This call will be replaced by a data object at build time
 
 // Without async, the return type should be T, but for now, allow null | T
-export function useStaticStore<T>(getData: (store: Store) => T): null | T
-export function useStaticStore<T>(getData: (store: Store) => Promise<T>): null | T {
+export function useStaticStore<T>(getData: (store: null | Store) => T | Promise<T>): T {
     console.log(`useStaticStore START`);
-    const [data, setData] = useState(null as null | T);
+    const [data, setData] = useState(getData(null) as T);
 
     (async () => {
 
