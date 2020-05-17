@@ -1,9 +1,5 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { ReactNode } from 'react';
 import { Header } from './header';
 import './layout.css';
@@ -21,11 +17,11 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     author: ``,
   }, s => s.site.siteMetadata);
 
-  // // Will become:
-  // const data = {
-  //   title: `blog_rick_love`,
-  //   author: `Rick Love`,
-  // };
+  // Could become:
+  const data_after = useStaticStore({
+    title: `blog_rick_love`,
+    author: `Rick Love`,
+  }, s => s.site.siteMetadata);
 
   return (
     <>
