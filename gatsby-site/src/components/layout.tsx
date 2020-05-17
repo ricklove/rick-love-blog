@@ -10,7 +10,11 @@ import './layout.css';
 import { useStaticStore } from '../_core/hooks';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
+
+  // This will only run client side (not processed by Gatsby)
+  // TODO: Process this at build time
   const data = useStaticStore(s => s.site.siteMetadata);
+  if (!data) { return null; }
 
   return (
     <>

@@ -116,6 +116,9 @@ module.exports = {
         // Allow return undefined
         "unicorn/no-useless-undefined": "off",
 
+        // Allow return null
+        "unicorn/no-null": "off",
+
         // Allow Disable ESLint Rule for whole file
         "eslint-comments/disable-enable-pair": ["error", { "allowWholeFile": true }],
 
