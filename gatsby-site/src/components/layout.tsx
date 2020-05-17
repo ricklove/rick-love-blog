@@ -7,23 +7,14 @@
 import React, { ReactNode } from 'react';
 import { Header } from './header';
 import './layout.css';
-import { useSiteTileStaticQuery } from './layout.tsx.gen';
-
-export type SiteTileStaticQuery = {
-  site: {
-    siteMetadata: {
-      title?: string;
-      author?: string;
-    };
-  };
-};
+import { useStaticStore } from '../_core/hooks';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-  const data = useSiteTileStaticQuery();
+  const data = useStaticStore(s => s.site.siteMetadata);
 
   return (
     <>
-      <Header siteTitle={`${data.site.siteMetadata.title ?? ``}`} />
+      <Header siteTitle={`${data.title ?? ``}`} />
       <div
         style={{
           margin: `0 auto`,
@@ -33,7 +24,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       >
         <main>{children}</main>
         <footer>
-          {`© ${new Date().getFullYear()} ${data.site.siteMetadata.author ?? ``}, Built with `}
+          {`© ${new Date().getFullYear()} ${data.author ?? ``}, Built with `}
           <a href='https://www.gatsbyjs.org'>Gatsby</a>
         </footer>
       </div>
