@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
+import { SourceNodesArgs } from 'gatsby';
+// import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
 // import { resolvePath } from './utils';
 // import { watchFilesToGenerateTypeQuery } from './TypeQuery/generate-type-query';
 
