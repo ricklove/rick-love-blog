@@ -9,7 +9,8 @@ export function useStaticStore<T>(getData: (store: Store) => Promise<T>): null |
 
     (async () => {
 
-        await delay(1000);
+        // Guarantee Async for Test
+        await delay(0);
         const d = await getData(store);
 
         console.log(`useStaticStore Set Data`);
