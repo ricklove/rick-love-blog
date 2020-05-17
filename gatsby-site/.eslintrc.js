@@ -152,7 +152,9 @@ module.exports = {
             }
         }],
         // Normal Backticks Everywhere except jsx and imports
-        "quotes": ["error", "backtick"],
+
+        // Normal quotes must be disabled because typescript types must use single
+        "quotes": ["off", "backtick"],
         "@typescript-eslint/quotes": ["error", "backtick"],
         "jsx-quotes": ["error", "prefer-single"],
         "import-quotes/import-quotes": ["error", "single"],
