@@ -19,8 +19,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   const data = useStaticStore(s => {
     const m = s.site.siteMetadata;
     return {
-      author: m.author,
       title: m.title,
+      author: m.author,
     };
   });
   if (!data) { return null; }

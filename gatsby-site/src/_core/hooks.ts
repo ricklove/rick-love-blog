@@ -18,7 +18,11 @@ export function useStaticStore<T>(getData: (store: Store) => Promise<T>): null |
         const d = await getData(store);
 
         console.log(`useStaticStore Set Data`);
-        setData(d);
+
+        // TEMP: Stop render loop - This needs to be handled better
+        if (JSON.stringify(data) !== JSON.stringify(d)) {
+            setData(d);
+        }
     })();
 
     return data;
