@@ -14,13 +14,12 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   // This will only run client side (not processed by Gatsby)
   // TODO: Process this at build time
   // Must provide defaults (when store is null)
-  const data = useStaticStore(s => {
-    const m = s?.site.siteMetadata;
-    return {
-      title: m?.title ?? ``,
-      author: m?.author ?? ``,
-    };
-  });
+
+  // This could inject data in-situ (i.e. it stores data here during build - so it is always visible)
+  const data = useStaticStore({
+    title: ``,
+    author: ``,
+  }, s => s.site.siteMetadata);
 
   // // Will become:
   // const data = {
