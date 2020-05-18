@@ -57,9 +57,9 @@ export const sourceNodes = ({ actions }: SourceNodesArgs) => {
 
 
 // Integrating with custom system
-export const createPages = ({ graphql, actions }: CreatePagesArgs) => {
+export const createPages = async ({ graphql, actions }: CreatePagesArgs) => {
   const { createPage } = actions;
-  const pages = getStaticPages();
+  const pages = await getStaticPages();
   console.log(`createPages`, { pages });
 
   // This is relative to project root
