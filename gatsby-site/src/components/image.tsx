@@ -17,7 +17,8 @@ export const Image = () => {
   // const useSimple = true;
   // if (useSimple) {
   // This is also closer to native so works like expected with any image, etc.
-  return <img src={Store.images.getLocalImage(`/images/gatsby-astronaut.png`, { maxWidth: 300 })} alt='That was easy' />;
+  const imageUrl = Store.images.getLocalImage(`/images/gatsby-astronaut.png`, { maxWidth: 300 });
+  return <img src={imageUrl} alt='That was easy' />;
   // }
 
   // const data = useStaticQuery(graphql`

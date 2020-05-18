@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import { SourceNodesArgs } from 'gatsby';
+import { SourceNodesArgs, CreatePagesArgs } from 'gatsby';
+import { getStaticPages } from '../_core/site/pages';
+import { resolvePath } from './utils';
 // import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
 // import { resolvePath } from './utils';
 // import { watchFilesToGenerateTypeQuery } from './TypeQuery/generate-type-query';
@@ -51,4 +53,18 @@ export const sourceNodes = ({ actions }: SourceNodesArgs) => {
         }
       `;
   createTypes(typeDefs);
+};
+
+
+// Integrating with custom system
+export const createPages = ({ graphql, actions }: CreatePagesArgs) => {
+  const { createPage } = actions;
+  const pages = getStaticPages();
+  console.log(`createPages`, { pages });
+
+  // This is relative to project root
+  const templatePath = resolvePath(`./src/_system/custom-component-template.tsx`);
+  pages.pages.forEach(p => {
+    createPage({ path: p.sitePath, component: templatePath, context: { sitePath: p.sitePath } });
+  });
 };

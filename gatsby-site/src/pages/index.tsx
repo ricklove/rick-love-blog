@@ -13,7 +13,13 @@ const IndexPage = () => (
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
-    <Link to='/page-2/'>Go to page 2</Link>
+
+    <div>
+      <Link to='/test/'>Now, check this out, a custom page</Link>
+    </div>
+    <div>
+      <Link to='/page-2/'>Go to page 2 (a Gatsby Page)</Link>
+    </div>
   </Layout>
 );
 export default IndexPage;
