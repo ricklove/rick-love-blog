@@ -1,43 +1,35 @@
 import React from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import Img, { FluidObject } from 'gatsby-image';
-import { usePlaceholderImageStaticQuery } from './image.tsx.gen';
-// import { TQGatsbyImage } from '../_system/TypeQuery/built-ins';
-
-// // // External
-
-
-// // // Ideal
-// // export type PlaceholderImageStaticQuery_Ideal = {
-// //   placeholderImage?: TQGatsbyImage<'gatsby-astronaut.png', 300>;
-// // }
-
-
-export type PlaceholderImageStaticQuery = {
-  placeholderImage?:/* file(relativePath: \\{ eq: "gatsby-astronaut.png" }) */ {
-    childImageSharp: {
-      fluid/* (maxWidth: 300) */: FluidObject;
-    };
-  };
-}
+// import { useStaticQuery, graphql } from 'gatsby';
+// import Img from 'gatsby-image';
+import * as Store from '../_core/store';
 
 export const Image = () => {
-  const data = useStaticQuery(graphql`
-    query PlaceholderImageStaticQueryOrig {
-      placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 300) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `);
-  return <Img fluid={data.placeholderImage?.childImageSharp?.fluid} />;
-};
 
+  // This is alot of code just to get an image
+  // What advantage does this provide:
+  // - Registers that this image will be needed at the maxWidth (at build time)
+  // - Which allows the build to generate an optimized image at that size
+  // What would be needed to replace this:
+  // - A function call that gets an image at the required size
+  // - This could be a special function that registers it's parameters at build time
+  // - It could check for the optimized size or the original if not generated
+  // - So this does provide some interesting optimizations, but could be replaced with this:
+  // const useSimple = true;
+  // if (useSimple) {
+  // This is also closer to native so works like expected with any image, etc.
+  return <img src={Store.images.getLocalImage(`/images/gatsby-astronaut.png`, { maxWidth: 300 })} alt='That was easy' />;
+  // }
 
-export const Image2 = () => {
-  const data = usePlaceholderImageStaticQuery();
-  return <Img fluid={data.placeholderImage?.childImageSharp.fluid} />;
+  // const data = useStaticQuery(graphql`
+  //   query PlaceholderImageStaticQueryOrig {
+  //     placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
+  //       childImageSharp {
+  //         fluid(maxWidth: 300) {
+  //           ...GatsbyImageSharpFluid
+  //         }
+  //       }
+  //     }
+  //   }
+  // `);
+  // return <Img fluid={data.placeholderImage?.childImageSharp?.fluid} />;
 };
