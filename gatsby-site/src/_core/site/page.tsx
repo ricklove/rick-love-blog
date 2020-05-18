@@ -35,6 +35,7 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
         return {
             Component: () => (
                 <>
+                    <div>Posts: </div>
                     <div>
                         {data.indexPage?.posts.map(x => (
                             <div>
