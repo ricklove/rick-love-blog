@@ -65,6 +65,6 @@ export const createPages = async ({ graphql, actions }: CreatePagesArgs) => {
   // This is relative to project root
   const templatePath = resolvePath(`./src/_system/custom-component-template.tsx`);
   pages.pages.forEach(p => {
-    createPage({ path: p.sitePath, component: templatePath, context: { sitePath: p.sitePath } });
+    createPage({ path: p.sitePath, component: templatePath, context: p });
   });
 };

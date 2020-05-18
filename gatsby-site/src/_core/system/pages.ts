@@ -1,8 +1,13 @@
-export type SitePages = {
+export type SitePages<T> = {
     includePagesFolder: boolean;
-    pages: {
-        sitePath: string;
-        info: unknown;
-        // Component: () => JSX.Element;
-    }[];
+    pages: SitePageInfo<T>[];
 };
+
+export type SitePageInfo<T> = {
+    sitePath: string;
+    data: T;
+}
+
+export type SitePageComponent = {
+    Component: () => JSX.Element;
+}
