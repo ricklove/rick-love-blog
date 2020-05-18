@@ -1,10 +1,13 @@
 import { siteMetadata } from './data/site';
 
-export const createStore = () => {
-    return {
-        site: { siteMetadata },
-    };
-};
+// This is a module version that supports rollup 
+// const config = {
 
-export const store = createStore();
-export type Store = typeof store;
+// };
+
+
+export const site = { siteMetadata };
+
+export const methodExample = {
+    getFuture: (seconds: number) => Date.now() + seconds * 1000,
+};
