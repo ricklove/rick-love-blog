@@ -21,7 +21,7 @@ export async function processDirectoryFiles(dir: string, onFile: (filePath: stri
     await Promise.all(items.map(async (item) => {
         const res = resolvePath(dir, item.name);
         if (item.isDirectory()) { await processDirectoryFiles(res, onFile); }
-        else { onFile(res); }
+        else { await onFile(res); }
     }));
 }
 

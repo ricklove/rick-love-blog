@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from 'react';
-import { getStaticPage } from '../_core/site/pages';
+import { getStaticPage } from '../_core/site/page';
 import { SitePageInfo } from '../_core/system/pages';
 
 const CustomComponentTemplate = ({

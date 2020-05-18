@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const ExamplePage = (props: { index?: number, content?: string }) => {
+export const ExamplePage = (props: { index?: number, title?: string, content?: string }) => {
     return (
         <div>
-            <div>Example Page Content</div>
+            <div>Example Page: {props.title ?? ``}</div>
             {props.index != null && (
                 <>
                     <div>This is page: {props.index}</div>
@@ -12,7 +12,7 @@ export const ExamplePage = (props: { index?: number, content?: string }) => {
                 </>
             )}
 
-            <div>{props.content}</div>
+            <pre>{props.content}</pre>
         </div>
     );
 };
