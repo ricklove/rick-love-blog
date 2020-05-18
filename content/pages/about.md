@@ -33,7 +33,7 @@ So, here is some newer Typescript written for a fun little project where I was $
 ```
 
 
-```CSharp
+```csharp
 
 // But years before that I was writing in C#
 
@@ -80,7 +80,7 @@ Anyway, enough of that.
 ```
 
 
-```HTML
+```html
 
 <html>
 <head>

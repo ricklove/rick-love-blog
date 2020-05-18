@@ -1,8 +1,10 @@
+/* eslint-disable react/no-danger */
 import React, { } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 // import './markdown-github.css';
 import './markdown-retro.css';
+import { MarkdownCode } from './markdown-code';
 
 // export type MarkdownStyle = {
 //     root?: TextStyle,
@@ -47,12 +49,46 @@ import './markdown-retro.css';
 //     u?: TextStyle,
 //     image?: TextStyle,
 // };
+// const loadLanguages = require(`prismjs/components/index`);
+// const renderCodeBlock = (props: { language: string, value: string }) => {
+//     // eslint-disable-next-line no-console
+//     console.log(`renderCodeBlock`, { props });
+
+//     let html = props.value;
+//     let grammer = Prism.languages[props.language];
+
+//     try {
+//         if (!grammer) {
+//             // if (require) {
+//             loadLanguages([props.language]);
+//             grammer = Prism.languages[props.language];
+//             // }
+//         }
+
+//         html = Prism.highlight(props.value, grammer, props.language);
+//     } catch (error) {
+//         // eslint-disable-next-line no-console
+//         console.error(`renderCodeBlock FAILED`, { error, grammer, props });
+//     }
+
+//     const cls = `language-${props.language}`;
+//     return (
+//         <pre className={cls}>
+//             <code
+//                 dangerouslySetInnerHTML={{ __html: html }}
+//                 className={cls}
+//             />
+//         </pre>
+//     );
+// };
+
 
 export const Markdown = (props: { markdown: string }) => {
     return (
         <div className='markdown-body'>
             <div>
-                <ReactMarkdown source={props.markdown} />
+                <ReactMarkdown source={props.markdown}
+                    renderers={{ code: MarkdownCode }} />
             </div>
         </div>
     );

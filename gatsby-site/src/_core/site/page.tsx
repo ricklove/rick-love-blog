@@ -45,12 +45,10 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
                     <div>{sitePath}</div>
                     <div>
                         {headerValues.map(x => (
-                            <>
-                                <div style={{ display: `flex`, flexDirection: `row` }}>
-                                    <div style={{ minWidth: `100px` }}>{x.key}</div>
-                                    <div style={{}}>{x.value}</div>
-                                </div>
-                            </>
+                            <div key={x.key} style={{ display: `flex`, flexDirection: `row` }}>
+                                <div style={{ minWidth: `100px` }}>{x.key}</div>
+                                <div style={{}}>{x.value}</div>
+                            </div>
                         ))}
                     </div>
                     <div>
@@ -67,7 +65,7 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
                     <div>Posts: </div>
                     <div>
                         {data.indexPage?.posts.map(x => (
-                            <div>
+                            <div key={x.title}>
                                 <a href={x.sitePath}>{x.title}</a>
                             </div>
                         ))}

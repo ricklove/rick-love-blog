@@ -5,7 +5,7 @@
 .markdown-body pre {
     padding: .5rem;
     line-height: 1.25;
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
 }
 
 .markdown-body a, .markdown-body a:visited {
@@ -77,7 +77,7 @@
 }
 
 .markdown-body img, .markdown-body canvas, .markdown-body iframe, .markdown-body video, .markdown-body svg, .markdown-body select, .markdown-body textarea {
-    max-width: 100%;
+    /* max-width: 100%; */
 }
 
 .markdown-body div {
@@ -87,13 +87,13 @@
     font-family: "Courier New";
     line-height: 1.45;
     margin: 6rem auto 1rem;
-    max-width: 48rem;
+    /* max-width: 48rem; */
     /* padding: .25rem; */
     padding: 1rem;
 }
 
 .markdown-body pre {
-    background-color: #333;
+    /* background-color: #333; */
 }
 
 .markdown-body blockquote {
