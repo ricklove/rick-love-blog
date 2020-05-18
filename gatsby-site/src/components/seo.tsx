@@ -6,7 +6,8 @@
  */
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useStaticQuery, graphql } from 'gatsby';
+import * as Store from '../_core/store';
+// import { useStaticQuery, graphql } from 'gatsby';
 
 export const SEO = ({ description = ``, lang = `en`, meta = [], title }: {
   description?: string;
@@ -14,17 +15,20 @@ export const SEO = ({ description = ``, lang = `en`, meta = [], title }: {
   meta?: { name: string, content: string }[];
   title: string;
 }) => {
-  const { site } = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
-          description
-          author
-        }
-      }
-    }
-  `);
+
+  // Well that was easy
+  const { site } = Store;
+  // const { site } = useStaticQuery(graphql`
+  //   query {
+  //     site {
+  //       siteMetadata {
+  //         title
+  //         description
+  //         author
+  //       }
+  //     }
+  //   }
+  // `);
   const metaDescription = description || site.siteMetadata.description;
   return (
     <Helmet
