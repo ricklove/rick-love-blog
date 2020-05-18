@@ -1,6 +1,9 @@
 import React, { } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+// import './markdown-github.css';
+import './markdown-retro.css';
+
 // export type MarkdownStyle = {
 //     root?: TextStyle,
 //     view?: TextStyle,
@@ -47,8 +50,10 @@ import ReactMarkdown from 'react-markdown';
 
 export const Markdown = (props: { markdown: string }) => {
     return (
-        <div className='markdown'>
-            <ReactMarkdown source={props.markdown} />
+        <div className='markdown-body'>
+            <div>
+                <ReactMarkdown source={props.markdown} />
+            </div>
         </div>
     );
 };

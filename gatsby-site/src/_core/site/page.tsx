@@ -43,15 +43,19 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
             Component: () => (
                 <>
                     <div>{sitePath}</div>
-                    {headerValues.map(x => (
-                        <>
-                            <div style={{ display: `flex`, flexDirection: `row` }}>
-                                <div style={{ minWidth: `100px` }}>{x.key}</div>
-                                <div style={{}}>{x.value}</div>
-                            </div>
-                        </>
-                    ))}
-                    <Markdown markdown={contentWithoutHeader} />
+                    <div>
+                        {headerValues.map(x => (
+                            <>
+                                <div style={{ display: `flex`, flexDirection: `row` }}>
+                                    <div style={{ minWidth: `100px` }}>{x.key}</div>
+                                    <div style={{}}>{x.value}</div>
+                                </div>
+                            </>
+                        ))}
+                    </div>
+                    <div>
+                        <Markdown markdown={contentWithoutHeader} />
+                    </div>
                 </>
             ),
         };
