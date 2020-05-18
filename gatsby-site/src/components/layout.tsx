@@ -5,6 +5,8 @@ import { Header } from './header';
 import './layout.css';
 import { useStaticStore } from '../_core/hooks';
 
+export const staticData = null as any;
+
 export const Layout = ({ children }: { children: ReactNode }) => {
 
   // This will only run client side (not processed by Gatsby)
@@ -12,17 +14,12 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   // Must provide defaults (when store is null)
 
   // This could inject data in-situ (i.e. it stores data here during build - so it is always visible)
-  const data = useStaticStore({
+  const data = useStaticStore(staticData ?? {
     title: ``,
     author: ``,
   }, s => s.site.siteMetadata);
 
-  // Could become:
-  const data_after = useStaticStore({
-    title: `blog_rick_love`,
-    author: `Rick Love`,
-  }, s => s.site.siteMetadata);
-
+  console.log(`Layout RENDER`, { data });
   return (
     <>
       <Header siteTitle={`${data.title ?? ``}`} />
