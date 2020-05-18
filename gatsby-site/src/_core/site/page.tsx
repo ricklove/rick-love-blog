@@ -2,6 +2,7 @@
 import React from 'react';
 import { SitePageComponent } from '../system/pages';
 import { ExamplePage } from './page-example';
+import { Markdown } from '../components/markdown';
 
 export type StaticSitePageData = {
     // Custom Data
@@ -25,9 +26,33 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
     if (data.markdown) {
         const content = data.markdown?.sourceFileContent ?? ``;
 
+        // <ExamplePage title={sitePath} content={content} />
+
+        // TODO: Parse Header when Creating Pages (to use path)
+        const parts = content.split(`---`);
+        const header = parts.slice(1, 1 + 1)[0];
+        const headerValues = header?.split(`\n`).map(x => {
+            const vParts = x.trim().split(`:`);
+            const key = vParts[0];
+            const value = vParts.slice(1).join(`:`);
+            return { key, value };
+        }).filter(x => x.key && x.value) ?? [];
+        const contentWithoutHeader = headerValues.length > 0 ? parts.slice(2).join(`---`) : content;
+
         return {
             Component: () => (
-                <ExamplePage title={sitePath} content={content} />
+                <>
+                    <div>{sitePath}</div>
+                    {headerValues.map(x => (
+                        <>
+                            <div style={{ display: `flex`, flexDirection: `row` }}>
+                                <div style={{ minWidth: `100px` }}>{x.key}</div>
+                                <div style={{}}>{x.value}</div>
+                            </div>
+                        </>
+                    ))}
+                    <Markdown markdown={contentWithoutHeader} />
+                </>
             ),
         };
     }
