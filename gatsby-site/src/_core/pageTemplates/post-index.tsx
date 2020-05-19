@@ -1,5 +1,7 @@
 import React from 'react';
 import { Markdown } from '../components/markdown';
+import { Layout } from '../../components/layout';
+import { SEO } from './layout/seo';
 import './post.markdown.css';
 import './post.code.css';
 import './post.css';
@@ -12,7 +14,8 @@ export const PostIndexPage = (props: { data: PostIndexPageData }) => {
     const { posts } = props.data;
 
     return (
-        <>
+        <Layout>
+            <SEO title='Posts' />
             <div style={{ display: `block`, minWidth: `100%`, backgroundColor: `#fafafa`, color: `#222222` }}>
                 <div>Posts: </div>
                 <div>
@@ -28,6 +31,6 @@ export const PostIndexPage = (props: { data: PostIndexPageData }) => {
                     ))}
                 </div>
             </div>
-        </>
+        </Layout>
     );
 };

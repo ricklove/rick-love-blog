@@ -27,7 +27,7 @@ export const loadPageData = async (): Promise<SitePages<PageData>> => {
         }).filter(x => x.key && x.value) ?? [];
         const contentWithoutHeader = headerValues.length > 0 ? parts.slice(2).join(`---`) : content;
 
-        const sitePath = headerValues.find(x => x.key === `path`)?.value.replace(/^\//g, ``) ?? filename.replace(/\.md$/, ``);
+        const sitePath = `/${headerValues.find(x => x.key === `path`)?.value.replace(/^\//g, ``) ?? filename.replace(/\.md$/, ``)}`;
         const summary = `${contentWithoutHeader.split(`\`\`\``)[0].split(`\n`).slice(0, 16).join(`\n`).trim()}\n\n...`;
         const title = headerValues.find(x => x.key === `title`)?.value ?? sitePath;
 
@@ -54,7 +54,7 @@ export const loadPageData = async (): Promise<SitePages<PageData>> => {
 
 
     pages.push({
-        sitePath: `posts`,
+        sitePath: `/`,
         data: {
             postIndexPage: {
                 posts: pages.map(x => ({
@@ -63,6 +63,13 @@ export const loadPageData = async (): Promise<SitePages<PageData>> => {
                     summary: x.data.postPage?.summary ?? ``,
                 })),
             },
+        },
+    });
+
+    pages.push({
+        sitePath: `/404.html`,
+        data: {
+            notFoundPage: {},
         },
     });
 

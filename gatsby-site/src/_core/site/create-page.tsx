@@ -1,13 +1,14 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import React from 'react';
 import { SitePageComponent } from '../system/pages';
-import { ExamplePage } from '../pageTemplates/page-example';
 import { PostIndexPage, PostIndexPageData } from '../pageTemplates/post-index';
 import { PostPage, PostPageData } from '../pageTemplates/post';
+import { NotFoundPage } from '../pageTemplates/404';
 
 export type PageData = {
     postPage?: PostPageData;
     postIndexPage?: PostIndexPageData;
+    notFoundPage?: {};
 };
 
 export const createPage = (sitePath: string, data: PageData): SitePageComponent => {
@@ -16,7 +17,7 @@ export const createPage = (sitePath: string, data: PageData): SitePageComponent 
     // eslint-disable-next-line no-console
     console.log(`getStaticPage START`, { sitePath, data });
 
-    const { postPage, postIndexPage } = data;
+    const { postPage, postIndexPage, notFoundPage } = data;
 
     if (postPage) {
         return {
@@ -30,9 +31,6 @@ export const createPage = (sitePath: string, data: PageData): SitePageComponent 
     }
 
     return {
-        Component: () => (
-            <ExamplePage data={{ title: `Unknown Page Data` }} />
-        ),
+        Component: () => <NotFoundPage data={notFoundPage ?? {}} />,
     };
-
 };
