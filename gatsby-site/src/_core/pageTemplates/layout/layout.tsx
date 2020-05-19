@@ -1,4 +1,5 @@
 import './layout.css';
+import './code.css';
 import React, { ReactNode } from 'react';
 import { Header } from './header';
 import * as Store from '../../store';
