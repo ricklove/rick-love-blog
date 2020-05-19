@@ -6,6 +6,7 @@ export const CodeWrapper = (props: { children: ReactNode }) => {
     const element = useRef(null as null | HTMLDivElement);
     const [scale, setScale] = useState(1);
     useEffect(() => {
+        let lastScale = 1;
         const onScroll = () => {
             if (!element.current) { return; }
             const rect = element.current.getBoundingClientRect();
@@ -29,11 +30,13 @@ export const CodeWrapper = (props: { children: ReactNode }) => {
             s2 = s2 < 0.25 ? 0.25 : s2;
 
             const sFinal = Math.max(s, s2);
-            if (sFinal !== scale) {
+            if (sFinal !== lastScale) {
+                lastScale = sFinal;
                 setScale(sFinal);
             }
             // console.log({ top: rect.top, y, topDistancePerViewHeight, docEnd, distanceToEndPerViewHeight });
         };
+        onScroll();
         window.addEventListener(`scroll`, onScroll);
         return () => window.removeEventListener(`scroll`, onScroll);
     }, []);
@@ -43,8 +46,8 @@ export const CodeWrapper = (props: { children: ReactNode }) => {
     // const overflow = scale >= 1 ? `auto` : `visible`;
     const overflow = `scroll`;
     return (
-        <div ref={element} style={{ background: `black` }}>
-            <div style={{ transform: `scale(${scale})`, transformOrigin: `top left`, overflowX: overflow, width: `${100 / scale}%` }} >
+        <div className='code-wrapper' ref={element} style={{ overflowX: overflow }}>
+            <div style={{ transform: `scale(${scale})`, transformOrigin: `top left` }} >
                 <div>
                     {props.children}
                 </div>

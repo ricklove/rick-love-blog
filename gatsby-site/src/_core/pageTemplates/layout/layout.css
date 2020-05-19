@@ -92,10 +92,66 @@ html, body, div, pre, code, p, span {
     margin: 0;
 }
 
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+    padding-left: 8px;
+}
+
 a, a:visited {
     color: #01ff70;
 }
 
 a:hover, a:focus, a:active {
     color: #2ecc40;
+}
+
+pre, code {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+}
+
+div {
+    margin-bottom: 1.3rem;
+}
+
+p {
+    margin-bottom: 1.3rem;
+}
+
+h1, h2, h3, h4 {
+    margin-bottom: 1.3rem;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+}
+
+h4 {
+    font-size: 1.4rem;
+}
+
+h5 {
+    font-size: 1.2rem;
+}
+
+h6 {
+    font-size: 1.1rem;
+}
+
+small {
+    font-size: 1.1em;
+}
+
+img, canvas, iframe, video, svg, select, textarea {
+    max-width: 100%;
+}
+
+blockquote {
+    border-left: 3px solid #01ff70;
 }
