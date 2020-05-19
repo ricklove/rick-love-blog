@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { SitePages, SitePageInfo } from '../system/pages';
-import { processDirectoryFiles, getFilename, readFile } from '../../_system/utils';
+import { processDirectoryFiles, getFilename, readFile } from '../utils/files';
 import { PageData } from './create-page';
 
 export const loadPageData = async (): Promise<SitePages<PageData>> => {
