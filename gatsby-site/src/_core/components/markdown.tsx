@@ -85,7 +85,7 @@ import { MarkdownCode } from './markdown-code';
 
 export const Markdown = (props: { markdown: string }) => {
     return (
-        <div className='markdown-body'>
+        <div className='markdown-body' style={{ padding: 0 }}>
             <div>
                 <ReactMarkdown source={props.markdown}
                     renderers={{ code: MarkdownCode }} />

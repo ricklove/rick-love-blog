@@ -42,17 +42,19 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
         return {
             Component: () => (
                 <>
-                    <div>{sitePath}</div>
-                    <div>
-                        {headerValues.map(x => (
-                            <div key={x.key} style={{ display: `flex`, flexDirection: `row` }}>
-                                <div style={{ minWidth: `100px` }}>{x.key}</div>
-                                <div style={{}}>{x.value}</div>
-                            </div>
-                        ))}
-                    </div>
-                    <div>
-                        <Markdown markdown={contentWithoutHeader} />
+                    <div style={{ display: `inline-block`, minWidth: `100%`, backgroundColor: `#222222`, color: `#fafafa` }}>
+                        <div>{sitePath}</div>
+                        <div>
+                            {headerValues.map(x => (
+                                <div key={x.key} style={{ display: `flex`, flexDirection: `row` }}>
+                                    <div style={{ minWidth: `100px` }}>{x.key}</div>
+                                    <div style={{}}>{x.value}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <div>
+                            <Markdown markdown={contentWithoutHeader} />
+                        </div>
                     </div>
                 </>
             ),

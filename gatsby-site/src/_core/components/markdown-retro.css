@@ -3,7 +3,7 @@
 }
 
 .markdown-body pre {
-    padding: .5rem;
+    padding: 0;
     line-height: 1.25;
     /* overflow-x: scroll; */
 }
@@ -89,7 +89,8 @@
     margin: 6rem auto 1rem;
     /* max-width: 48rem; */
     /* padding: .25rem; */
-    padding: 1rem;
+    /* padding: 1rem; */
+    padding: 0;
 }
 
 .markdown-body pre {
@@ -98,5 +99,13 @@
 
 .markdown-body blockquote {
     border-left: 3px solid #01ff70;
-    padding-left: 1rem;
+    /* padding-left: 1rem; */
 }
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6, .markdown-body p {
+    padding-left: 8px;
+}
+
+/* .markdown-body div, .markdown-body pre {
+    padding: 0;
+} */
