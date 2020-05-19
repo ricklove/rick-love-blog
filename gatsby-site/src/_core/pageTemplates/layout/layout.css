@@ -1,0 +1,41 @@
+:root {
+    /* light theme color */
+    --light-background: #fff;
+    --light-background-secondary: #eaeaea;
+    --light-color: #222;
+    --light-color-secondary: #999;
+    --light-border-color: #dcdcdc;
+    /* dark theme colors */
+    --dark-background: #292a2d;
+    --dark-background-secondary: #3b3d42;
+    --dark-color: #a9a9b3;
+    --dark-color-secondary: #73747b;
+    --dark-border-color: #4a4b50;
+    /* variables for js, must be the same as these in @custom-media queries */
+    --phoneWidth: (max-width: 684px);
+    --tabletWidth: (max-width: 900px);
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter UI', -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.54;
+    background-color: var(--dark-background);
+    color: var(--dark-color);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "liga", "tnum", "case", "calt", "zero", "ss01", "locl";
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+}

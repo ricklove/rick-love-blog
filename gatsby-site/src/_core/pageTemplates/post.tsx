@@ -1,8 +1,10 @@
-import React from 'react';
-import { Markdown } from '../components/markdown';
 import './post.markdown.css';
 import './post.code.css';
 import './post.css';
+import React from 'react';
+import { Markdown } from '../components/markdown';
+import { SEO } from './layout/seo';
+import { Layout } from './layout/layout';
 
 export type PostPageData = {
     sourceFilePath: string;
@@ -18,7 +20,8 @@ export const PostPage = (props: { data: PostPageData }) => {
     const { body, headers, title } = props.data;
 
     return (
-        <>
+        <Layout>
+            <SEO title={title} />
             <div style={{ display: `block`, minWidth: `100%`, backgroundColor: `#222222`, color: `#fafafa` }}>
                 <div>{title}</div>
                 <div>
@@ -33,6 +36,6 @@ export const PostPage = (props: { data: PostPageData }) => {
                     <Markdown markdown={body} />
                 </div>
             </div>
-        </>
+        </Layout>
     );
 };
