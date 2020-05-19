@@ -17,11 +17,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
             <div>
                 <main>{children}</main>
                 <footer>
-                    {`© ${new Date().getFullYear()} ${data.author ?? ``}, Built with `}
-                    <a href='https://www.gatsbyjs.org'>Gatsby</a>
-                    <div>
-                        {`Example Method Call Data: ${data.future}`}
-                    </div>
+                    {`© ${new Date().getFullYear()} ${data.author ?? ``}`}
                 </footer>
             </div>
         </>

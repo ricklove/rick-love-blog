@@ -26,6 +26,6 @@ header a:hover, header a:focus, header a:active {
 }
 
 :hover {
-    transform: translate(-160px, 0);
+    transform: translate(1px, 0);
     transition: transform 1s;
 }
