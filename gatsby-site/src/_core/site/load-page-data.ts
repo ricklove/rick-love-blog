@@ -3,9 +3,9 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { SitePages, SitePageInfo } from '../system/pages';
 import { processDirectoryFiles, getFilename, readFile } from '../../_system/utils';
-import { PageData } from './page-types';
+import { PageData } from './create-page';
 
-export const loadStaticPages = async (): Promise<SitePages<PageData>> => {
+export const loadPageData = async (): Promise<SitePages<PageData>> => {
     // Register Pages here (node api available => Load all data that is needed for all pages here)
 
     console.log(`loadStaticPages START`);
@@ -49,8 +49,8 @@ export const loadStaticPages = async (): Promise<SitePages<PageData>> => {
     };
 
     const pages = [] as SitePageInfo<PageData>[];
-    await processDirectoryFiles(`../content/posts`, async x => { pages.push(await createPageData_fromMarkdownFile(x, `post`)); });
-    await processDirectoryFiles(`../content/pages`, async x => { pages.push(await createPageData_fromMarkdownFile(x, `page`)); });
+    await processDirectoryFiles(`../content/posts`, async x => { if (x.endsWith(`.md`)) { pages.push(await createPageData_fromMarkdownFile(x, `post`)); } });
+    await processDirectoryFiles(`../content/pages`, async x => { if (x.endsWith(`.md`)) { pages.push(await createPageData_fromMarkdownFile(x, `page`)); } });
 
 
     pages.push({

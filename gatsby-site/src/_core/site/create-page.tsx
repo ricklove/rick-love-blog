@@ -2,11 +2,15 @@
 import React from 'react';
 import { SitePageComponent } from '../system/pages';
 import { ExamplePage } from '../pageTemplates/page-example';
-import { PostIndexPage } from '../pageTemplates/post-index';
-import { PostPage } from '../pageTemplates/post';
-import { PageData } from './page-types';
+import { PostIndexPage, PostIndexPageData } from '../pageTemplates/post-index';
+import { PostPage, PostPageData } from '../pageTemplates/post';
 
-export const getStaticPage = (sitePath: string, data: PageData): SitePageComponent => {
+export type PageData = {
+    postPage?: PostPageData;
+    postIndexPage?: PostIndexPageData;
+};
+
+export const createPage = (sitePath: string, data: PageData): SitePageComponent => {
     // Generate Page here => No Node context available, all data must be passed in
 
     // eslint-disable-next-line no-console
