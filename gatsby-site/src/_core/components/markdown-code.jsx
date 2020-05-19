@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { } from 'react';
 import Lowlight from 'react-lowlight';
 import js from 'highlight.js/lib/languages/javascript';
@@ -20,6 +21,7 @@ Lowlight.registerLanguage(`csharp`, cs);
 export const MarkdownCode = (props) => {
     // eslint-disable-next-line no-console
     console.log(`renderCodeBlock`, { props });
+
     return (
         <Lowlight
             language={props.language || `js`}

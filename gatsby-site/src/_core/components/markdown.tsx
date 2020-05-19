@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 // import './markdown-github.css';
 import './markdown-retro.css';
 import { MarkdownCode } from './markdown-code';
+import { CodeWrapper } from './markdown-code-wrapper';
 
 // export type MarkdownStyle = {
 //     root?: TextStyle,
@@ -88,7 +89,9 @@ export const Markdown = (props: { markdown: string }) => {
         <div className='markdown-body' style={{ padding: 0 }}>
             <div>
                 <ReactMarkdown source={props.markdown}
-                    renderers={{ code: MarkdownCode }} />
+                    renderers={{
+                        code: ((p: unknown) => <CodeWrapper><MarkdownCode {...p} /></CodeWrapper>),
+                    }} />
             </div>
         </div>
     );

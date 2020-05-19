@@ -42,7 +42,7 @@ export const getStaticPage = (sitePath: string, data: StaticSitePageData): SiteP
         return {
             Component: () => (
                 <>
-                    <div style={{ display: `inline-block`, minWidth: `100%`, backgroundColor: `#222222`, color: `#fafafa` }}>
+                    <div style={{ display: `block`, minWidth: `100%`, backgroundColor: `#222222`, color: `#fafafa` }}>
                         <div>{sitePath}</div>
                         <div>
                             {headerValues.map(x => (
