@@ -28,8 +28,11 @@ export const CodeWrapper = (props: { children: ReactNode }) => {
             s2 = s2 > 1 ? 1 : s2;
             s2 = s2 < 0.25 ? 0.25 : s2;
 
-            setScale(Math.max(s, s2));
-            console.log({ top: rect.top, y, topDistancePerViewHeight, docEnd, distanceToEndPerViewHeight });
+            const sFinal = Math.max(s, s2);
+            if (sFinal !== scale) {
+                setScale(sFinal);
+            }
+            // console.log({ top: rect.top, y, topDistancePerViewHeight, docEnd, distanceToEndPerViewHeight });
         };
         window.addEventListener(`scroll`, onScroll);
         return () => window.removeEventListener(`scroll`, onScroll);
@@ -40,7 +43,7 @@ export const CodeWrapper = (props: { children: ReactNode }) => {
     // const overflow = scale >= 1 ? `auto` : `visible`;
     const overflow = `scroll`;
     return (
-        <div ref={element}>
+        <div ref={element} style={{ background: `black` }}>
             <div style={{ transform: `scale(${scale})`, transformOrigin: `top left`, overflowX: overflow, width: `${100 / scale}%` }} >
                 <div>
                     {props.children}

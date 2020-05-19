@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { SourceNodesArgs, CreatePagesArgs } from 'gatsby';
-import { getStaticPages } from '../_core/site/pages';
+import { loadStaticPages } from '../_core/site/load-pages';
 import { resolvePath } from './utils';
 // import { SourceNodesArgs, PreprocessSourceArgs, ParentSpanPluginArgs } from 'gatsby';
 // import { resolvePath } from './utils';
@@ -59,7 +59,7 @@ export const sourceNodes = ({ actions }: SourceNodesArgs) => {
 // Integrating with custom system
 export const createPages = async ({ graphql, actions }: CreatePagesArgs) => {
   const { createPage } = actions;
-  const pages = await getStaticPages();
+  const pages = await loadStaticPages();
   console.log(`createPages`, { pages });
 
   // This is relative to project root

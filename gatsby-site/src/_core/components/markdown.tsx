@@ -3,7 +3,7 @@ import React, { } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 // import './markdown-github.css';
-import './markdown-retro.css';
+// import './markdown-retro.css';
 import { MarkdownCode } from './markdown-code';
 import { CodeWrapper } from './markdown-code-wrapper';
 

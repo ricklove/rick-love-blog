@@ -1,0 +1,38 @@
+import React from 'react';
+import { Markdown } from '../components/markdown';
+import './post.markdown.css';
+import './post.code.css';
+import './post.css';
+
+export type PostPageData = {
+    sourceFilePath: string;
+    sourceFileContent: string;
+    headers: { key: string, value: string }[];
+
+    title: string;
+    body: string;
+    summary: string;
+};
+
+export const PostPage = (props: { data: PostPageData }) => {
+    const { body, headers, title } = props.data;
+
+    return (
+        <>
+            <div style={{ display: `block`, minWidth: `100%`, backgroundColor: `#222222`, color: `#fafafa` }}>
+                <div>{title}</div>
+                <div>
+                    {headers.map(x => (
+                        <div key={x.key} style={{ display: `flex`, flexDirection: `row` }}>
+                            <div style={{ minWidth: `100px` }}>{x.key}</div>
+                            <div style={{}}>{x.value}</div>
+                        </div>
+                    ))}
+                </div>
+                <div>
+                    <Markdown markdown={body} />
+                </div>
+            </div>
+        </>
+    );
+};
