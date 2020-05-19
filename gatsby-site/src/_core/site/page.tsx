@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import React from 'react';
 import { SitePageComponent } from '../system/pages';
-import { ExamplePage } from './page-example';
+import { ExamplePage } from '../pageTemplates/page-example';
 import { PostIndexPage } from '../pageTemplates/post-index';
 import { PostPage } from '../pageTemplates/post';
 import { PageData } from './page-types';
@@ -27,7 +27,7 @@ export const getStaticPage = (sitePath: string, data: PageData): SitePageCompone
 
     return {
         Component: () => (
-            <ExamplePage title='Unknown' />
+            <ExamplePage data={{ title: `Unknown Page Data` }} />
         ),
     };
 
