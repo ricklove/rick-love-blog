@@ -22,7 +22,7 @@ export const PostPage = (props: { data: PostPageData }) => {
     return (
         <Layout>
             <SEO title={title} />
-            <div style={{ display: `block`, minWidth: `100%`, backgroundColor: `#222222`, color: `#fafafa` }}>
+            <div style={{ display: `block`, minWidth: `100%` }}>
                 <div>{title}</div>
                 <div>
                     {headers.map(x => (

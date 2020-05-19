@@ -16,12 +16,11 @@ export const PostIndexPage = (props: { data: PostIndexPageData }) => {
     return (
         <Layout>
             <SEO title='Posts' />
-            <div style={{ display: `block`, minWidth: `100%`, backgroundColor: `#fafafa`, color: `#222222` }}>
-                <div>Posts: </div>
+            <div style={{ display: `block`, minWidth: `100%` }}>
                 <div>
                     {posts.map(x => (
-                        <div key={x.title} style={{ margin: `8px` }}>
-                            <div style={{ backgroundColor: `#888888`, margin: 0, padding: 0 }}>
+                        <div key={x.title} style={{ margin: `0` }}>
+                            <div style={{ margin: 0, padding: 0 }}>
                                 <a href={x.sitePath} >{x.title}</a>
                             </div>
                             <div style={{ margin: 0, padding: 0 }}>

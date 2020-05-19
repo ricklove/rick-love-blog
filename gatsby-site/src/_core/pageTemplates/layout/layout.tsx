@@ -13,7 +13,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     return (
         <>
             <Header siteTitle={`${data.title ?? ``}`} />
-            <div style={{ margin: `0`, maxWidth: 960, padding: `0` }}>
+            <div>
                 <main>{children}</main>
                 <footer>
                     {`© ${new Date().getFullYear()} ${data.author ?? ``}, Built with `}
