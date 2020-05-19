@@ -1,3 +1,4 @@
+import './header.css';
 import { Link } from 'gatsby';
 import React from 'react';
 
@@ -5,7 +6,7 @@ export const Header = ({ siteTitle }: { siteTitle: string }) => (
     <header>
         <div>
             <h1>
-                <Link to='/' style={{ color: `white`, textDecoration: `none` }}>
+                <Link to='/'>
                     {siteTitle}
                 </Link>
             </h1>

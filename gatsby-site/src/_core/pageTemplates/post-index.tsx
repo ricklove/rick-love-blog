@@ -1,3 +1,4 @@
+import './post.css';
 import React from 'react';
 import { Markdown } from '../components/markdown';
 import { SEO } from './layout/seo';

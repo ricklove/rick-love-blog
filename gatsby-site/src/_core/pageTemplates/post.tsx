@@ -1,3 +1,4 @@
+import './post.css';
 import React from 'react';
 import { Markdown } from '../components/markdown';
 import { SEO } from './layout/seo';
@@ -20,15 +21,15 @@ export const PostPage = (props: { data: PostPageData }) => {
         <Layout>
             <SEO title={title} />
             <div style={{ display: `block`, minWidth: `100%` }}>
-                <div>{title}</div>
-                <div>
+                <p>{title}</p>
+                <p>
                     {headers.map(x => (
-                        <div key={x.key} style={{ display: `flex`, flexDirection: `row` }}>
-                            <div style={{ minWidth: `100px` }}>{x.key}</div>
-                            <div style={{}}>{x.value}</div>
-                        </div>
+                        <span key={x.key} style={{ display: `flex`, flexDirection: `row` }}>
+                            <span style={{ minWidth: `100px` }}>{x.key}</span>
+                            <span style={{}}>{x.value}</span>
+                        </span>
                     ))}
-                </div>
+                </p>
                 <div>
                     <Markdown markdown={body} />
                 </div>

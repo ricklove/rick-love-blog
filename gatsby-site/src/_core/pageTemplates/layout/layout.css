@@ -96,6 +96,10 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
     padding-left: 8px;
 }
 
+a {
+    text-decoration: none;
+}
+
 a, a:visited {
     color: #01ff70;
 }
@@ -108,16 +112,13 @@ pre, code {
     font-family: Menlo, Monaco, "Courier New", monospace;
 }
 
-div {
-    margin-bottom: 1.3rem;
-}
-
 p {
     margin-bottom: 1.3rem;
 }
 
-h1, h2, h3, h4 {
-    margin-bottom: 1.3rem;
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 1.3rem;
+    margin-bottom: 0.6rem;
 }
 
 h1 {
