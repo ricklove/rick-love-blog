@@ -1,5 +1,6 @@
 import './post.css';
 import React from 'react';
+import { Link } from 'gatsby';
 import { Markdown } from '../components/markdown';
 import { SEO } from './layout/seo';
 import { Layout } from './layout/layout';
@@ -20,7 +21,7 @@ export const PostIndexPage = (props: { data: PostIndexPageData }) => {
                         <div key={x.title} className='post-item'>
                             <div>
                                 <p>
-                                    <a href={x.sitePath} >{x.title}</a>
+                                    <Link to={x.sitePath}>{x.title}</Link>
                                 </p>
                             </div>
                             <div>
