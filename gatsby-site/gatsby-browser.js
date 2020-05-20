@@ -1,2 +1,1 @@
-// prismjs color theme
-// require('./src/styles/prism.css');
+module.exports = require('./src/_system/gatsby-browser.tsx');

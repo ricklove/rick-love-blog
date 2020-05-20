@@ -24,7 +24,7 @@ const globalState = {
     },
 };
 
-export const CodeWrapper_ZoomButtons = (props: { children: ReactNode }) => {
+export const CodeWrapper_ZoomButtons = (props: { children: ReactNode, adjustWidth?: boolean }) => {
 
     const ZOOM_SIZE = 256;
 

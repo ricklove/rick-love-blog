@@ -167,5 +167,7 @@ module.exports = {
         // I want underscores
         "camelcase": ['off'],
         "@typescript-eslint/camelcase": ['off'],
+        "react/jsx-pascal-case": ['off'],
+        "no-underscore-dangle": ['off']
     },
 }
