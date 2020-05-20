@@ -31,22 +31,22 @@ export const ZoomWrapper = (props: { children: ReactNode }) => {
     const buttonStyle = {
         position: `absolute`,
         display: `flex`,
-        height: 16, width: 16,
-        top: 4, right: 64,
-        backgroundColor: `#FF0000`,
+        height: 32, width: 32,
+        top: -4, right: 64,
+        // backgroundColor: `#FF0000`,
         fontFamily: `monospace`,
         color: `#000000`,
         padding: 0,
         margin: 0,
-        border: `1px solid #000000`,
+        // border: `1px solid #000000`,
         justifyContent: `center`,
         alignItems: `center`,
-        overflow: `hidden`,
+        // overflow: `hidden`,
     } as const;
     const buttonSpanStyle = {
         display: `block`,
         fontWeight: `bold`,
-        fontSize: 14,
+        fontSize: 16,
     } as const;
 
     const overflow = `scroll`;
@@ -59,8 +59,8 @@ export const ZoomWrapper = (props: { children: ReactNode }) => {
                     </div>
                 </div>
             </div>
-            <div style={{ ...buttonStyle, backgroundColor: `#FF0000`, right: 64 }} onClick={() => zoomScale(`out`)} ><span style={buttonSpanStyle}>&#x2796;</span></div>
-            <div style={{ ...buttonStyle, backgroundColor: `#00FF00`, right: 32 }} onClick={() => zoomScale(`in`)} ><span style={buttonSpanStyle}>&#x2795;</span></div>
+            <div style={{ ...buttonStyle, right: 64 }} onClick={() => zoomScale(`out`)} ><span style={buttonSpanStyle}>&#x2796;</span></div>
+            <div style={{ ...buttonStyle, right: 32 }} onClick={() => zoomScale(`in`)} ><span style={buttonSpanStyle}>&#x2795;</span></div>
         </div >
     );
 };
