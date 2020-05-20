@@ -59,14 +59,14 @@ export const CodeWrapper_Zoom = (props: { children: ReactNode }) => {
         const unsub = globalState.subscribe(() => { setScale(globalState.scale); });
 
         // window.addEventListener(`mousedown`, onMouseDown);
-        window.addEventListener(`mouseup`, onMouseUp);
-        window.addEventListener(`mousemove`, onMouseMove);
+        window.addEventListener(`pointerup`, onMouseUp);
+        window.addEventListener(`pointermove`, onMouseMove);
         return () => {
             unsub.unsubscribe();
 
             // window.removeEventListener(`mousedown`, onMouseDown);
-            window.removeEventListener(`mouseup`, onMouseUp);
-            window.removeEventListener(`mousemove`, onMouseMove);
+            window.removeEventListener(`pointerup`, onMouseUp);
+            window.removeEventListener(`pointermove`, onMouseMove);
         };
     }, []);
 
@@ -84,7 +84,7 @@ export const CodeWrapper_Zoom = (props: { children: ReactNode }) => {
                 role='button'
                 tabIndex={0}
                 ref={zoomElement}
-                onMouseDown={() => mouseEvents.current.onMouseDown()}
+                onPointerDown={() => mouseEvents.current.onMouseDown()}
             >
                 <div style={{ position: `absolute`, top: -4, left: ZOOM_SIZE * 0.5 * scale - 8, height: 16, width: 16, backgroundColor: `#00FF00` }} />
             </div>
