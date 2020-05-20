@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import { MarkdownCode } from './markdown-code';
 import { CodeWrapper } from './markdown-code-wrapper';
 import { CodeWrapper_Zoom } from './markdown-code-wrapper-zoom';
+import { CodeWrapper_ZoomButtons } from './markdown-code-wrapper-zoom-buttons';
 import { CodeWrapper_Normal } from './markdown-code-wrapper-normal';
 
 // export type MarkdownStyle = {
@@ -92,7 +93,7 @@ export const Markdown = (props: { markdown: string }) => {
             <div>
                 <ReactMarkdown source={props.markdown}
                     renderers={{
-                        code: ((p: unknown) => <CodeWrapper_Normal><MarkdownCode {...p} /></CodeWrapper_Normal>),
+                        code: ((p: unknown) => <CodeWrapper_ZoomButtons><MarkdownCode {...p} /></CodeWrapper_ZoomButtons>),
                     }} />
             </div>
         </div>
