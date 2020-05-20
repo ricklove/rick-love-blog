@@ -10,6 +10,8 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
     const focusOnInput = () => {
         elementInput.current?.focus();
     };
+
+    const [isFocused, setIsFocused] = useState(false);
     const [command, setCommand] = useState(``);
     const hitEnter = () => {
         const l = lines;
@@ -48,14 +50,16 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
                 </div>
             )))}
             <div style={{ display: isExpanded ? `block` : `inline-block` }}>
-                <span>{`${isExpanded ? dir : ``}> `}</span>
+                <span>{`${dir}> `}</span>
                 <span>{command}</span>
-                <span className='console-simulator-cursor'>&nbsp;</span>
+                <span className='console-simulator-cursor' style={isFocused ? {} : { backgroundColor: `#000000` }}>&nbsp;</span>
                 <input type='text'
                     ref={elementInput}
                     style={{ opacity: 0 }}
                     autoCorrect='off' autoCapitalize='none'
                     value={command}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                     onChange={x => setCommand(x.target.value)}
                     onKeyPress={e => e.key === `Enter` && hitEnter()} />
             </div>

@@ -12,9 +12,7 @@ export const Header = ({ siteTitle }: { siteTitle: string }) => (
     <header>
         <div>
             <h1>
-                <Link to='/'>
-                    {siteTitle}
-                </Link>
+                <Link to='/'>&nbsp;&gt;&nbsp;</Link>
                 <ConsoleSimulator initialDirectory={initDir} onCommand={consoleCommands.onCommand} />
             </h1>
         </div>
