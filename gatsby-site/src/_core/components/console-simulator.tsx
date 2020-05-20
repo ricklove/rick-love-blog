@@ -36,7 +36,12 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
                 <span>{`${isExpanded ? dir : ``}> `}</span>
                 <span>{command}</span>
                 <span className='console-simulator-cursor'>&nbsp;</span>
-                <input type='text' style={{ opacity: 0 }} value={command} onChange={x => setCommand(x.target.value)} onKeyPress={e => e.key === `Enter` && hitEnter()} />
+                <input type='text'
+                    style={{ opacity: 0 }}
+                    autoCorrect='off' autoCapitalize='none'
+                    value={command}
+                    onChange={x => setCommand(x.target.value)}
+                    onKeyPress={e => e.key === `Enter` && hitEnter()} />
             </div>
         </div>
     );

@@ -7,9 +7,10 @@ export const createConsoleCommands = (initialDirectory: string) => {
     };
 
     const onCommand = (commandRaw: string): { output: string, dir?: string } => {
-        const iSpace = commandRaw.indexOf(` `);
-        const command = iSpace >= 0 ? commandRaw.slice(0, iSpace).trim() : commandRaw.trim();
-        const target = iSpace >= 0 ? commandRaw.slice(iSpace).trim() : ``;
+        const commandLower = commandRaw.toLowerCase().trim();
+        const iSpace = commandLower.indexOf(` `);
+        const command = iSpace >= 0 ? commandLower.slice(0, iSpace).trim() : commandLower.trim();
+        const target = iSpace >= 0 ? commandLower.slice(iSpace).trim() : ``;
 
         if (state.isAdminLogin) {
             if (command === `friend`) {
