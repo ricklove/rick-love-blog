@@ -1,0 +1,26 @@
+div.console-simulator {
+    margin-left: 8px;
+    padding-left: 8px;
+    min-width: 75%;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: monospace;
+}
+
+.console-simulator-cursor {
+    display: inline-block;
+    background-color: #777777;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1.0;
+    }
+    50% {
+        opacity: 0.0;
+    }
+    100% {
+        opacity: 1.0;
+    }
+}
