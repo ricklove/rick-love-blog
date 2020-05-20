@@ -10,7 +10,8 @@ const globalState = {
     },
     _subscribers: [] as (null | (() => void))[],
     subscribe: (sub: () => void) => {
-        const i = globalState._subscribers.push(sub);
+        const i = globalState._subscribers.length;
+        globalState._subscribers.push(sub);
         return {
             unsubscribe: () => {
                 globalState._subscribers[i] = null;
