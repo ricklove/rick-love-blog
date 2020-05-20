@@ -1,9 +1,10 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import './console-simulator.css';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (command: string) => { output: string, dir?: string } }) => {
+    const elementInput = useRef(null as null | HTMLInputElement);
     const [command, setCommand] = useState(``);
     const hitEnter = () => {
         const l = lines;
@@ -18,6 +19,15 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
         setLines(l);
         setCommand(``);
         setIsExpanded(true);
+
+        if (elementInput.current) {
+            const rect = elementInput.current.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const targetScroll = rect.top + scrollTop - window.innerHeight * 0.5;
+            if (targetScroll > 0) {
+                window.scrollTo(0, targetScroll);
+            }
+        }
     };
 
     const [dir, setDir] = useState(props.initialDirectory);
@@ -37,6 +47,7 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
                 <span>{command}</span>
                 <span className='console-simulator-cursor'>&nbsp;</span>
                 <input type='text'
+                    ref={elementInput}
                     style={{ opacity: 0 }}
                     autoCorrect='off' autoCapitalize='none'
                     value={command}
