@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import './console-simulator.css';
@@ -5,6 +7,9 @@ import React, { useState, useRef } from 'react';
 
 export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (command: string) => { output: string, dir?: string } }) => {
     const elementInput = useRef(null as null | HTMLInputElement);
+    const focusOnInput = () => {
+        elementInput.current?.focus();
+    };
     const [command, setCommand] = useState(``);
     const hitEnter = () => {
         const l = lines;
@@ -35,7 +40,7 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <div className='console-simulator' style={{ display: isExpanded ? `block` : `inline-block` }}>
+        <div className='console-simulator' style={{ display: isExpanded ? `block` : `inline-block` }} onClick={focusOnInput}>
             {isExpanded && (lines.map(x => (
                 <div>
                     <span>{x.prefix}</span>
