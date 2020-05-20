@@ -1,5 +1,23 @@
+/* eslint-disable no-underscore-dangle */
 import React, { ReactNode, useRef, useState, useEffect } from 'react';
 
+
+const globalState = {
+    scale: 1,
+    setScale: (s: number) => {
+        globalState.scale = s;
+        globalState._subscribers.forEach(x => x?.());
+    },
+    _subscribers: [] as (null | (() => void))[],
+    subscribe: (sub: () => void) => {
+        const i = globalState._subscribers.push(sub);
+        return {
+            unsubscribe: () => {
+                globalState._subscribers[i] = null;
+            },
+        };
+    },
+};
 
 export const CodeWrapper_Zoom = (props: { children: ReactNode }) => {
 
@@ -12,15 +30,17 @@ export const CodeWrapper_Zoom = (props: { children: ReactNode }) => {
     const [scale, setScale] = useState(1);
 
     const mouseEvents = useRef((() => {
-        const onMouseDown = () => { mouseState.current = true; };
-        const onMouseUp = () => { mouseState.current = false; };
         const onMouseMove = (e: { clientX: number, clientY: number }) => {
             if (!zoomElement.current) { return; }
             if (!mouseState.current) { return; }
             const rect = zoomElement.current.getBoundingClientRect();
             const mTarget = e.clientX - rect.left;
-            setScale(mTarget / (ZOOM_SIZE * 0.5));
+            const s = mTarget / (ZOOM_SIZE * 0.5);
+            setScale(s);
+            globalState.setScale(s);
         };
+        const onMouseDown = () => { mouseState.current = true; };
+        const onMouseUp = () => { mouseState.current = false; };
         return {
             onMouseDown,
             onMouseUp,
@@ -35,10 +55,14 @@ export const CodeWrapper_Zoom = (props: { children: ReactNode }) => {
             onMouseMove,
         } = mouseEvents.current;
 
+        const unsub = globalState.subscribe(() => { setScale(globalState.scale); });
+
         // window.addEventListener(`mousedown`, onMouseDown);
         window.addEventListener(`mouseup`, onMouseUp);
         window.addEventListener(`mousemove`, onMouseMove);
         return () => {
+            unsub.unsubscribe();
+
             // window.removeEventListener(`mousedown`, onMouseDown);
             window.removeEventListener(`mouseup`, onMouseUp);
             window.removeEventListener(`mousemove`, onMouseMove);
