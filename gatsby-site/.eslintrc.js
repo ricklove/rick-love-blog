@@ -163,5 +163,9 @@ module.exports = {
         "import-quotes/import-quotes": ["error", "single"],
 
         "react/jsx-props-no-spreading": ["off"],
+
+        // I want underscores
+        "camelcase": ['off'],
+        "@typescript-eslint/camelcase": ['off'],
     },
 }
