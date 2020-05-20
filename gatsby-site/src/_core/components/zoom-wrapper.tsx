@@ -4,11 +4,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-underscore-dangle */
 import React, { ReactNode, useRef, useState, useEffect } from 'react';
-import { storeState } from '../store';
+import { getStoreState } from '../store';
 
 const moduleState = {
-    scale: storeState.zoom,
-    setScale: (x: number) => { moduleState.scale = x; storeState.zoom = x; },
+    scale: getStoreState().zoom,
+    setScale: (x: number) => { moduleState.scale = x; getStoreState().zoom = x; },
 };
 
 export const ZoomWrapper = (props: { children: ReactNode }) => {

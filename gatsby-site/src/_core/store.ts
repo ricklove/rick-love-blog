@@ -18,13 +18,24 @@ export const methodExample = {
 export const { images } = System;
 
 
-// eslint-disable-next-line import/no-mutable-exports
-export let storeState = {
-    zoom: 1,
+type StoreState = {
+    id: string;
+    zoom: number;
 };
 
-export const _setStoreState = (state: typeof storeState) => {
-    storeState = state;
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const win = (window ?? {}) as any;
+export const getStoreState = () => {
+    if (!win.__storeState) {
+        const defaultState: StoreState = {
+            // eslint-disable-next-line no-bitwise
+            id: `${(Math.random() * 1000) | 0}`,
+            zoom: 1,
+        };
+        win.__storeState = defaultState;
+        console.log(`getStoreState NO STATE FOUND - Creating Default`);
+    }
 
-export const StoreContext = React.createContext(storeState);
+    console.log(`getStoreState DONE`, { id: win.__storeState.id, storeState: win.__storeState });
+    return win.__storeState;
+};

@@ -14,22 +14,15 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 
     return (
         <>
-            <Store.StoreContext.Consumer>
-                {storeState => {
-                    Store._setStoreState(storeState);
-                    return (
-                        <ZoomWrapper>
-                            <Header siteTitle={`${data.title ?? ``}`} />
-                            <div>
-                                <main>{children}</main>
-                                <footer>
-                                    {`© ${new Date().getFullYear()} ${data.author ?? ``}`}
-                                </footer>
-                            </div>
-                        </ZoomWrapper>
-                    );
-                }}
-            </Store.StoreContext.Consumer>
+            <ZoomWrapper>
+                <Header siteTitle={`${data.title ?? ``}`} />
+                <div>
+                    <main>{children}</main>
+                    <footer>
+                        {`© ${new Date().getFullYear()} ${data.author ?? ``}`}
+                    </footer>
+                </div>
+            </ZoomWrapper>
         </>
     );
 };
