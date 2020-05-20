@@ -4,18 +4,17 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-underscore-dangle */
 import React, { ReactNode, useRef, useState, useEffect } from 'react';
-import { getStoreState } from '../store';
 
 const moduleState = {
-    scale: getStoreState().zoom,
-    setScale: (x: number) => { moduleState.scale = x; getStoreState().zoom = x; },
+    scale: 1,
+    setScale: (x: number) => { moduleState.scale = x; },
 };
 
 export const ZoomWrapper = (props: { children: ReactNode }) => {
 
     const element = useRef(null as null | HTMLDivElement);
 
-    const [scale, setScale] = useState(1);
+    const [scale, setScale] = useState(moduleState.scale);
     const zoomScale = (direction: 'in' | 'out') => {
         const targetScale = moduleState.scale * (direction === `out` ? 0.9 : 1 / 0.9);
         setScale(targetScale);

@@ -30,7 +30,7 @@ export const CodeWrapper_ZoomButtons = (props: { children: ReactNode, adjustWidt
 
     const element = useRef(null as null | HTMLDivElement);
 
-    const [scale, setScale] = useState(1);
+    const [scale, setScale] = useState(globalState.scale);
     const zoomScale = (direction: 'in' | 'out') => {
         const targetScale = globalState.scale * (direction === `out` ? 0.9 : 1 / 0.9);
         setScale(targetScale);
