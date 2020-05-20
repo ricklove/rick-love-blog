@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 // import './markdown-retro.css';
 import { MarkdownCode } from './markdown-code';
 import { CodeWrapper } from './markdown-code-wrapper';
+import { CodeWrapper_Zoom } from './markdown-code-wrapper-zoom';
 
 // export type MarkdownStyle = {
 //     root?: TextStyle,
@@ -90,7 +91,7 @@ export const Markdown = (props: { markdown: string }) => {
             <div>
                 <ReactMarkdown source={props.markdown}
                     renderers={{
-                        code: ((p: unknown) => <CodeWrapper><MarkdownCode {...p} /></CodeWrapper>),
+                        code: ((p: unknown) => <CodeWrapper_Zoom><MarkdownCode {...p} /></CodeWrapper_Zoom>),
                     }} />
             </div>
         </div>
