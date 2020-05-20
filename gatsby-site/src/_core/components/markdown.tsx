@@ -5,10 +5,10 @@ import ReactMarkdown from 'react-markdown';
 // import './markdown-github.css';
 // import './markdown-retro.css';
 import { MarkdownCode } from './markdown-code';
-import { CodeWrapper } from './markdown-code-wrapper';
-import { CodeWrapper_Zoom } from './markdown-code-wrapper-zoom';
+// import { CodeWrapper } from './markdown-code-wrapper';
+// import { CodeWrapper_Zoom } from './markdown-code-wrapper-zoom';
 import { CodeWrapper_ZoomButtons } from './markdown-code-wrapper-zoom-buttons';
-import { CodeWrapper_Normal } from './markdown-code-wrapper-normal';
+// import { CodeWrapper_Normal } from './markdown-code-wrapper-normal';
 
 // export type MarkdownStyle = {
 //     root?: TextStyle,

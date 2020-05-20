@@ -3,14 +3,17 @@
 import './console-simulator.css';
 import React, { useState } from 'react';
 
-export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (command: string) => string }) => {
+export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (command: string) => { output: string, dir?: string } }) => {
     const [command, setCommand] = useState(``);
     const hitEnter = () => {
         const l = lines;
         l.push({ prefix: `${dir}> `, text: command });
 
         const result = props.onCommand(command);
-        result.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
+        result.output.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
+        if (result.dir) {
+            setDir(result.dir);
+        }
 
         setLines(l);
         setCommand(``);
