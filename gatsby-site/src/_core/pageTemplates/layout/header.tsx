@@ -5,7 +5,8 @@ import { ConsoleSimulator } from '../../components/console-simulator';
 import { site } from '../../store';
 import { createConsoleCommands } from '../../components/console-simulator-commands';
 
-const consoleCommands = createConsoleCommands();
+const initDir = site.siteMetadata.title;
+const consoleCommands = createConsoleCommands(initDir);
 
 export const Header = ({ siteTitle }: { siteTitle: string }) => (
     <header>
@@ -14,7 +15,7 @@ export const Header = ({ siteTitle }: { siteTitle: string }) => (
                 <Link to='/'>
                     {siteTitle}
                 </Link>
-                <ConsoleSimulator initialDirectory={site.siteMetadata.title} onCommand={consoleCommands.onCommand} />
+                <ConsoleSimulator initialDirectory={initDir} onCommand={consoleCommands.onCommand} />
             </h1>
         </div>
     </header>
