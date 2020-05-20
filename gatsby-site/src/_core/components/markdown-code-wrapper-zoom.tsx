@@ -72,15 +72,16 @@ export const CodeWrapper_Zoom = (props: { children: ReactNode }) => {
 
     const overflow = `scroll`;
     return (
-        <div>
-            <div className='code-wrapper' ref={element} style={{ overflowX: overflow }}>
+        <div className='code-wrapper' >
+            <div style={{ height: 16 }} />
+            <div ref={element} style={{ overflowX: overflow }}>
                 <div style={{ transform: `scale(${scale})`, transformOrigin: `top left` }} >
                     <div>
                         {props.children}
                     </div>
                 </div>
             </div>
-            <div style={{ position: `absolute`, top: 8, right: 32, height: 8, width: ZOOM_SIZE, backgroundColor: `#FF0000` }}
+            <div style={{ position: `absolute`, top: 4, right: 32, height: 8, width: ZOOM_SIZE, backgroundColor: `#FF0000` }}
                 role='button'
                 tabIndex={0}
                 ref={zoomElement}
