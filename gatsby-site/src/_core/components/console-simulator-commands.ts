@@ -145,7 +145,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
             || command.startsWith(`cat`)
             || command.startsWith(`echo`)
         ) {
-            const file = dirFiles.find(x => x.name.toLowerCase().startsWith(target));
+            const file = target && dirFiles.find(x => x.name.toLowerCase().startsWith(target));
             if (file) {
                 return {
                     output: file.content,

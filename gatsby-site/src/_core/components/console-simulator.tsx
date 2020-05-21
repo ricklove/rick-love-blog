@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-use-before-define */
@@ -59,8 +60,8 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
     return (
         <div className='console-simulator' style={{ display: isExpanded ? `block` : `inline-block` }} onClick={focusOnInput}>
             {isExpanded && <span>{consoleVersion}</span>}
-            {isExpanded && (lines.map(x => (
-                <div>
+            {isExpanded && (lines.map((x, i) => (
+                <div key={i}>
                     <span>{x.prefix}</span>
                     <span>{x.text}</span>
                 </div>
