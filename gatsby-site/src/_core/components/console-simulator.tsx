@@ -34,14 +34,19 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
         setCommand(``);
         setIsExpanded(true);
 
-        if (elementInput.current) {
-            const rect = elementInput.current.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const targetScroll = rect.top + scrollTop - window.innerHeight * 0.5;
-            if (targetScroll > 0) {
-                window.scrollTo(0, targetScroll);
+        setTimeout(() => {
+            if (elementInput.current) {
+                elementInput.current.scrollIntoView({ behavior: `smooth`, block: `center`, inline: `center` });
+
+                // const rect = elementInput.current.getBoundingClientRect();
+                // const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                // const targetScroll = rect.top + scrollTop - window.innerHeight * 0.5;
+                // if (targetScroll > 0) {
+                //     window.scrollTo(0, targetScroll);
+                // }
             }
-        }
+        }, 50);
+
     };
 
     const [prompt, setPrompt] = useState(props.initialPrompt);
