@@ -5,7 +5,7 @@
 import './console-simulator.css';
 import React, { useState, useRef } from 'react';
 
-export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (command: string) => { output: string, dir?: string } }) => {
+export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => { output?: string, prompt?: string, quit?: boolean } }) => {
     const elementInput = useRef(null as null | HTMLInputElement);
     const focusOnInput = () => {
         elementInput.current?.focus();
@@ -15,12 +15,19 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
     const [command, setCommand] = useState(``);
     const hitEnter = () => {
         const l = lines;
-        l.push({ prefix: `${dir}> `, text: command });
+        l.push({ prefix: `${prompt} `, text: command });
 
         const result = props.onCommand(command);
-        result.output.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
-        if (result.dir) {
-            setDir(result.dir);
+        result.output?.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
+        if (result.prompt) {
+            setPrompt(result.prompt);
+        }
+        if (result.quit) {
+            setLines([]);
+            setCommand(``);
+            setPrompt(props.initialPrompt);
+            setIsExpanded(false);
+            return;
         }
 
         setLines(l);
@@ -37,7 +44,7 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
         }
     };
 
-    const [dir, setDir] = useState(props.initialDirectory);
+    const [prompt, setPrompt] = useState(props.initialPrompt);
     const [lines, setLines] = useState([] as { prefix: string, text: string }[]);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -50,7 +57,7 @@ export const ConsoleSimulator = (props: { initialDirectory: string, onCommand: (
                 </div>
             )))}
             <div style={{ display: isExpanded ? `block` : `inline-block` }}>
-                <span>{`${dir}> `}</span>
+                <span>{prompt} </span>
                 <span>{command}</span>
                 <span className='console-simulator-cursor' style={isFocused ? {} : { backgroundColor: `#000000` }}>&nbsp;</span>
                 <input type='text'
