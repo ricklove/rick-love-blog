@@ -156,7 +156,10 @@ export const createConsoleCommands = (initialMachineName: string) => {
                 };
             }
 
-            return { output: `${command}: ${target}: No such file or directory` };
+            return {
+                ...standardPrompt(),
+                output: `${command}: ${target}: No such file or directory`,
+            };
         }
 
         const file = dirFiles.find(x => x.name.toLowerCase().startsWith(command));
