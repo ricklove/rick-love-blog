@@ -419,7 +419,20 @@ export const dork: ConFile = {
 
                 // Special environment action
                 if (command === `put`) {
-                    if (target.includes(`mailbox`) && !mailbox.package) {
+                    if (target.includes(`mailbox`)) {
+                        if (!mailbox.isOpen) {
+                            return {
+                                output: `The mailbox is not open.`,
+                                query: mainDork,
+                            };
+                        }
+                        if (mailbox.package) {
+                            return {
+                                output: `There is already something in the mailbox.`,
+                                query: mainDork,
+                            };
+                        }
+
                         const f = inventory.find(x => isMatch(x, target));
                         if (f) {
                             removeFromInventory(f);
