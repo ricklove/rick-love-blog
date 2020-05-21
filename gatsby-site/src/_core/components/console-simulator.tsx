@@ -36,14 +36,14 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
 
         setTimeout(() => {
             if (elementInput.current) {
-                elementInput.current.scrollIntoView({ behavior: `smooth`, block: `center`, inline: `center` });
+                // elementInput.current.scrollIntoView({ behavior: `smooth`, block: `center`, inline: `center` });
 
-                // const rect = elementInput.current.getBoundingClientRect();
-                // const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                // const targetScroll = rect.top + scrollTop - window.innerHeight * 0.5;
-                // if (targetScroll > 0) {
-                //     window.scrollTo(0, targetScroll);
-                // }
+                const rect = elementInput.current.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const targetScroll = rect.top + scrollTop - window.innerHeight * 0.5;
+                if (targetScroll > 0) {
+                    window.scrollTo({ left: 0, top: targetScroll, behavior: `smooth` });
+                }
             }
         }, 50);
 
