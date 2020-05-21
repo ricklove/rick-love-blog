@@ -1,4 +1,4 @@
-export type ConCommandResult = { output?: string, prompt?: string, quit?: boolean };
+export type ConCommandResult = { output?: string, prompt?: string, quit?: boolean, Component?: () => JSX.Element };
 
 export type ConSessionName = 'user' | 'admin';
 export type ConSession = { machineName: string };
@@ -9,6 +9,7 @@ export type ConActionQuery = { prompt: string, respond: (input: ConInput) => Con
 export type ConAction = void | null | undefined | {
     output?: string;
     query?: ConActionQuery;
+    Component?: () => JSX.Element;
 };
 export type ConFile = {
     session: ConSessionName;

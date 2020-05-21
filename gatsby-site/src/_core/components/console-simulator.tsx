@@ -26,6 +26,9 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
         if (result.prompt) {
             setPrompt(result.prompt);
         }
+        if (result.Component) {
+            l.push({ Component: result.Component });
+        }
         if (result.quit) {
             setLines([]);
             setCommand(``);
@@ -54,7 +57,7 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
     };
 
     const [prompt, setPrompt] = useState(props.initialPrompt);
-    const [lines, setLines] = useState([] as { prefix: string, text: string }[]);
+    const [lines, setLines] = useState([] as { prefix?: string, text?: string, Component?: () => JSX.Element }[]);
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
@@ -64,6 +67,7 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
                 <div key={i}>
                     <span>{x.prefix}</span>
                     <span>{x.text}</span>
+                    {x.Component && (<span><x.Component /></span>)}
                 </div>
             )))}
             <div style={{ display: isExpanded ? `block` : `inline-block` }}>

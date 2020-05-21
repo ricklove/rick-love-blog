@@ -100,13 +100,13 @@ export const createConsoleCommands = (initialMachineName: string) => {
         }
         if (action.query) {
             state = { ...state, activeAction: action };
-            return { output: action.output, prompt: action.query.prompt };
+            return { ...action, prompt: action.query.prompt };
         }
 
         state = { ...state, activeAction: null };
         return {
             ...standardPrompt(),
-            output: action.output,
+            ...action,
         };
     };
 

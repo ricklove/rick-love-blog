@@ -1,7 +1,32 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable no-param-reassign */
+import React, { useState, useEffect } from 'react';
 import { ConFile, ConActionQuery, ConAction } from './console-simulator-types';
 import { randomBinary, randomItem } from './console-simulator-utils';
+
+
+const CountDownTimer = (props: { time: number, messageAfterTime: string }) => {
+    const [time, setTime] = useState(10);
+    useEffect(() => {
+        const timeStart = Date.now();
+        const id = setInterval(() => {
+            const timeRemaining = ((props.time * 1000) - (Date.now() - timeStart)) / 1000;
+            setTime(s => timeRemaining);
+            if (timeRemaining < 0) {
+                clearInterval(id);
+            }
+        }, 10);
+        return () => clearInterval(id);
+    },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []);
+
+    return (
+        <>
+            <span style={{ color: `#FF0000` }}>{time > 0 ? time : props.messageAfterTime}</span>
+        </>
+    );
+};
 
 const intro = `# North of House
 You are standing in a large grass yard of a biege house, with a broken front door.
@@ -42,14 +67,15 @@ export const dork: ConFile = {
         ];
 
         const mailPackages: GameItem[] = [
-            createGameObject(`Self Cleaning Litter Box`, `Cause 18 years is great even if you have to deal with a little crap sometimes. Keep it clean and happy!`, {}),
-            createGameObject(`Set of Bathroom Towel Hooks`, `For the new house of course.`, {}),
-            createGameObject(`Pink Flamingo Squishy Toy`, `It's head is tearing off. Maybe if can be sewn.`, {}),
-            createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
+            // createGameObject(`Self Cleaning Litter Box`, `Cause 18 years is great even if you have to deal with a little crap sometimes. Keep it clean and happy!`, {}),
+            // createGameObject(`Set of Bathroom Towel Hooks`, `For the new house of course.`, {}),
+            // createGameObject(`Pink Flamingo Squishy Toy`, `It's head is tearing off. Maybe if can be sewn.`, {}),
+            // createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
             createGameObject(`Squirrel Stuffed Animal with Nuts`, `It looks like you should be careful not to touch it's nuts!`, {
                 execute: (command) => {
                     if (command === `touch`) {
                         return {
+                            Component: () => (<CountDownTimer time={10} messageAfterTime={`Don't be touchin my nutz!`} />),
                             output: `${randomItem([
                                 `The squirrel goes nuts and chews off your arm.`,
                                 `The squirel had more than just nuts with him.`,
@@ -61,42 +87,42 @@ export const dork: ConFile = {
                     return null;
                 },
             }),
-            createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
-                execute: (command) => {
-                    if (command === `open`) {
-                        return {
-                            output: `${randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`])} 
-    
-                        ****  You have died  ****` };
-                    }
-                    if (command === `put`) {
-                        return {
-                            output: `${randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`])} 
-    
-                        ****  You have died  ****` };
-                    }
-                    return null;
-                },
-            }),
-            createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
-                execute: (command, target) => {
-                    if (command === `put`) {
-                        return {
-                            output: `
-                        You put the lime in the coconut, you drank 'em bot' up
-                        Put the lime in the coconut, you drank 'em bot' up
-                        Put the lime in the coconut, you drank 'em bot'up
-                        Put the lime in the coconut, you call your doctor, woke 'I'm up
-                        Said "doctor, ain't there nothing' I can take?"
-                        I said, "doctor, to relieve this belly ache"
-                        I said "doctor, ain't there nothin' I can take?'
-                        I said, "doctor, to relieve this belly ache"
+            // createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
+            //     execute: (command) => {
+            //         if (command === `open`) {
+            //             return {
+            //                 output: `${randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`])} 
 
-                        ****  You have died  ****` };
-                    }
-                    return null;
-                },
-            }),
+            //             ****  You have died  ****` };
+            //         }
+            //         if (command === `put`) {
+            //             return {
+            //                 output: `${randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`])} 
+
+            //             ****  You have died  ****` };
+            //         }
+            //         return null;
+            //     },
+            // }),
+            // createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
+            //     execute: (command, target) => {
+            //         if (command === `put`) {
+            //             return {
+            //                 output: `
+            //             You put the lime in the coconut, you drank 'em bot' up
+            //             Put the lime in the coconut, you drank 'em bot' up
+            //             Put the lime in the coconut, you drank 'em bot'up
+            //             Put the lime in the coconut, you call your doctor, woke 'I'm up
+            //             Said "doctor, ain't there nothing' I can take?"
+            //             I said, "doctor, to relieve this belly ache"
+            //             I said "doctor, ain't there nothin' I can take?'
+            //             I said, "doctor, to relieve this belly ache"
+
+            //             ****  You have died  ****` };
+            //         }
+            //         return null;
+            //     },
+            // }),
         ];
         const mailbox = {
             isOpen: false,
