@@ -5,7 +5,7 @@ export type ConSession = { machineName: string };
 
 export type ConInput = { raw: string, lower: string, command: string, target: string };
 
-export type ConActionQuery = { prompt: string, respond: (input: ConInput) => ConAction };
+export type ConActionQuery = { prompt: string, respond: (input: ConInput) => Promise<ConAction> };
 export type ConAction = void | null | undefined | {
     output?: string;
     query?: ConActionQuery;
@@ -16,7 +16,7 @@ export type ConFile = {
     path: string;
     name: string;
     content: string;
-    execute?: () => ConAction;
+    execute?: () => Promise<ConAction>;
 };
 export type ConState = {
     readonly parent?: ConState;

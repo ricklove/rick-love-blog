@@ -9,7 +9,7 @@ import { ConCommandResult } from './console-simulator-types';
 
 const consoleVersion = `v1.0.7`;
 
-export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => ConCommandResult }) => {
+export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => Promise<ConCommandResult> }) => {
     const elementInput = useRef(null as null | HTMLInputElement);
     const focusOnInput = () => {
         elementInput.current?.focus();
@@ -17,11 +17,11 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
 
     const [isFocused, setIsFocused] = useState(false);
     const [command, setCommand] = useState(``);
-    const hitEnter = () => {
+    const hitEnter = async () => {
         const l = lines;
         l.push({ prefix: `${prompt} `, text: command });
 
-        const result = props.onCommand(command);
+        const result = await props.onCommand(command);
         result.output?.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
         if (result.prompt) {
             setPrompt(result.prompt);

@@ -35,19 +35,19 @@ There is a small mailbox nearby.`;
 export const dork: ConFile = {
     session: `user`, path: `/`, name: `dork`,
     content: `${randomBinary(256)}${intro}${randomBinary(512)}`,
-    execute: () => {
+    execute: async () => {
         type GameItem = {
             title: string;
             description: string;
             matches: string[];
             lower: string;
             contents?: GameItem[];
-            look?: () => ConAction;
-            smell?: () => ConAction;
-            taste?: () => ConAction;
-            open?: () => ConAction;
+            // look?: () => Promise<ConAction>;
+            // smell?: () => Promise<ConAction>;
+            // taste?: () => Promise<ConAction>;
+            // open?: () => Promise<ConAction>;
             isOpen?: boolean;
-            execute?: (command: string, target: string) => ConAction;
+            execute?: (command: string, target: string) => Promise<ConAction>;
         };
 
         const inventory = [] as GameItem[];
@@ -72,7 +72,7 @@ export const dork: ConFile = {
             createGameObject(`Pink Flamingo Squishy Toy`, `It's head is tearing off. Maybe if can be sewn.`, {}),
             createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
             createGameObject(`Squirrel Stuffed Animal with Nuts`, `It looks like you should be careful not to touch it's nuts!`, {
-                execute: (command) => {
+                execute: async (command) => {
                     if (command === `touch`) {
                         return {
                             Component: () => (<CountDownTimer time={10} messageAfterTime={`Don't be touchin my nutz!`} />),
@@ -88,7 +88,7 @@ export const dork: ConFile = {
                 },
             }),
             createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
-                execute: (command) => {
+                execute: async (command) => {
                     if (command === `open`) {
                         return {
                             output: `${randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`])} 
@@ -105,7 +105,7 @@ export const dork: ConFile = {
                 },
             }),
             createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
-                execute: (command, target) => {
+                execute: async (command, target) => {
                     if (command === `put`) {
                         return {
                             output: `
@@ -137,7 +137,7 @@ export const dork: ConFile = {
 
         const mainDork: ConActionQuery = {
             prompt: `>`,
-            respond: ({ command, target }) => {
+            respond: async ({ command, target }): Promise<ConAction> => {
                 // const haveTarget = (match: string) => target.includes(match) && inventory.find(x => x.lower.includes(target));
 
                 // Standardize Commands
@@ -226,9 +226,11 @@ export const dork: ConFile = {
                 }
 
                 for (const x of inventory) {
-                    const result = x.execute?.(command, target);
+                    if (!x.execute) { continue; }
+
+                    // eslint-disable-next-line no-await-in-loop
+                    const result = await x.execute(command, target);
                     if (result) { return result; }
-                    return null;
                 }
 
                 if (command === `inv` || command === `inventory`) {
@@ -237,7 +239,10 @@ export const dork: ConFile = {
 
                 if (command === `quit`) {
                     return {
-                        query: { prompt: `Are you sure you want to quit?`, respond: (x) => x.command.startsWith(`y`) ? null : { query: mainDork } },
+                        query: {
+                            prompt: `Are you sure you want to quit?`,
+                            respond: async (x) => x.command.startsWith(`y`) ? null : { query: mainDork },
+                        },
                     };
                 }
 

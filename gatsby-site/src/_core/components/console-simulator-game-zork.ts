@@ -7,11 +7,11 @@ export const zork: ConFile = {
     content: `${randomBinary(256)}West of House
 You are standing in an open field west of a white house, with a boarded front door.
 There is a small mailbox here.${randomBinary(512)}`,
-    execute: () => {
+    execute: async () => {
 
         const mainZork: ConActionQuery = {
             prompt: `>`,
-            respond: ({ command, target }) => {
+            respond: async ({ command, target }) => {
                 if (command === `zork`) { return { output: `At your service`, query: mainZork }; }
                 if (command === `jump`) { return { output: Math.random() < 0.5 ? `Are you enjoying yourself?` : `Very good! Now you can go to the second grade.`, query: mainZork }; }
                 if (command === `scream`) { return { output: `Aaaarrrrgggghhhh!`, query: mainZork }; }

@@ -60,11 +60,11 @@ export const createConsoleCommands = (initialMachineName: string) => {
         }, {
             session: `user`, path: `/`, name: `admin.sh`,
             content: `ssh admin@192.168.0.1`,
-            execute: () => ({
+            execute: async () => ({
                 output: `Please Enter Password`,
                 query: {
                     prompt: `doors@durin>`,
-                    respond: ({ command }) => {
+                    respond: async ({ command }) => {
                         if (command === `friend`) {
                             enterSession(`admin`);
                             return {
@@ -93,7 +93,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
         return { prompt: `${sessions[state.session].machineName}${state.directory.replace(/\/$/g, ``)}>` };
     };
 
-    const processAction = (action: ConAction): ConCommandResult => {
+    const processAction = async (action: ConAction): Promise<ConCommandResult> => {
         if (!action) {
             state = { ...state, activeAction: null };
             return standardPrompt();
@@ -110,7 +110,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
         };
     };
 
-    const onCommand = (commandRaw: string): ConCommandResult => {
+    const onCommand = async (commandRaw: string): Promise<ConCommandResult> => {
         const commandLower = commandRaw.toLowerCase().trim();
         const iSpace = commandLower.indexOf(` `);
         const command = iSpace >= 0 ? commandLower.slice(0, iSpace).trim() : commandLower.trim();
@@ -121,7 +121,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
         if (state.activeAction) {
             const a = state.activeAction;
             if (a.query) {
-                const action = a.query.respond(input);
+                const action = await a.query.respond(input);
                 return processAction(action);
             }
         }
@@ -157,7 +157,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
 
         const file = dirFiles.find(x => x.name.toLowerCase().startsWith(command));
         if (file && file.execute) {
-            const action = file.execute();
+            const action = await file.execute();
             return processAction(action);
         }
 
