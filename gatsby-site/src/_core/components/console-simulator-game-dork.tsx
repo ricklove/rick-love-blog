@@ -1,11 +1,11 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
-import { ConFile, ConActionQuery, ConAction } from './console-simulator-types';
+import { ConFile, ConActionQuery, ConAction, ConInput } from './console-simulator-types';
 import { randomBinary, randomItem } from './console-simulator-utils';
 
 
-const CountDownTimer = (props: { time: number, messageAfterTime: string }) => {
+const CountDownTimer = (props: { time: number, messageAfterTime: string, onTime: () => void }) => {
     const [time, setTime] = useState(10);
     useEffect(() => {
         const timeStart = Date.now();
@@ -14,6 +14,7 @@ const CountDownTimer = (props: { time: number, messageAfterTime: string }) => {
             setTime(s => timeRemaining);
             if (timeRemaining < 0) {
                 clearInterval(id);
+                props.onTime();
             }
         }, 10);
         return () => clearInterval(id);
@@ -47,7 +48,7 @@ export const dork: ConFile = {
             // taste?: () => Promise<ConAction>;
             // open?: () => Promise<ConAction>;
             isOpen?: boolean;
-            execute?: (command: string, target: string) => Promise<ConAction>;
+            execute?: (input: ConInput) => Promise<ConAction>;
         };
 
         const inventory = [] as GameItem[];
@@ -67,62 +68,67 @@ export const dork: ConFile = {
         ];
 
         const mailPackages: GameItem[] = [
-            createGameObject(`Self Cleaning Litter Box`, `Cause 18 years is great even if you have to deal with a little crap sometimes. Keep it clean and happy!`, {}),
-            createGameObject(`Set of Bathroom Towel Hooks`, `For the new house of course.`, {}),
-            createGameObject(`Pink Flamingo Squishy Toy`, `It's head is tearing off. Maybe if can be sewn.`, {}),
-            createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
+            // createGameObject(`Self Cleaning Litter Box`, `Cause 18 years is great even if you have to deal with a little crap sometimes. Keep it clean and happy!`, {}),
+            // createGameObject(`Set of Bathroom Towel Hooks`, `For the new house of course.`, {}),
+            // createGameObject(`Pink Flamingo Squishy Toy`, `It's head is tearing off. Maybe if can be sewn.`, {}),
+            // createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
             createGameObject(`Squirrel Stuffed Animal with Nuts`, `It looks like you should be careful not to touch it's nuts!`, {
-                execute: async (command) => {
+                execute: async ({ command, onMessage }) => {
                     if (command === `touch`) {
-                        return {
-                            Component: () => (<CountDownTimer time={10} messageAfterTime={`Don't be touchin my nutz!`} />),
-                            output: `${randomItem([
-                                `The squirrel goes nuts and chews off your arm.`,
-                                `The squirel had more than just nuts with him.`,
-                                `Despite the warnings, you decide to touch the squirrel's nuts anyway.`,
-                                `Everyone told you to keep your hands to yourself.`,
-                            ])} 
-                        ****  You have died  ****` };
+                        return new Promise(resolve => {
+                            const Component = () => (<CountDownTimer time={10} messageAfterTime={`Don't be touchin my nutz!`} onTime={() => {
+                                resolve({ output: `****  You have died  ****` });
+                            }} />);
+                            onMessage({
+                                Component,
+                                output: randomItem([
+                                    `The squirrel goes nuts and chews off your arm.`,
+                                    `The squirel had more than just nuts with him.`,
+                                    `Despite the warnings, you decide to touch the squirrel's nuts anyway.`,
+                                    `Everyone told you to keep your hands to yourself.`,
+                                ]),
+                            });
+                        });
                     }
                     return null;
                 },
             }),
-            createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
-                execute: async (command) => {
-                    if (command === `open`) {
-                        return {
-                            output: `${randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`])} 
+            // createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
+            //     execute: async (command) => {
+            //         if (command === `open`) {
+            //             return {
+            //                 output: `${randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`])} 
 
-                        ****  You have died  ****` };
-                    }
-                    if (command === `put`) {
-                        return {
-                            output: `${randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`])} 
+            //             ****  You have died  ****` };
+            //         }
+            //         if (command === `put`) {
+            //             return {
+            //                 output: `${randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`])} 
 
-                        ****  You have died  ****` };
-                    }
-                    return null;
-                },
-            }),
-            createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
-                execute: async (command, target) => {
-                    if (command === `put`) {
-                        return {
-                            output: `
-                        You put the lime in the coconut, you drank 'em bot' up
-                        Put the lime in the coconut, you drank 'em bot' up
-                        Put the lime in the coconut, you drank 'em bot'up
-                        Put the lime in the coconut, you call your doctor, woke 'I'm up
-                        Said "doctor, ain't there nothing' I can take?"
-                        I said, "doctor, to relieve this belly ache"
-                        I said "doctor, ain't there nothin' I can take?'
-                        I said, "doctor, to relieve this belly ache"
+            //             ****  You have died  ****` };
+            //         }
+            //         return null;
+            //     },
+            // }),
+            // createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
+            //     execute: async (command, target) => {
+            //         if (command === `put`) {
+            //             return {
+            //                 output: `
+            //             You put the lime in the coconut, you drank 'em bot' up
+            //             Put the lime in the coconut, you drank 'em bot' up
+            //             Put the lime in the coconut, you drank 'em bot'up
+            //             Put the lime in the coconut, you call your doctor, woke 'I'm up
+            //             Said "doctor, ain't there nothing' I can take?"
+            //             I said, "doctor, to relieve this belly ache"
+            //             I said "doctor, ain't there nothin' I can take?'
+            //             I said, "doctor, to relieve this belly ache"
 
-                        ****  You have died  ****` };
-                    }
-                    return null;
-                },
-            }),
+            //             ****  You have died  ****` };
+            //         }
+            //         return null;
+            //     },
+            // }),
         ];
         const mailbox = {
             isOpen: false,
@@ -137,10 +143,12 @@ export const dork: ConFile = {
 
         const mainDork: ConActionQuery = {
             prompt: `>`,
-            respond: async ({ command, target }): Promise<ConAction> => {
+            respond: async (input): Promise<ConAction> => {
+                const { command: commandRaw, target, onMessage } = input;
                 // const haveTarget = (match: string) => target.includes(match) && inventory.find(x => x.lower.includes(target));
 
                 // Standardize Commands
+                let command = commandRaw;
                 command = command === `look` || command === `see` || command === `view` || command === `observer` ? `look` : command;
                 command = command === `take` || command === `get` || command === `obtain` ? `take` : command;
 
@@ -229,7 +237,7 @@ export const dork: ConFile = {
                     if (!x.execute) { continue; }
 
                     // eslint-disable-next-line no-await-in-loop
-                    const result = await x.execute(command, target);
+                    const result = await x.execute({ ...input, command });
                     if (result) { return result; }
                 }
 

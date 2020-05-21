@@ -110,12 +110,12 @@ export const createConsoleCommands = (initialMachineName: string) => {
         };
     };
 
-    const onCommand = async (commandRaw: string): Promise<ConCommandResult> => {
+    const onCommand = async (commandRaw: string, onMessage: (message: ConCommandResult) => void): Promise<ConCommandResult> => {
         const commandLower = commandRaw.toLowerCase().trim();
         const iSpace = commandLower.indexOf(` `);
         const command = iSpace >= 0 ? commandLower.slice(0, iSpace).trim() : commandLower.trim();
         const target = iSpace >= 0 ? commandLower.slice(iSpace).trim() : ``;
-        const input: ConInput = { raw: commandRaw, lower: commandLower, command, target };
+        const input: ConInput = { raw: commandRaw, lower: commandLower, command, target, onMessage };
 
         // Process any active actions
         if (state.activeAction) {

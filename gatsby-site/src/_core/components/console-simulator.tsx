@@ -6,10 +6,11 @@
 import './console-simulator.css';
 import React, { useState, useRef } from 'react';
 import { ConCommandResult } from './console-simulator-types';
+import { delay } from '../utils/async';
 
 const consoleVersion = `v1.0.7`;
 
-export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => Promise<ConCommandResult> }) => {
+export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string, onMessage: (message: ConCommandResult) => void) => Promise<ConCommandResult> }) => {
     const elementInput = useRef(null as null | HTMLInputElement);
     const focusOnInput = () => {
         elementInput.current?.focus();
@@ -17,30 +18,32 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
 
     const [isFocused, setIsFocused] = useState(false);
     const [command, setCommand] = useState(``);
-    const hitEnter = async () => {
-        const l = lines;
-        l.push({ prefix: `${prompt} `, text: command });
+    const [{
+        prompt,
+        lines,
+        isExpanded,
+    }, setConsoleState] = useState({
+        prompt: props.initialPrompt,
+        lines: [] as { prefix?: string, text?: string, Component?: () => JSX.Element }[],
+        isExpanded: false,
+    });
 
-        const result = await props.onCommand(command);
+    const handleResult = (result: ConCommandResult) => {
+        console.log(`handleResult`, { result });
+        const l = lines;
+
         result.output?.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
-        if (result.prompt) {
-            setPrompt(result.prompt);
-        }
+
         if (result.Component) {
             l.push({ Component: result.Component });
         }
         if (result.quit) {
-            setLines([]);
             setCommand(``);
-            setPrompt(props.initialPrompt);
-            setIsExpanded(false);
+            setConsoleState(s => ({ prompt: props.initialPrompt, lines: [], isExpanded: false }));
             return;
         }
 
-        setLines(l);
-        setCommand(``);
-        setIsExpanded(true);
-
+        setConsoleState(s => ({ ...s, prompt: result.prompt ?? s.prompt, lines: l }));
         setTimeout(() => {
             if (elementInput.current) {
                 // elementInput.current.scrollIntoView({ behavior: `smooth`, block: `center`, inline: `center` });
@@ -53,12 +56,18 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
                 }
             }
         }, 50);
-
     };
 
-    const [prompt, setPrompt] = useState(props.initialPrompt);
-    const [lines, setLines] = useState([] as { prefix?: string, text?: string, Component?: () => JSX.Element }[]);
-    const [isExpanded, setIsExpanded] = useState(false);
+    const hitEnter = async () => {
+        const l = lines;
+        l.push({ prefix: `${prompt} `, text: command });
+        setCommand(``);
+        setConsoleState(s => ({ ...s, lines: l, isExpanded: true }));
+
+        await delay(50);
+        const result = await props.onCommand(command, handleResult);
+        handleResult(result);
+    };
 
     return (
         <div className='console-simulator' style={{ display: isExpanded ? `block` : `inline-block` }} onClick={focusOnInput}>

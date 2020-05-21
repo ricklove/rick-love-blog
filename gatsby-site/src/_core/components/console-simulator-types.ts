@@ -1,9 +1,8 @@
 export type ConCommandResult = { output?: string, prompt?: string, quit?: boolean, Component?: () => JSX.Element };
+export type ConInput = { raw: string, lower: string, command: string, target: string, onMessage: (message: ConCommandResult) => void };
 
 export type ConSessionName = 'user' | 'admin';
 export type ConSession = { machineName: string };
-
-export type ConInput = { raw: string, lower: string, command: string, target: string };
 
 export type ConActionQuery = { prompt: string, respond: (input: ConInput) => Promise<ConAction> };
 export type ConAction = void | null | undefined | {
