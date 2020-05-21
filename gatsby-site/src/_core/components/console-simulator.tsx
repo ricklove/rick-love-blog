@@ -62,9 +62,9 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
         const l = lines;
         l.push({ prefix: `${prompt} `, text: command });
         setCommand(``);
-        setConsoleState(s => ({ ...s, lines: l, isExpanded: true }));
+        setConsoleState(s => ({ ...s, prompt: ``, lines: l, isExpanded: true }));
 
-        await delay(50);
+        await delay(100);
         const result = await props.onCommand(command, handleResult);
         handleResult(result);
     };

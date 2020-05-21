@@ -1,11 +1,13 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable unicorn/consistent-function-scoping */
 /* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
-import { ConFile, ConActionQuery, ConAction, ConInput } from './console-simulator-types';
-import { randomBinary, randomItem } from './console-simulator-utils';
+import { ConFile, ConActionQuery, ConAction, ConInput, ConCommandResult } from './console-simulator-types';
+import { randomBinary, randomItem, randomIndex } from './console-simulator-utils';
 
 
-const CountDownTimer = (props: { time: number, messageAfterTime: string, onTime: () => void }) => {
+const CountDownTimer = (props: { time: number, color?: string, messageAfterTime?: string, onTime: () => void }) => {
     const [time, setTime] = useState(10);
     useEffect(() => {
         const timeStart = Date.now();
@@ -24,7 +26,7 @@ const CountDownTimer = (props: { time: number, messageAfterTime: string, onTime:
 
     return (
         <>
-            <span style={{ color: `#FF0000` }}>{time > 0 ? time : props.messageAfterTime}</span>
+            <span style={{ color: props.color ?? `#FF0000` }}>{time > 0 ? time : props.messageAfterTime ?? ``}</span>
         </>
     );
 };
@@ -51,10 +53,38 @@ export const dork: ConFile = {
             execute?: (input: ConInput) => Promise<ConAction>;
         };
 
+        let gameOver = false;
+        const triggerGameOver = (lastMessage?: string) => {
+            gameOver = true;
+            return {
+                output: `${lastMessage}
+            ****  You have died  ****` };
+        };
+        const triggerQuit = () => {
+            gameOver = true;
+            return null;
+        };
         const inventory = [] as GameItem[];
         const createGameObject = (title: string, description: string, options: Partial<GameItem>): GameItem => { return { title, description, matches: title.toLowerCase().split(` `), lower: title.toLowerCase(), ...options }; };
 
         const isMatch = (item: GameItem | null | undefined, target: string) => target && (item?.lower.startsWith(target) || item?.matches.includes(target));
+
+        const triggerTimedMessage = async (
+            onMessage: (message: ConCommandResult) => void,
+            immediateResult: ConCommandResult,
+            time: number, color: string,
+            getResultAfterTime: () => ConCommandResult,
+        ): Promise<ConCommandResult> => {
+            return new Promise(resolve => {
+                const Component = () => (<CountDownTimer time={time} color={color} onTime={() => {
+                    resolve(getResultAfterTime());
+                }} />);
+                onMessage({
+                    ...immediateResult,
+                    Component,
+                });
+            });
+        };
 
         const badCommandInsults = [
             `What are you talking about?`,
@@ -77,7 +107,7 @@ export const dork: ConFile = {
                     if (command === `touch`) {
                         return new Promise(resolve => {
                             const Component = () => (<CountDownTimer time={3} messageAfterTime={`Don't be touchin my nutz!`} onTime={() => {
-                                resolve({ output: `****  You have died  ****` });
+                                resolve(triggerGameOver());
                             }} />);
                             onMessage({
                                 Component,
@@ -96,16 +126,10 @@ export const dork: ConFile = {
             createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
                 execute: async ({ command }) => {
                     if (command === `open`) {
-                        return {
-                            output: `${randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`])} 
-
-                        ****  You have died  ****` };
+                        return triggerGameOver(randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`]));
                     }
                     if (command === `put`) {
-                        return {
-                            output: `${randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`])} 
-
-                        ****  You have died  ****` };
+                        return triggerGameOver(randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`]));
                     }
                     return null;
                 },
@@ -113,8 +137,7 @@ export const dork: ConFile = {
             createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
                 execute: async ({ command }) => {
                     if (command === `put`) {
-                        return {
-                            output: `
+                        return triggerGameOver(`
                         You put the lime in the coconut, you drank 'em bot' up
                         Put the lime in the coconut, you drank 'em bot' up
                         Put the lime in the coconut, you drank 'em bot'up
@@ -122,9 +145,7 @@ export const dork: ConFile = {
                         Said "doctor, ain't there nothing' I can take?"
                         I said, "doctor, to relieve this belly ache"
                         I said "doctor, ain't there nothin' I can take?'
-                        I said, "doctor, to relieve this belly ache"
-
-                        ****  You have died  ****` };
+                        I said, "doctor, to relieve this belly ache"`);
                     }
                     return null;
                 },
@@ -132,7 +153,35 @@ export const dork: ConFile = {
         ];
         const mailbox = {
             isOpen: false,
-            package: randomItem(mailPackages) as GameItem | null,
+            isDelivering: false,
+            package: null as GameItem | null,
+        };
+        const placeRandomItemInMailbox = () => {
+            const i = randomIndex(mailPackages.length);
+            const p = mailPackages[i];
+            mailPackages.splice(i, 1);
+            mailbox.package = p;
+            mailbox.isOpen = false;
+        };
+        placeRandomItemInMailbox();
+
+        const closeMailbox = async (input: ConInput): Promise<ConAction> => {
+            if (mailPackages.length <= 0 || mailbox.package) {
+                return {
+                    output: `You close the mailbox. ${mailbox.package ? `There is still something inside it though.` : `Thanks!`}`,
+                    query: mainDork,
+                };
+            }
+
+            return triggerTimedMessage(input.onMessage, { output: `You close the mailbox.` }, 5, `#0000FF`, () => {
+                placeRandomItemInMailbox();
+                return {
+                    output: `You see a ${randomItem([`UPS truck`, `Amazon truck`, `ambulance`, `cop car`, `van from down by the river`, `ice cream truck`])} drive up, and the driver puts a package in the mailbox. 
+                    He is wearing a ${randomItem([`football helmet`, `Santa hat`, `bow tie`, `hazmat suit`, `clown uniform`, `bearskin rug`])}.
+                    As he drives away, he shouts, "${randomItem([`Watch out for the monkeys!`, `Merry Christmas!`, `Ducks... ducks... ducks everywhere...`, `That squirrel is nuts!`])}"`,
+                    query: mainDork,
+                };
+            });
         };
 
         const yard = {
@@ -144,7 +193,13 @@ export const dork: ConFile = {
         const mainDork: ConActionQuery = {
             prompt: `>`,
             respond: async (input): Promise<ConAction> => {
-                const { command: commandRaw, target, onMessage } = input;
+                const { command: commandRaw, target, onMessage: onMessageRaw } = input;
+
+                // Prevent Messages if game over already
+                const onMessage: typeof onMessageRaw = (x) => {
+                    if (gameOver) { return; }
+                    onMessageRaw(x);
+                };
                 // const haveTarget = (match: string) => target.includes(match) && inventory.find(x => x.lower.includes(target));
 
                 // Standardize Commands
@@ -208,9 +263,21 @@ export const dork: ConFile = {
 
                     mailbox.isOpen = true;
                     return {
-                        output: `You find a ${mailbox.package?.title} in the mailbox.`,
+                        output: mailbox.package ? `You find a ${mailbox.package.title} in the mailbox.` : `There is nothing in the mailbox.`,
                         query: mainDork,
                     };
+                }
+
+                if (command === `close` && target === `mailbox`) {
+                    if (!mailbox.isOpen) {
+                        return {
+                            output: `Really? It's already closed!`,
+                            query: mainDork,
+                        };
+                    }
+
+                    mailbox.isOpen = false;
+                    return closeMailbox(input);
                 }
 
                 if (mailbox.isOpen && command === `take` && mailbox.package && isMatch(mailbox.package, target)) {
@@ -237,7 +304,7 @@ export const dork: ConFile = {
                     if (!x.execute) { continue; }
 
                     // eslint-disable-next-line no-await-in-loop
-                    const result = await x.execute({ ...input, command });
+                    const result = await x.execute({ ...input, command, onMessage });
                     if (result) { return result; }
                 }
 
@@ -249,7 +316,7 @@ export const dork: ConFile = {
                     return {
                         query: {
                             prompt: `Are you sure you want to quit?`,
-                            respond: async (x) => x.command.startsWith(`y`) ? null : { query: mainDork },
+                            respond: async (x) => x.command.startsWith(`y`) ? triggerQuit() : { query: mainDork },
                         },
                     };
                 }
