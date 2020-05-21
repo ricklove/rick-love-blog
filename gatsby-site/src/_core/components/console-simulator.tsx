@@ -32,6 +32,10 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
         console.log(`handleResult`, { result });
         const l = lines;
 
+        if (result.addDivider) {
+            l.push({ text: `---` });
+        }
+
         result.output?.split(`\n`).map(x => x.trim()).filter(x => x).forEach(x => l.push({ prefix: ``, text: x }));
 
         if (result.Component) {

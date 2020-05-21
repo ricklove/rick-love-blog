@@ -1,4 +1,4 @@
-export type ConCommandResult = { output?: string, prompt?: string, quit?: boolean, Component?: () => JSX.Element };
+export type ConCommandResult = { output?: string, addDivider?: boolean, prompt?: string, quit?: boolean, Component?: () => JSX.Element };
 export type ConInput = { raw: string, lower: string, command: string, target: string, onMessage: (message: ConCommandResult) => void };
 
 export type ConSessionName = 'user' | 'admin';
@@ -7,6 +7,7 @@ export type ConSession = { machineName: string };
 export type ConActionQuery = { prompt: string, respond: (input: ConInput) => Promise<ConAction> };
 export type ConAction = void | null | undefined | {
     output?: string;
+    addDivider?: boolean;
     query?: ConActionQuery;
     Component?: () => JSX.Element;
 };
