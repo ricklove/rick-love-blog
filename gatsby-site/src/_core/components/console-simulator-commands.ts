@@ -87,7 +87,8 @@ There is a small mailbox here.${randomBinary(512)}`,
                     return {
                         output: `${randomBinary(512)}
                         ****  You have died  ****
-                        ...bzzz...The magnetic tape drive is smoking...
+                        ...bzzz...
+                        The magnetic tape drive is smoking...
                     ` };
                 },
             };
