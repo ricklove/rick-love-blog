@@ -137,7 +137,10 @@ export const createConsoleCommands = (initialMachineName: string) => {
         const dirFiles = files.filter(x => x.session === state.session && x.path === state.directory);
 
         if (command === `dir` || command === `ls`) {
-            return { output: dirFiles.map(x => x.name).join(`\n`), ...standardPrompt() };
+            return {
+                ...standardPrompt(),
+                output: dirFiles.map(x => x.name).join(`\n`),
+            };
         }
 
         if (command.startsWith(`open`)
@@ -148,6 +151,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
             const file = target && dirFiles.find(x => x.name.toLowerCase().startsWith(target));
             if (file) {
                 return {
+                    ...standardPrompt(),
                     output: file.content,
                 };
             }
@@ -161,7 +165,10 @@ export const createConsoleCommands = (initialMachineName: string) => {
             return processAction(action);
         }
 
-        return { output: `${command}: command not found` };
+        return {
+            ...standardPrompt(),
+            output: `${command}: command not found`,
+        };
     };
 
     return {
