@@ -5,6 +5,8 @@
 import './console-simulator.css';
 import React, { useState, useRef } from 'react';
 
+const consoleVersion = `v1.0.7`;
+
 export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => { output?: string, prompt?: string, quit?: boolean } }) => {
     const elementInput = useRef(null as null | HTMLInputElement);
     const focusOnInput = () => {
@@ -55,6 +57,7 @@ export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (com
 
     return (
         <div className='console-simulator' style={{ display: isExpanded ? `block` : `inline-block` }} onClick={focusOnInput}>
+            {isExpanded && <span>{consoleVersion}</span>}
             {isExpanded && (lines.map(x => (
                 <div>
                     <span>{x.prefix}</span>
