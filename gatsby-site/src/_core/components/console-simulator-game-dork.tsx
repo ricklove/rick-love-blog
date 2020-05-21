@@ -103,22 +103,16 @@ export const dork: ConFile = {
             createGameObject(`Pink Flamingo Squishy Toy`, `It's head is tearing off. Maybe if can be sewn.`, {}),
             createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
             createGameObject(`Squirrel Stuffed Animal with Nuts`, `It looks like you should be careful not to touch it's nuts!`, {
-                execute: async ({ command, onMessage }) => {
+                execute: async ({ command, target, onMessage }) => {
                     if (command === `touch`) {
-                        return new Promise(resolve => {
-                            const Component = () => (<CountDownTimer time={3} messageAfterTime={`Don't be touchin my nutz!`} onTime={() => {
-                                resolve(triggerGameOver());
-                            }} />);
-                            onMessage({
-                                Component,
-                                output: randomItem([
-                                    `The squirrel goes nuts and begins to chew off your arm.`,
-                                    `The squirel had more than just nuts with him.`,
-                                    `Despite the warnings, you decide to touch the squirrel's nuts anyway.`,
-                                    `Everyone told you to keep your hands to yourself.`,
-                                ]),
-                            });
-                        });
+                        return triggerTimedMessage(onMessage, {
+                            output: randomItem([
+                                `The squirrel goes nuts and begins to chew off your arm.`,
+                                `The squirel had more than just nuts with him.`,
+                                `Despite the warnings, you decide to touch the squirrel's nuts anyway.`,
+                                `Everyone told you to keep your hands to yourself.`,
+                            ]),
+                        }, 5, `#FF0000`, () => triggerGameOver(`Don't be touchin my nutz!`));
                     }
                     return null;
                 },
