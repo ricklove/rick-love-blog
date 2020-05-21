@@ -4,10 +4,11 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import './console-simulator.css';
 import React, { useState, useRef } from 'react';
+import { ConCommandResult } from './console-simulator-types';
 
 const consoleVersion = `v1.0.7`;
 
-export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => { output?: string, prompt?: string, quit?: boolean } }) => {
+export const ConsoleSimulator = (props: { initialPrompt: string, onCommand: (command: string) => ConCommandResult }) => {
     const elementInput = useRef(null as null | HTMLInputElement);
     const focusOnInput = () => {
         elementInput.current?.focus();

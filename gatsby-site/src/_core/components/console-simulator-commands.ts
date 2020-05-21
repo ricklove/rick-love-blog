@@ -1,32 +1,15 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable unicorn/consistent-function-scoping */
+import { ConSessionName, ConSession, ConState, ConFile, ConActionQuery, ConAction, ConInput, ConCommandResult } from './console-simulator-types';
+import { randomBinary } from './console-simulator-utils';
+import { dork } from './console-simulator-game-dork';
+import { zork } from './console-simulator-game-zork';
+
 export const createConsoleCommands = (initialMachineName: string) => {
 
-    type ConSessionName = 'user' | 'admin';
-    type ConSession = { machineName: string };
     const sessions: { [session in ConSessionName]: ConSession } = {
         user: { machineName: `${initialMachineName}` },
         admin: { machineName: `admin@vm` },
-    };
-
-    type ConInput = { raw: string, lower: string, command: string, target: string };
-
-    type ConActionQuery = { prompt: string, respond: (input: ConInput) => ConAction };
-    type ConAction = void | null | undefined | {
-        output?: string;
-        query?: ConActionQuery;
-    };
-    type ConFile = {
-        session: ConSessionName;
-        path: string;
-        name: string;
-        content: string;
-        execute?: () => ConAction;
-    };
-    type ConState = {
-        readonly parent?: ConState;
-        readonly session: ConSessionName;
-        readonly directory: string;
-        readonly activeAction?: ConAction;
     };
 
     let state: ConState = {
@@ -50,57 +33,6 @@ export const createConsoleCommands = (initialMachineName: string) => {
         return state;
     };
 
-    const randomBinary = (length: number) => String.fromCharCode(...[...new Array(length)].map(x => Math.random() * (126 - 32) + 32));
-
-    const zork: ConFile = {
-        session: `user`, path: `/`, name: `zork`,
-        content: `${randomBinary(256)}West of House
-You are standing in an open field west of a white house, with a boarded front door.
-There is a small mailbox here.${randomBinary(512)}`,
-        execute: () => {
-
-            const mainZork: ConActionQuery = {
-                prompt: `>`,
-                respond: ({ command, target }) => {
-                    if (command === `zork`) { return { output: `At your service`, query: mainZork }; }
-                    if (command === `jump`) { return { output: Math.random() < 0.5 ? `Are you enjoing yourself?` : `Very good! Now you can go to the second grade.`, query: mainZork }; }
-                    if (command === `scream`) { return { output: `Aaaarrrrgggghhhh!`, query: mainZork }; }
-
-                    if (command === `look`) {
-                        if (target === `house`) {
-                            return {
-                                output: `You are standing in an open field west of a white house, with a boarded front door.`,
-                                query: mainZork,
-                            };
-                        }
-                    }
-
-                    if (command === `open`) {
-                        if (target === `mailbox`) {
-                            return {
-                                output: `Opening the small mailbox reveals a leaflet`,
-                                query: mainZork,
-                            };
-                        }
-                    }
-
-                    return {
-                        output: `${randomBinary(512)}
-                        ****  You have died  ****
-                        ...bzzz...
-                        The magnetic tape drive is smoking...
-                    ` };
-                },
-            };
-
-            return {
-                output: `West of House
-            You are standing in an open field west of a white house, with a boarded front door.
-            There is a small mailbox here.`,
-                query: mainZork,
-            };
-        },
-    };
 
     const files: ConFile[] = [
         {
@@ -154,9 +86,9 @@ There is a small mailbox here.${randomBinary(512)}`,
         },// 
 
         zork,
+        dork,
     ];
 
-    type ConCommandResult = { output?: string, prompt?: string, quit?: boolean };
     const standardPrompt = (): ConCommandResult => {
         return { prompt: `${sessions[state.session].machineName}${state.directory.replace(/\/$/g, ``)}>` };
     };
