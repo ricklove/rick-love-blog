@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import { GameItem, GameSceneContainer, GameAction, GameItemTitle } from './types';
 
 export const createGameState = () => {
@@ -28,8 +29,20 @@ export const createGameState = () => {
         return true;
     };
 
+    const getTitleWithA = (title: string): string => {
+        const l = title.toLowerCase()[0];
+        if (l === `a`
+            || l === `e`
+            || l === `i`
+            || l === `o`
+            || l === `u`
+        ) { return `an ${title}`; }
+
+        return `a ${title}`;
+    };
+
     const createGameObject = (title: string, description: string, options: Partial<GameItem>): GameItem => {
-        const g = { title, description, matches: title.toLowerCase().split(` `), lower: title.toLowerCase(), ...options };
+        const g = { title, titleWithA: getTitleWithA(title), description, matches: title.toLowerCase().split(` `), lower: title.toLowerCase(), ...options };
         allGameObjectTitles.push(g);
 
         // Ignore duplicate words
@@ -40,7 +53,7 @@ export const createGameState = () => {
     };
 
     const createGameObjectTitle = (title: string): GameItemTitle => {
-        const g = { title, matches: title.toLowerCase().split(` `), lower: title.toLowerCase() };
+        const g = { title, titleWithA: getTitleWithA(title), matches: title.toLowerCase().split(` `), lower: title.toLowerCase() };
         allGameObjectTitles.push(g);
 
         // Ignore duplicate words

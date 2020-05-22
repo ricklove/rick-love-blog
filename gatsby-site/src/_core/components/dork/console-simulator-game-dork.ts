@@ -8,14 +8,15 @@ import { triggerTimedMessage } from './components/count-down-text';
 import { GameItem, GameActionQuery, GameAction } from './types';
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
+import { dorkAsciiArt } from './dork-art';
 
-const intro = `# North of House
-You are standing in a large grass yard of a biege house, with a broken front door.
-There is a small mailbox nearby.`;
+export const dorkVersion = `v1.1.0`;
+// ${dorkAsciiArt}
+const title = `*** D.O.R.K. *** ${dorkVersion}`;
 
 export const dork: ConFile = {
     session: `user`, path: `/`, name: `dork`,
-    content: `${randomBinary(256)}${intro}${randomBinary(512)}`,
+    content: `${randomBinary(256)}${title}${randomBinary(512)}`,
     execute: async () => {
 
         const gameState = createGameState();
@@ -84,8 +85,18 @@ export const dork: ConFile = {
                     // const result = await scene.look(input);
                     // if (result) { return result; }
 
+                    // return {
+                    //     output: randomItem([`What do you want to look at?`, `Yes, you look nice!`]),
+                    // };
+
                     return {
-                        output: randomItem([`What do you want to look at?`, `Yes, you look nice!`]),
+                        output: `You see ${sceneItems.filter(x => x).map(x => x?.titleWithA).join(`, `)}, and ${randomItem([
+                            `a dork... oh that's you.`,
+                            `... your reflection off of the screen.`,
+                            `a heard of zombies... Wait nevermind.`,
+                            `... so many ducks.`,
+                            `... a tech support scammer.`,
+                        ])}`,
                     };
                 }
 
@@ -144,7 +155,7 @@ export const dork: ConFile = {
         };
 
         return {
-            output: intro,
+            output: scene.introduction,
             query: conQuery,
         };
     },

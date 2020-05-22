@@ -93,27 +93,26 @@ export const createScene_01mailbox = (gameState: GameState) => {
     };
 
     const yard = {
-        ...createGameObjectTitle(`Grass Yard`),
+        ...createGameObjectTitle(`grass yard`),
         description: () => {
             if (yard.contents.includes(yardObjects.snake)) {
-                return `The is a large yard. 
-                The center is mowed. A snake is sunning itself on a rock in the grass.`;
+                return `This is a large yard. A snake is sunning itself on a rock in the grass.`;
             }
-            return `The is a large yard. 
+            return `This is a large grass yard in front of a house. 
             Only the center of the yard is mowed and it looks like it might be in the shape of a heart.`;
         },
         contents: getValuesAsItems(yardObjects),
     };
 
     const mailTruck = {
-        ...createGameObjectTitle(`Crashed Mail Truck`),
+        ...createGameObjectTitle(`crashed mail truck`),
         description: `The crashed mail truck is smoking. The front end looks like it is hugging that tree. Clearly it is not familiar with social distancing.`,
         hasCrashed: false,
         contents: getValuesAsItems(mailObjects),
     };
 
     const mailbox = {
-        ...createGameObjectTitle(`Mailbox`),
+        ...createGameObjectTitle(`mailbox`),
         description: () => `There is ${mailbox.isOpen ? `an open` : `a small`} mailbox nearby. 
             ${mailbox.isOpen && mailbox.package ? `There is a ${mailbox.package.title} inside.` : ``}`,
         isOpen: false,
@@ -307,6 +306,9 @@ export const createScene_01mailbox = (gameState: GameState) => {
     // };
 
     const gameScene: GameScene = {
+        introduction: `# The Mailbox
+        You are standing in a large grass yard near a small mailbox.
+        `,
         execute,
         getLookItems: () => [
             mailbox,

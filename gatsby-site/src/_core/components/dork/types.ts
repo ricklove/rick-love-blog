@@ -11,6 +11,7 @@ export type GameAction = void | null | undefined | {
 
 export type GameItemTitle = {
     title: string;
+    titleWithA: string;
     matches: string[];
     lower: string;
 };
@@ -28,6 +29,7 @@ export type GameSceneContainer = GameItem & {
 };
 
 export type GameScene = {
+    introduction: string;
     // objects: GameItem[];
     // containers: GameSceneContainer[];
     execute: (input: ConInput) => Promise<GameAction>;
