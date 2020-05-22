@@ -1,0 +1,78 @@
+import { GameItem, GameSceneContainer, GameAction, GameItemTitle } from './types';
+
+export const createGameState = () => {
+
+    let gameOver = false;
+    const triggerGameOver = (lastMessage?: string): GameAction => {
+        gameOver = true;
+        return {
+            isGameOver: true,
+            output: `${lastMessage}
+        ****  You have died  ****` };
+    };
+    const triggerQuit = (): GameAction => {
+        gameOver = true;
+        return { output: `****  You can't quit you're fired!  ****`, isGameOver: true };
+    };
+
+    const inventory = [] as GameItem[];
+    const allGameObjectTitles = [] as GameItemTitle[];
+    const allWords = [] as string[];
+    const commonWords = `the a an at in of by`.split(` `).filter(x => x);
+    const ignoreWords = [...commonWords] as string[];
+
+    const removeFromInventory = (item: GameItem) => {
+        const i = inventory.indexOf(item);
+        if (i < 0) { return false; }
+        inventory.splice(i, 1);
+        return true;
+    };
+
+    const createGameObject = (title: string, description: string, options: Partial<GameItem>): GameItem => {
+        const g = { title, description, matches: title.toLowerCase().split(` `), lower: title.toLowerCase(), ...options };
+        allGameObjectTitles.push(g);
+
+        // Ignore duplicate words
+        ignoreWords.push(...g.matches.filter(x => allWords.includes(x)));
+        allWords.push(...g.matches);
+
+        return g;
+    };
+
+    const createGameObjectTitle = (title: string): GameItemTitle => {
+        const g = { title, matches: title.toLowerCase().split(` `), lower: title.toLowerCase() };
+        allGameObjectTitles.push(g);
+
+        // Ignore duplicate words
+        ignoreWords.push(...g.matches.filter(x => allWords.includes(x)));
+        allWords.push(...g.matches);
+
+        return g;
+    };
+
+
+    const isMatch = (item: GameItemTitle | null | undefined, target: string) => {
+        if (!target) { return false; }
+        const t = target.split(` `).map(x => x.trim()).filter(x => x).filter(x => !ignoreWords.includes(x));
+        return !!t.find(x => item?.matches.includes(x));
+    };
+
+    const gameState = {
+        isGameOver: () => gameOver,
+        triggerGameOver,
+        triggerQuit,
+        inventory,
+        allGameObjects: allGameObjectTitles,
+        allWords,
+        commonWords,
+        ignoreWords,
+        removeFromInventory,
+        createGameObject,
+        createGameObjectTitle,
+        isMatch,
+    };
+
+    return gameState;
+};
+
+export type GameState = ReturnType<typeof createGameState>;

@@ -2,7 +2,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { ConSessionName, ConSession, ConState, ConFile, ConActionQuery, ConAction, ConInput, ConCommandResult } from './console-simulator-types';
 import { randomBinary } from './console-simulator-utils';
-import { dork } from './console-simulator-game-dork';
+import { dork } from './dork/console-simulator-game-dork';
 import { zork } from './console-simulator-game-zork';
 
 export const createConsoleCommands = (initialMachineName: string) => {
