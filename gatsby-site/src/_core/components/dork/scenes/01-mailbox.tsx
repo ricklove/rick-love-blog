@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { GameScene, GameItem, GameAction, GameInput } from '../types';
 import { GameState } from '../core';
-import { triggerTimedMessage } from '../components/count-down-text';
+import { triggerTimedMessage } from '../components/count-down-timer';
 import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../../console-simulator-utils';
 
 export const createScene_01mailbox = (gameState: GameState) => {

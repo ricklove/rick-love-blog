@@ -9,7 +9,8 @@ export const CountDownTimer = (props: { time: number, color?: string, messageAft
         const id = setInterval(() => {
             const timeRemaining = ((props.time * 1000) - (Date.now() - timeStart)) / 1000;
             setTime(s => timeRemaining);
-            if (timeRemaining < 0) {
+            if (timeRemaining <= 0) {
+                setTime(s => 0);
                 clearInterval(id);
                 props.onTime();
             }
@@ -19,9 +20,16 @@ export const CountDownTimer = (props: { time: number, color?: string, messageAft
         // eslint-disable-next-line react-hooks/exhaustive-deps
         []);
 
+    const timeStr = new Date(time * 1000).toISOString().slice(14, 23);
     return (
         <>
-            <span style={{ color: props.color ?? `#FF0000` }}>{time > 0 ? time : props.messageAfterTime ?? `0.000`}</span>
+            <div>
+                <div style={{ display: `inline-block`, backgroundColor: `#555555`, borderRadius: 4, padding: 8 }}>
+                    <div style={{ display: `inline-block`, backgroundColor: `#111111`, padding: 4 }}>
+                        <span style={{ color: props.color ?? `#FF0000` }}>{time > 0 ? timeStr : props.messageAfterTime ?? timeStr}</span>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

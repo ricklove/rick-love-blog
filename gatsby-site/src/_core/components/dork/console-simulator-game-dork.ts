@@ -4,7 +4,7 @@
 /* eslint-disable no-param-reassign */
 import { ConFile, ConActionQuery, ConAction, ConInput } from '../console-simulator-types';
 import { randomBinary, randomItem, randomIndex } from '../console-simulator-utils';
-import { triggerTimedMessage } from './components/count-down-text';
+import { triggerTimedMessage } from './components/count-down-timer';
 import { GameItem, GameActionQuery, GameAction } from './types';
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
