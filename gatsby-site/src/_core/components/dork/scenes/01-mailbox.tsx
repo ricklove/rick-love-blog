@@ -4,8 +4,6 @@
 import React from 'react';
 import { GameScene, GameItem, GameAction, GameInput } from '../types';
 import { GameState } from '../core';
-import { triggerTimedMessage, CountDownTimer } from '../components/count-down-timer';
-import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../../console-simulator-utils';
 
 export const createScene_01mailbox = (gameState: GameState) => {
     const {
@@ -15,7 +13,12 @@ export const createScene_01mailbox = (gameState: GameState) => {
         createGameObject,
         createGameObjectTitle,
         isMatch,
+        utils,
+        components,
     } = gameState;
+
+    const { randomItem, randomIndex, getValuesAsItems, moveItem } = utils;
+    const { triggerTimedMessage, CountDownTimer } = components;
 
     // These don't indicate state, just creation containers
     const mailObjects = {

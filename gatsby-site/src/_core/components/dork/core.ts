@@ -1,5 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import { GameItem, GameAction, GameItemTitle } from './types';
+import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../console-simulator-utils';
+import { triggerTimedMessage, CountDownTimer } from './components/count-down-timer';
 
 export const createGameState = () => {
 
@@ -70,6 +72,9 @@ export const createGameState = () => {
         return !!t.find(x => item?.matches.includes(x));
     };
 
+    const utils = { randomItem, randomIndex, getValuesAsItems, moveItem };
+    const components = { triggerTimedMessage, CountDownTimer };
+
     const gameState = {
         isGameOver: () => gameOver,
         triggerGameOver,
@@ -83,6 +88,8 @@ export const createGameState = () => {
         createGameObject,
         createGameObjectTitle,
         isMatch,
+        utils,
+        components,
     };
 
     return gameState;
