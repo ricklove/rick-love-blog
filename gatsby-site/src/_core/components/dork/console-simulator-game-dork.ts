@@ -130,6 +130,24 @@ export const dork: ConFile = {
                     return { output: inventory.map(x => x.title).join(`\n`) };
                 }
 
+                // Help
+                if (command === `help`) {
+                    return {
+                        output: `
+                    Example Commands: 
+                    look at mirror
+                    take frog
+                    open box
+                    close trunk
+                    put cat in submarine
+                    go to house
+                    throw snake at lady
+                    send gif to grandma
+                    post status on dorkbook
+                    wear mask
+                    ` };
+                }
+
                 // Map
                 if (command === `map`) {
                     return { output: dorkAsciiMap };
