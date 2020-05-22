@@ -1,9 +1,8 @@
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
-import { GameAction } from './types';
+import { GameAction, GameInput } from './types';
 import { randomItem } from '../console-simulator-utils';
 import { dorkAsciiMap, dorkAsciiMan } from './dork-art';
-import { ConInput } from '../console-simulator-types';
 
 
 export const dorkVersion = `v1.1.2`;
@@ -40,15 +39,12 @@ export const createDorkGame = () => {
     const scene = scenes[0];
     // const containers = ;
 
-    const execute = async (inputRaw: ConInput): Promise<GameAction> => {
+    const execute = async (inputRaw: GameInput): Promise<GameAction> => {
         const { command: commandRaw, target, onMessage: onMessageRaw } = inputRaw;
-
-        if (gameState.isGameOver()) {
-            return { output: ``, isGameOver: true };
-        }
 
         // Prevent Messages if game over already
         const onMessage: typeof onMessageRaw = (x) => {
+            // Ensure Game Over Interrupts Execute
             if (isGameOver()) { return; }
             onMessageRaw(x);
         };
@@ -61,6 +57,10 @@ export const createDorkGame = () => {
 
         const input = { ...inputRaw, command, onMessage };
 
+        // Ensure Game Over Interrupts Execute
+        if (gameState.isGameOver()) {
+            return { output: ``, isGameOver: true };
+        }
 
         if (command === `look`) {
 

@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { GameItem, GameSceneContainer, GameAction, GameItemTitle } from './types';
+import { GameItem, GameAction, GameItemTitle } from './types';
 
 export const createGameState = () => {
 

@@ -1,6 +1,6 @@
-import { ConInput } from '../console-simulator-types';
+export type GameExecuteResult = { output?: string, addDivider?: boolean, prompt?: string, Component?: () => JSX.Element };
+export type GameInput = { raw: string, lower: string, command: string, target: string, onMessage: (message: GameExecuteResult) => void };
 
-export type GameInput = ConInput;
 export type GameAction = null | undefined | {
     output: string;
     isGameOver?: true;
@@ -19,7 +19,7 @@ export type GameItemTitleAndDescription = GameItemTitle & {
 };
 
 export type GameItem = GameItemTitleAndDescription & {
-    execute?: (input: ConInput) => Promise<GameAction>;
+    execute?: (input: GameInput) => Promise<GameAction>;
 };
 
 export type GameSceneContainer = GameItem & {
@@ -31,6 +31,6 @@ export type GameScene = {
     introduction: string;
     // objects: GameItem[];
     // containers: GameSceneContainer[];
-    execute: (input: ConInput) => Promise<GameAction>;
+    execute: (input: GameInput) => Promise<GameAction>;
     getLookItems: () => (GameItemTitleAndDescription | null)[];
 };
