@@ -126,7 +126,7 @@ export const artYouDead = (() => {
                 }
 
                 rain.unshift(...[...new Array(LINEWIDTH)].map(x => Math.random() < strength ? RAINDROP : ` `));
-                if (rain.length > art.length * 10) { rain.splice(0, art.length); }
+                if (rain.length > art.length * 10) { rain.splice(art.length); }
 
                 const chars = artYouDead.art.split(``);
 
