@@ -2,16 +2,22 @@
 import { GameItem, GameAction, GameItemTitle } from './types';
 import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../console-simulator-utils';
 import { triggerTimedMessage, CountDownTimer } from './components/count-down-timer';
+import { dorkAsciiYouDead } from './dork-art';
+import { delay } from '../../utils/async';
 
 export const createGameState = () => {
 
     let gameOver = false;
-    const triggerGameOver = (lastMessage?: string): GameAction => {
+    const triggerGameOver = async (onMessage: (message: GameAction) => void, lastMessage: string): Promise<GameAction> => {
+
+        onMessage({ output: lastMessage });
         gameOver = true;
+
+        await delay(3000);
         return {
             isGameOver: true,
-            output: `${lastMessage}
-        ****  You have died  ****` };
+            output: `${dorkAsciiYouDead}`,
+        };
     };
     const triggerQuit = (): GameAction => {
         gameOver = true;

@@ -36,23 +36,23 @@ export const createScene_01mailbox = (gameState: GameState) => {
                             `Despite the warnings, you decide to touch the squirrel's nuts anyway.`,
                             `Everyone told you to keep your hands to yourself.`,
                         ]),
-                    }, 5, `danger`, () => triggerGameOver(`Don't be touchin my nutz!`));
+                    }, 5, `danger`, async () => await triggerGameOver(onMessage, `Don't be touchin my nutz!`));
                 }
                 return null;
             },
         }),
         tickingPackage: createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
-            execute: async ({ command }) => {
+            execute: async ({ command, onMessage }) => {
                 if (command === `open`) {
-                    return triggerGameOver(randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking... probably because your head is gone.`]));
+                    return await triggerGameOver(onMessage, randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking... probably because your head is gone.`]));
                 }
                 return null;
             },
         }),
         limeCoconut: createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
-            execute: async ({ command, target }) => {
+            execute: async ({ command, target, onMessage }) => {
                 if (command === `put` && target.includes(`lime`) && target.includes(`coco`)) {
-                    return triggerGameOver(`
+                    return await triggerGameOver(onMessage, `
                     You put the lime in the coconut, you drank 'em bot' up
                     Put the lime in the coconut, you drank 'em bot' up
                     Put the lime in the coconut, you drank 'em bot'up
@@ -159,11 +159,11 @@ export const createScene_01mailbox = (gameState: GameState) => {
     const { tickingPackage } = mailObjects;
     const { snake } = yardObjects;
 
-    const deliverMail = (): GameAction => {
+    const deliverMail = async (input: GameInput): Promise<GameAction> => {
         mailbox.isDelivering = false;
 
         if (mailbox.package === snake) {
-            return triggerGameOver(`
+            return await triggerGameOver(input.onMessage, `
                 You see ${randomItem([`a UPS truck`, `an Amazon truck`, `an ambulance`, `a cop car`, `the van from down by the river`, `the ice cream truck`])} drive up.
                 The driver waves at you while carrying a package to the mailbox.
 
@@ -229,12 +229,12 @@ export const createScene_01mailbox = (gameState: GameState) => {
             }
             mailbox.isDelivering = true;
 
-            return triggerTimedMessage(input.onMessage, {
+            return await triggerTimedMessage(input.onMessage, {
                 output: `
                 You close the mailbox with your little friend inside...
                 Deep down, you feel like you are making bad life choices...
                 We'll give you some time to think about it...`,
-            }, 20, `warning`, deliverMail);
+            }, 20, `warning`, () => deliverMail(input));
         }
 
         if (pickupTruck.contents.length <= 0 || mailbox.package) {
@@ -248,7 +248,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
         }
         mailbox.isDelivering = true;
 
-        return triggerTimedMessage(input.onMessage, { output: `You close the mailbox.` }, 10, `normal`, deliverMail);
+        return triggerTimedMessage(input.onMessage, { output: `You close the mailbox.` }, 10, `normal`, () => deliverMail(input));
     };
 
     const execute = async (input: GameInput): Promise<GameAction> => {
@@ -288,7 +288,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
             if (p === tickingPackage) {
                 return {
-                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={() => onMessage(triggerGameOver(`You obviously need to watch more TV. A ticking package is generally bad news.`))} /> || <span />),
+                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={async () => onMessage(await triggerGameOver(onMessage, `You obviously need to watch more TV. A ticking package is generally bad news.`))} /> || <span />),
                     output: `${!wasOpen ? `You open the mailbox and` : `You`} take the ${p.title}. As you place it carefully in your backpack, you notice the ticking is getting louder.`,
                 };
             }
@@ -336,9 +336,9 @@ export const createScene_01mailbox = (gameState: GameState) => {
                     mailbox.package = f;
                     const wasOpen = mailbox.isOpen;
                     mailbox.isOpen = false;
-                    return triggerTimedMessage(input.onMessage, {
+                    return await triggerTimedMessage(input.onMessage, {
                         output: `${!wasOpen ? `You open the mailbox and` : `You`} put the ${f.title} in the mailbox ${!wasOpen ? `and close it again.` : `and close it.`}`,
-                    }, 10, `normal`, deliverMail);
+                    }, 10, `normal`, () => deliverMail(input));
                 }
             }
         }

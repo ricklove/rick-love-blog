@@ -37,7 +37,7 @@ export const triggerTimedMessage = async (
     onMessage: (message: GameAction) => void,
     immediateResult: GameAction,
     time: number, color: 'danger' | 'warning' | 'normal',
-    getResultAfterTime: () => GameAction,
+    getResultAfterTime: () => Promise<GameAction>,
 ): Promise<GameAction> => {
 
     const colorActual = color === `danger` ? `#FF0000`
@@ -45,8 +45,8 @@ export const triggerTimedMessage = async (
             : `#7777FF`);
 
     return new Promise(resolve => {
-        const Component = () => (<CountDownTimer time={time} color={colorActual} onTimeElapsed={() => {
-            resolve({ output: ``, ...getResultAfterTime(), addDivider: true });
+        const Component = () => (<CountDownTimer time={time} color={colorActual} onTimeElapsed={async () => {
+            resolve({ output: ``, ...await getResultAfterTime(), addDivider: true });
         }} />);
         onMessage({
             output: ``,
