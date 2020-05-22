@@ -1,4 +1,4 @@
-export const dorkAsciiMan = `
+export const artMan = `
 |---------------------------------------|
 |                       |||||||         |
 |                     ||||||||||||      |
@@ -23,7 +23,7 @@ export const dorkAsciiMan = `
 `;
 
 
-export const dorkAsciiMap = `
+export const artMap = `
 |---------------------------------------|
 |       ,_  . ._ _                      |
 |     , -|,'|~~       ;-'  _-'   ;_  ~  |
@@ -45,7 +45,7 @@ export const dorkAsciiMap = `
 |---------------------------------------|
 `;
 
-export const dorkAsciiYouDead = `
+export const artYouDead = `
 |--------------------------|   
 |                          |   
 |    ------------------    |   

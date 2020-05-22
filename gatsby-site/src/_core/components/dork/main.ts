@@ -2,13 +2,13 @@ import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
 import { GameAction, GameInput, GameExecute, Game } from './types';
 import { randomItem } from '../console-simulator-utils';
-import { dorkAsciiMap, dorkAsciiMan } from './dork-art';
+import { artMap, artMan } from './dork-art';
 
 
 export const dorkVersion = `v1.1.2`;
 export const title = `*** D.O.R.K. *** ${dorkVersion}
 
-${dorkAsciiMan}
+${artMan}
 
 `;
 
@@ -138,7 +138,7 @@ export const createDorkGame = (): Game => {
 
         // Map
         if (command === `map`) {
-            return { output: dorkAsciiMap };
+            return { output: artMap };
         }
 
         // Silly Commands

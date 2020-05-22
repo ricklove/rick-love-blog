@@ -2,7 +2,7 @@
 import { GameItem, GameAction, GameItemTitle } from './types';
 import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../console-simulator-utils';
 import { triggerTimedMessage, CountDownTimer } from './components/count-down-timer';
-import { dorkAsciiYouDead } from './dork-art';
+import { artYouDead } from './dork-art';
 import { delay } from '../../utils/async';
 
 export const createGameState = () => {
@@ -16,7 +16,7 @@ export const createGameState = () => {
         await delay(3000);
         return {
             isGameOver: true,
-            output: `${dorkAsciiYouDead}`,
+            output: `${artYouDead}`,
         };
     };
     const triggerQuit = (): GameAction => {
