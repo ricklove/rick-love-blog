@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable unicorn/consistent-function-scoping */
-import { ConSessionName, ConSession, ConState, ConFile, ConActionQuery, ConAction, ConInput, ConCommandResult } from './console-simulator-types';
+import { ConSessionName, ConSession, ConState, ConFile, ConAction, ConInput, ConCommandResult } from './console-simulator-types';
 import { randomBinary } from './console-simulator-utils';
 import { dorkFile } from './dork/console-simulator-game-dork';
 import { zork } from './console-simulator-game-zork';

@@ -1,9 +1,11 @@
 /* eslint-disable unicorn/consistent-function-scoping */
+import React from 'react';
 import { GameItem, GameAction, GameItemTitle } from './types';
 import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../console-simulator-utils';
 import { triggerTimedMessage, CountDownTimer } from './components/count-down-timer';
 import { artYouDead } from './dork-art';
 import { delay } from '../../utils/async';
+import { AsciiArtViewer } from './components/ascii-art-viewer';
 
 export const createGameState = () => {
     const _achievements = [] as string[];
@@ -20,7 +22,8 @@ export const createGameState = () => {
         await delay(3000);
         return {
             isGameOver: true,
-            output: `${artYouDead}`,
+            output: ``,
+            Component: () => (<AsciiArtViewer art={artYouDead.art} autoAnimate={artYouDead.autoAnimate} />),
         };
     };
     const triggerQuit = (): GameAction => {

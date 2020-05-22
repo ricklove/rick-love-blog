@@ -1,17 +1,15 @@
+import React from 'react';
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
 import { GameAction, GameInput, GameExecute, Game, GameScene } from './types';
 import { randomItem } from '../console-simulator-utils';
 import { artMap, artMan } from './dork-art';
 import { delay } from '../../utils/async';
+import { AsciiArtViewer } from './components/ascii-art-viewer';
 
 
 export const dorkVersion = `v1.1.2`;
-export const title = `*** D.O.R.K. *** ${dorkVersion}
-
-${artMan}
-
-`;
+export const title = `*** D.O.R.K. *** ${dorkVersion}`;
 
 export const createDorkGame = (): Game => {
     const gameState = createGameState();
@@ -151,6 +149,10 @@ export const createDorkGame = (): Game => {
             return { output: artMap };
         }
 
+        if (command === `die`) {
+            return gameState.triggerGameOver(onMessage, `You asked for it!`);
+        }
+
         // Silly Commands
         if (command === `dork`) { return { output: randomItem([`Yes, you must be!`, `I prefer the term nerd.`]) }; }
         if (command === `jump`) { return { output: randomItem([`How high?`, `Good job!`, `Maybe if you type harder!`]) }; }
@@ -168,6 +170,7 @@ export const createDorkGame = (): Game => {
         onMessage({ output: `Reading Floppy Disk...` });
         await delay(3000);
         onMessage({ output: title });
+        onMessage({ output: ``, Component: () => (<AsciiArtViewer art={artMan.art} autoAnimate={artMan.autoAnimate} />) });
         await delay(3000);
         onMessage(await loadScene(scenes[0]));
         gameState.achievements.addAchievement(`⌨ I can type!`);
