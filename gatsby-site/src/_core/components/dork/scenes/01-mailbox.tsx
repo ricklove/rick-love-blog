@@ -124,7 +124,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
     const mailbox = {
         ...createGameObjectTitle(`Mailbox`),
-        description: () => `There is ${mailbox.isOpen ? `an open` : `a small`} mailbox nearby. 
+        description: () => `There is ${mailbox.isOpen ? `an open` : `a small closed`} mailbox nearby. 
             ${mailbox.isOpen && mailbox.package ? `There is a ${mailbox.package.title} inside.` : ``}`,
         isOpen: false,
         isDelivering: false,

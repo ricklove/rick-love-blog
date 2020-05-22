@@ -48,8 +48,8 @@ export const dork: ConFile = {
 
         const mainDork: GameActionQuery = {
             prompt: `>`,
-            respond: async (input): Promise<GameAction> => {
-                const { command: commandRaw, target, onMessage: onMessageRaw } = input;
+            respond: async (inputRaw): Promise<GameAction> => {
+                const { command: commandRaw, target, onMessage: onMessageRaw } = inputRaw;
 
                 if (gameState.isGameOver()) {
                     return { output: ``, isGameOver: true };
@@ -66,6 +66,8 @@ export const dork: ConFile = {
                 let command = commandRaw;
                 command = command === `look` || command === `see` || command === `view` || command === `observer` ? `look` : command;
                 command = command === `take` || command === `get` || command === `obtain` ? `take` : command;
+
+                const input = { ...inputRaw, command, onMessage };
 
 
                 if (command === `look`) {
@@ -111,7 +113,7 @@ export const dork: ConFile = {
                     if (!isMatch(x, target)) { continue; }
 
                     // eslint-disable-next-line no-await-in-loop
-                    const result = await x.execute({ ...input, command, onMessage });
+                    const result = await x.execute(input);
                     if (result) { return result; }
                 }
 
@@ -153,7 +155,7 @@ export const dork: ConFile = {
                 const result = await mainDork.respond(input);
                 return {
                     ...result,
-                    query: conQuery,
+                    query: result?.isGameOver ? undefined : conQuery,
                 };
             },
         };
