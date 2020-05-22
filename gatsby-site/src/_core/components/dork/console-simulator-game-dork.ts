@@ -51,6 +51,10 @@ export const dork: ConFile = {
             respond: async (input): Promise<GameAction> => {
                 const { command: commandRaw, target, onMessage: onMessageRaw } = input;
 
+                if (gameState.isGameOver()) {
+                    return { output: ``, isGameOver: true };
+                }
+
                 // Prevent Messages if game over already
                 const onMessage: typeof onMessageRaw = (x) => {
                     if (isGameOver()) { return; }

@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { GameScene, GameItem, GameAction, GameInput } from '../types';
@@ -23,7 +24,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
         strangLights: createGameObject(`Strand of Fairy Lights - 20ft`, `Make the room look cool. Girls only though!`, {}),
         squirrel: createGameObject(`Squirrel Stuffed Animal with Nuts`, `It looks like you should be careful not to touch it's nuts!`, {
             execute: async ({ command, target, onMessage }) => {
-                if (command === `touch`) {
+                if (command === `touch` && target.includes(`nuts`)) {
                     return triggerTimedMessage(onMessage, {
                         output: randomItem([
                             `The squirrel goes nuts and begins to chew off your arm.`,
@@ -39,17 +40,14 @@ export const createScene_01mailbox = (gameState: GameState) => {
         tickingPackage: createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
             execute: async ({ command }) => {
                 if (command === `open`) {
-                    return triggerGameOver(randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking...`]));
-                }
-                if (command === `put`) {
-                    return triggerGameOver(randomItem([`You're attempt was unsuccessful.`, `Probably should have done that earlier. It exploded in your hands!`]));
+                    return triggerGameOver(randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking... probably because your head is gone.`]));
                 }
                 return null;
             },
         }),
         limeCoconut: createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
-            execute: async ({ command }) => {
-                if (command === `put`) {
+            execute: async ({ command, target }) => {
+                if (command === `put` && target.includes(`lime`) && target.includes(`coco`)) {
                     return triggerGameOver(`
                     You put the lime in the coconut, you drank 'em bot' up
                     Put the lime in the coconut, you drank 'em bot' up
@@ -70,11 +68,12 @@ export const createScene_01mailbox = (gameState: GameState) => {
         snake: createGameObject(`Snake`, `It's a brown snake. Let's keep it! I have a small aquarium in my room.`, {
             execute: async ({ command, target }) => {
                 if (command === `put` && target.includes(`mailbox`)) {
-                    if (!mailbox.isOpen) {
-                        return {
-                            output: `The mailbox is not open.`,
-                        };
-                    }
+                    // if (!mailbox.isOpen) {
+                    //     return {
+                    //         output: `The mailbox is not open.`,
+                    //     };
+                    // }
+                    mailbox.isOpen = true;
                     if (mailbox.package) {
                         return {
                             output: `The mailbox has something in it already.`,
@@ -93,7 +92,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
     };
 
     const yard = {
-        ...createGameObjectTitle(`grass yard`),
+        ...createGameObjectTitle(`Grass Yard`),
         description: () => {
             if (yard.contents.includes(yardObjects.snake)) {
                 return `This is a large yard. A snake is sunning itself on a rock in the grass.`;
@@ -104,26 +103,45 @@ export const createScene_01mailbox = (gameState: GameState) => {
         contents: getValuesAsItems(yardObjects),
     };
 
-    const mailTruck = {
-        ...createGameObjectTitle(`crashed mail truck`),
-        description: `The crashed mail truck is smoking. The front end looks like it is hugging that tree. Clearly it is not familiar with social distancing.`,
+    const pickupTruck = {
+        ...createGameObjectTitle(`Crashed Pickup Truck`),
+        description: () => `The crashed pickup truck is smoking. 
+        The front end looks like it is hugging that tree. Clearly it is not familiar with social distancing.
+        As you get near, you wonder if the driver had his own personal accident when he wrecked.
+
+        In the bed of the truck are ${[
+                `some spent shotgun shells`,
+                `a few full trash bags`,
+                ...pickupTruck.contents.map(x => x.titleWithA)].join(`, `)}, and... ${randomItem([
+                    `a bunch of beer cans`,
+                    `some empty cigarette packages`,
+                    `an old tire`,
+                ])}.
+        `,
         hasCrashed: false,
         contents: getValuesAsItems(mailObjects),
     };
 
     const mailbox = {
-        ...createGameObjectTitle(`mailbox`),
+        ...createGameObjectTitle(`Mailbox`),
         description: () => `There is ${mailbox.isOpen ? `an open` : `a small`} mailbox nearby. 
             ${mailbox.isOpen && mailbox.package ? `There is a ${mailbox.package.title} inside.` : ``}`,
         isOpen: false,
         isDelivering: false,
+        deliveryCount: 0,
         package: null as GameItem | null,
     };
 
     const placeRandomItemInMailbox = () => {
-        const i = randomIndex(mailTruck.contents.length);
-        const p = mailTruck.contents[i];
-        mailTruck.contents.splice(i, 1);
+        let i = randomIndex(pickupTruck.contents.length);
+
+        if (mailbox.deliveryCount >= 1 && pickupTruck.contents.find(x => x === mailObjects.tickingPackage)) {
+            i = pickupTruck.contents.indexOf(mailObjects.tickingPackage);
+        }
+        mailbox.deliveryCount++;
+
+        const p = pickupTruck.contents[i];
+        pickupTruck.contents.splice(i, 1);
         mailbox.package = p;
         mailbox.isOpen = false;
     };
@@ -134,9 +152,12 @@ export const createScene_01mailbox = (gameState: GameState) => {
     // Setup Scene
     placeRandomItemInMailbox();
 
+    const { tickingPackage } = mailObjects;
     const { snake } = yardObjects;
 
     const deliverMail = (): GameAction => {
+        mailbox.isDelivering = false;
+
         if (mailbox.package === snake) {
             return triggerGameOver(`
                 You see ${randomItem([`a UPS truck`, `an Amazon truck`, `an ambulance`, `a cop car`, `the van from down by the river`, `the ice cream truck`])} drive up.
@@ -152,19 +173,39 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
         if (mailbox.package) {
             const item = mailbox.package;
-            mailTruck.contents.push(item);
-            placeRandomItemInMailbox();
+            pickupTruck.contents.push(item);
             mailbox.isOpen = true;
 
+            if (item === tickingPackage) {
+                pickupTruck.hasCrashed = true;
+                pickupTruck.contents.splice(pickupTruck.contents.indexOf(tickingPackage), 1);
+
+                return {
+                    output: `
+                    You see a package-thief drive up in an old beat up pickup truck.
+                    He drives right up to the mailbox, grabs the package, and starts off.
+
+                    Immediately, you hear a loud pop and see colored smoke fill the cab.
+                    
+                    The truck swerves wildly and crashes into a large oak tree.
+
+                    After a minute, the driver jumps out, covered in glitter. 
+                    
+                    He runs into the trees screaming about a horrible smell...
+                    `,
+                };
+            }
+
+            placeRandomItemInMailbox();
             return {
                 output: `
-                You see ${randomItem([`a UPS truck`, `an Amazon truck`, `an ambulance`, `a cop car`, `the van from down by the river`, `the ice cream truck`])} drive up.
-                When he opens the mailbox, he looks suprised.
+                You see ${randomItem([`a UPS truck`, `an Amazon truck`, `the ice cream truck`])} drive up and a driver wearing a trench coat get out.
+                
+                He carries a package to the mail box, but when he opens it, he looks suprised.
 
                 He looks around suspiciously... and then puts the ${item.title} under his trenchcoat as he slips the new package into the mailbox.
 
-                He nervously looks around again, then rushes back and quickly drives off.
-                `,
+                He nervously looks around again, then rushes back to the truck and quickly drives off.`,
             };
         }
 
@@ -179,6 +220,11 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
     const closeMailbox = async (input: GameInput): Promise<GameAction> => {
         if (mailbox.package === snake) {
+            if (mailbox.isDelivering) {
+                return { output: `You close the mailbox with your little friend inside...` };
+            }
+            mailbox.isDelivering = true;
+
             return triggerTimedMessage(input.onMessage, {
                 output: `
                 You close the mailbox with your little friend inside...
@@ -187,11 +233,16 @@ export const createScene_01mailbox = (gameState: GameState) => {
             }, 20, `warning`, deliverMail);
         }
 
-        if (mailTruck.contents.length <= 0 || mailbox.package) {
+        if (pickupTruck.contents.length <= 0 || mailbox.package) {
             return {
                 output: `You close the mailbox. ${mailbox.package ? `There is still something inside it though.` : `Thanks!`}`,
             };
         }
+
+        if (mailbox.isDelivering) {
+            return { output: `You close the mailbox.` };
+        }
+        mailbox.isDelivering = true;
 
         return triggerTimedMessage(input.onMessage, { output: `You close the mailbox.` }, 10, `normal`, deliverMail);
     };
@@ -236,20 +287,32 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
         if (command === `take` && yard.contents.includes(snake) && isMatch(snake, target)) {
             const p = snake;
+            moveItem(p, yard.contents, inventory);
             inventory.push(p);
-            yard.contents = yard.contents.filter(x => x !== snake);
             return {
                 output: `You take the ${p.title} and put it in your backpack.`,
             };
         }
 
+        if (command === `take` && pickupTruck.hasCrashed) {
+            const f = pickupTruck.contents.find(x => isMatch(x, target));
+            if (f) {
+                inventory.push(f);
+                pickupTruck.contents = pickupTruck.contents.filter(x => x !== f);
+                return {
+                    output: `You take the ${f.title} from the back of the truck.`,
+                };
+            }
+        }
+
         if (command === `put`) {
             if (target.includes(`mailbox`)) {
-                if (!mailbox.isOpen) {
-                    return {
-                        output: `The mailbox is not open.`,
-                    };
-                }
+                // if (!mailbox.isOpen) {
+                //     return {
+                //         output: `The mailbox is not open.`,
+                //     };
+                // }
+                mailbox.isOpen = true;
                 if (mailbox.package) {
                     return {
                         output: `There is already something in the mailbox.`,
@@ -313,7 +376,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
         getLookItems: () => [
             mailbox,
             yard,
-            mailTruck.hasCrashed ? mailTruck : null,
+            pickupTruck.hasCrashed ? pickupTruck : null,
         ],
     };
 
