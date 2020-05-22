@@ -201,13 +201,14 @@ export const createDorkGame = (onMessageInit: (message: GameAction) => void): Ga
         await delay(1000);
         onMessage({
             output: `
-                - help
                 - inventory
                 - look at mirror
                 - take frog
                 - open box
                 - close trunk
                 - put cat in submarine
+                - help
+                - look at achievements 
                 `,
         });
         await delay(3000);
