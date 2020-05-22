@@ -4,7 +4,7 @@
 import { GameScene, GameItem, GameAction, GameInput } from '../types';
 import { GameState } from '../core';
 import { triggerTimedMessage } from '../components/count-down-text';
-import { randomItem, randomIndex, getValuesAsItems } from '../../console-simulator-utils';
+import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../../console-simulator-utils';
 
 export const createScene_01mailbox = (gameState: GameState) => {
     const {
@@ -288,7 +288,6 @@ export const createScene_01mailbox = (gameState: GameState) => {
         if (command === `take` && yard.contents.includes(snake) && isMatch(snake, target)) {
             const p = snake;
             moveItem(p, yard.contents, inventory);
-            inventory.push(p);
             return {
                 output: `You take the ${p.title} and put it in your backpack.`,
             };
@@ -297,8 +296,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
         if (command === `take` && pickupTruck.hasCrashed) {
             const f = pickupTruck.contents.find(x => isMatch(x, target));
             if (f) {
-                inventory.push(f);
-                pickupTruck.contents = pickupTruck.contents.filter(x => x !== f);
+                moveItem(f, pickupTruck.contents, inventory);
                 return {
                     output: `You take the ${f.title} from the back of the truck.`,
                 };
