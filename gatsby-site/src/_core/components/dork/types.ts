@@ -1,6 +1,5 @@
 import { ConInput } from '../console-simulator-types';
 
-export type GameActionQuery = { prompt: string, respond: (input: GameInput) => Promise<GameAction> };
 export type GameInput = ConInput;
 export type GameAction = null | undefined | {
     output: string;
