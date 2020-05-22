@@ -8,7 +8,7 @@ div.console-simulator {
 
 .console-simulator span {
     font-family: monospace;
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 .console-simulator-cursor {
