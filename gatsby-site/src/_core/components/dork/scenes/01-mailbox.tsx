@@ -177,7 +177,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
                 You see ${randomItem([`a UPS truck`, `an Amazon truck`, `an ambulance`, `a cop car`, `the van from down by the river`, `the ice cream truck`])} drive up.
                 The driver waves at you while carrying a package to the mailbox.
 
-                As he opens the mailbox, your little pal jumps out and bits him in the face.
+                As he opens the mailbox, your little pal jumps out and bites him in the face.
                 At first you think this is funny, but then the driver rips the snake off and throws him into the trees.
 
                 The driver looks up and sees you laughing.
