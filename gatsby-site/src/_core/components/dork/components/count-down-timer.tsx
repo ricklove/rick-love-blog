@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ConCommandResult } from '../../console-simulator-types';
 import { GameAction } from '../types';
 
-export const CountDownTimer = (props: { time: number, color?: string, messageAfterTime?: string, onTime: () => void }) => {
+export const CountDownTimer = (props: { time: number, color?: string, messageAfterTime?: string, onTimeElapsed: () => void }) => {
     const [time, setTime] = useState(10);
     useEffect(() => {
         const timeStart = Date.now();
@@ -12,7 +12,7 @@ export const CountDownTimer = (props: { time: number, color?: string, messageAft
             if (timeRemaining <= 0) {
                 setTime(s => 0);
                 clearInterval(id);
-                props.onTime();
+                props.onTimeElapsed();
             }
         }, 10);
         return () => clearInterval(id);
@@ -46,7 +46,7 @@ export const triggerTimedMessage = async (
             : `#7777FF`);
 
     return new Promise(resolve => {
-        const Component = () => (<CountDownTimer time={time} color={colorActual} onTime={() => {
+        const Component = () => (<CountDownTimer time={time} color={colorActual} onTimeElapsed={() => {
             resolve({ output: ``, ...getResultAfterTime(), addDivider: true });
         }} />);
         onMessage({

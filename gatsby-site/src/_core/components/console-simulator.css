@@ -3,6 +3,12 @@ div.console-simulator {
     background-color: #000000;
     color: #FFFFFF;
     font-family: monospace;
+    white-space: pre;
+}
+
+.console-simulator span {
+    font-family: monospace;
+    white-space: pre;
 }
 
 .console-simulator-cursor {

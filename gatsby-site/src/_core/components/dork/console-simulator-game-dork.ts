@@ -8,11 +8,15 @@ import { triggerTimedMessage } from './components/count-down-timer';
 import { GameItem, GameActionQuery, GameAction } from './types';
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
-import { dorkAsciiArt } from './dork-art';
+import { dorkAsciiMan, dorkAsciiMap } from './dork-art';
 
-export const dorkVersion = `v1.1.0`;
-// ${dorkAsciiArt}
-const title = `*** D.O.R.K. *** ${dorkVersion}`;
+export const dorkVersion = `v1.1.2`;
+
+const title = `*** D.O.R.K. *** ${dorkVersion}
+
+${dorkAsciiMan}
+
+`;
 
 export const dork: ConFile = {
     session: `user`, path: `/`, name: `dork`,
@@ -122,8 +126,13 @@ export const dork: ConFile = {
                 if (result) { return result; }
 
                 // List Inventory
-                if (command === `inv` || command === `inventory`) {
+                if (command === `inv` || command === `inventory` || command === `bag` || command === `backpack` || command === `pack`) {
                     return { output: inventory.map(x => x.title).join(`\n`) };
+                }
+
+                // Map
+                if (command === `map`) {
+                    return { output: dorkAsciiMap };
                 }
 
                 // Silly Commands
@@ -161,7 +170,7 @@ export const dork: ConFile = {
         };
 
         return {
-            output: scene.introduction,
+            output: title + scene.introduction,
             query: conQuery,
         };
     },

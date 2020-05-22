@@ -1,9 +1,10 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-use-before-define */
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import React from 'react';
 import { GameScene, GameItem, GameAction, GameInput } from '../types';
 import { GameState } from '../core';
-import { triggerTimedMessage } from '../components/count-down-timer';
+import { triggerTimedMessage, CountDownTimer } from '../components/count-down-timer';
 import { randomItem, randomIndex, getValuesAsItems, moveItem } from '../../console-simulator-utils';
 
 export const createScene_01mailbox = (gameState: GameState) => {
@@ -248,7 +249,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
     };
 
     const execute = async (input: GameInput): Promise<GameAction> => {
-        const { command, target } = input;
+        const { command, target, onMessage } = input;
 
         if (command === `open` && target === `mailbox`) {
             if (mailbox.isOpen) {
@@ -280,6 +281,15 @@ export const createScene_01mailbox = (gameState: GameState) => {
             mailbox.package = null;
             const wasOpen = mailbox.isOpen;
             mailbox.isOpen = true;
+
+
+            if (p === tickingPackage) {
+                return {
+                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={() => triggerGameOver(`You obviously need to watch more TV. A ticking package is generally bad news.`)} /> || <span />),
+                    output: `${!wasOpen ? `You open the mailbox and` : `You`} take the ${p.title}. As you place it carefully in your backpack, you notice the ticking is getting louder.`,
+                };
+            }
+
             return {
                 output: `${!wasOpen ? `You open the mailbox and` : `You`} take the ${p.title} and put it in your backpack.`,
             };
@@ -323,9 +333,9 @@ export const createScene_01mailbox = (gameState: GameState) => {
                     mailbox.package = f;
                     const wasOpen = mailbox.isOpen;
                     mailbox.isOpen = false;
-                    return {
+                    return triggerTimedMessage(input.onMessage, {
                         output: `${!wasOpen ? `You open the mailbox and` : `You`} put the ${f.title} in the mailbox ${!wasOpen ? `and close it again.` : `and close it.`}`,
-                    };
+                    }, 10, `normal`, deliverMail);
                 }
             }
         }
