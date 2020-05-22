@@ -1,25 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
+import { Artwork } from '../art';
 
-export const AsciiArtViewer = (props: { art: string, animate?: { fps: number, draw: (timeMs: number) => string }, autoAnimate?: { fps: number, replacements: { find: string, replace: string, ratio: number }[] } }) => {
-    const [art, setArt] = useState(props.art);
+export const AsciiArtViewer = (props: { artwork: Artwork }) => {
+    const [art, setArt] = useState(props.artwork.art);
 
-    const { animate: animateRaw, autoAnimate } = props;
+    const { animate: animateRaw, autoAnimate } = props.artwork;
 
     useEffect(() => {
-        const animate = animateRaw ?? autoAnimate ? {
-            fps: autoAnimate?.fps ?? 100,
+        const animate = animateRaw ?? (autoAnimate ? {
+            fps: autoAnimate.fps ?? 100,
             draw: (t: number): string => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const autoAnim = autoAnimate!;
 
-                let v = props.art;
-                for (const a of autoAnim.replacements) {
+                let v = props.artwork.art;
+                for (const a of autoAnimate.replacements) {
                     v = v.replace(new RegExp(a.find, `g`), (x) => Math.random() < a.ratio ? a.replace : x);
                 }
 
                 return v;
             },
-        } : null;
+        } : null);
 
         if (!animate) { return; }
 
@@ -32,7 +32,7 @@ export const AsciiArtViewer = (props: { art: string, animate?: { fps: number, dr
 
         // eslint-disable-next-line consistent-return
         return () => clearInterval(id);
-    }, [animateRaw, autoAnimate, autoAnimate?.fps, props.art]);
+    }, []);
 
     return (
         <div>

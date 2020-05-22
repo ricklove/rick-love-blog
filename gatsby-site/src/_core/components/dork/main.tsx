@@ -3,7 +3,7 @@ import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
 import { GameAction, GameInput, GameExecute, Game, GameScene } from './types';
 import { randomItem } from '../console-simulator-utils';
-import { artMap, artMan } from './dork-art';
+import { artMap, artMan } from './art';
 import { delay } from '../../utils/async';
 import { AsciiArtViewer } from './components/ascii-art-viewer';
 
@@ -170,7 +170,7 @@ export const createDorkGame = (): Game => {
         onMessage({ output: `Reading Floppy Disk...` });
         await delay(3000);
         onMessage({ output: title });
-        onMessage({ output: ``, Component: () => (<AsciiArtViewer art={artMan.art} autoAnimate={artMan.autoAnimate} />) });
+        onMessage({ output: ``, Component: () => (<AsciiArtViewer artwork={artMan} />) });
         await delay(3000);
         onMessage(await loadScene(scenes[0]));
         gameState.achievements.addAchievement(`⌨ I can type!`);
