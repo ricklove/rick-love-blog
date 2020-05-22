@@ -31,7 +31,7 @@ export const dorkFile: ConFile = {
             });
         };
 
-        const dorkGame = createDorkGame();
+        const dorkGame = createDorkGame(onMessageGame);
 
         const conQuery: ConActionQuery = {
             prompt: `>`,
@@ -43,10 +43,14 @@ export const dorkFile: ConFile = {
                             prompt: `Are you sure you want to quit?`,
                             respond: async (x) => {
                                 if (x.command.startsWith(`y`)) {
+                                    const result = dorkGame.onQuit();
                                     saveGameStorage({ achievements: dorkGame.achievements.getValue() });
-                                    return dorkGame.onQuit();
+                                    return result;
                                 }
-                                return dorkGame.onQuitNot();
+                                return {
+                                    ...dorkGame.onQuitNot(),
+                                    query: conQuery,
+                                };
                             },
                         },
                     };
@@ -57,6 +61,7 @@ export const dorkFile: ConFile = {
                     onMessage: onMessageGame,
                 };
                 const result = await dorkGame.execute(gameInput);
+                saveGameStorage({ achievements: dorkGame.achievements.getValue() });
                 return {
                     ...result,
                     query: result?.isGameOver ? undefined : conQuery,

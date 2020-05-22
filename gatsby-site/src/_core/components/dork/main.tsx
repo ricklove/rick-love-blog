@@ -11,8 +11,8 @@ import { AsciiArtViewer } from './components/ascii-art-viewer';
 export const dorkVersion = `v1.1.2`;
 export const title = `*** D.O.R.K. *** ${dorkVersion}`;
 
-export const createDorkGame = (): Game => {
-    const gameState = createGameState();
+export const createDorkGame = (onMessageInit: (message: GameAction) => void): Game => {
+    const gameState = createGameState(onMessageInit);
     const {
         isGameOver,
         inventory,
@@ -70,7 +70,10 @@ export const createDorkGame = (): Game => {
             throw new Error(`Scene not loaded - Start Game First`);
         }
 
+        gameState.achievements.addAchievement(`⌨ I Can Type!`);
+
         if (command === `look`) {
+            gameState.achievements.addAchievement(`👀 Looking Good!`);
 
             // Look Inventory
             const f = inventory.find(x => isMatch(x, target));
@@ -123,11 +126,15 @@ export const createDorkGame = (): Game => {
 
         // List Inventory
         if (command === `inv` || command === `inventory` || command === `bag` || command === `backpack` || command === `pack`) {
+            gameState.achievements.addAchievement(`🎒 Checkin on My Stuff`);
+
             return { output: inventory.map(x => x.title).join(`\n`) };
         }
 
         // Help
         if (command === `help`) {
+            gameState.achievements.addAchievement(`🦮 Hold My Hand Please`);
+
             return {
                 output: `
                     Example Commands: 
@@ -146,16 +153,26 @@ export const createDorkGame = (): Game => {
 
         // Map
         if (command === `map`) {
+            gameState.achievements.addAchievement(`🗺️ I'm a map!`);
+
             return { output: artMap };
         }
 
         if (command === `die`) {
+            gameState.achievements.addAchievement(`💀 You Asked for It!`);
+
             return gameState.triggerGameOver(onMessage, `You asked for it!`);
         }
 
         // Silly Commands
-        if (command === `dork`) { return { output: randomItem([`Yes, you must be!`, `I prefer the term nerd.`]) }; }
-        if (command === `jump`) { return { output: randomItem([`How high?`, `Good job!`, `Maybe if you type harder!`]) }; }
+        if (command === `dork`) {
+            gameState.achievements.addAchievement(`🤓 Actually... I'm a Nerd`);
+            return { output: randomItem([`Yes, you must be!`, `I prefer the term nerd.`]) };
+        }
+        if (command === `jump`) {
+            gameState.achievements.addAchievement(`🦘 Jump! Jump!`);
+            return { output: randomItem([`How high?`, `Good job!`, `Maybe if you type harder!`]) };
+        }
 
         return { output: randomItem(badCommandInsults) };
 
@@ -173,7 +190,6 @@ export const createDorkGame = (): Game => {
         onMessage({ output: ``, Component: () => (<AsciiArtViewer artwork={artMan} />) });
         await delay(3000);
         onMessage(await loadScene(scenes[0]));
-        gameState.achievements.addAchievement(`⌨ I can type!`);
     };
 
     const game: Game = {
@@ -182,7 +198,7 @@ export const createDorkGame = (): Game => {
         execute,
         onQuit: () => gameState.triggerQuit(),
         onQuitNot: () => {
-            gameState.achievements.addAchievement(`😸 Hang in There!`);
+            gameState.achievements.addAchievement(`🧻 Never gonna give you up!`);
             return { output: `That was close` };
         },
         achievements: {

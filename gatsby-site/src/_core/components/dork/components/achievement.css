@@ -1,0 +1,21 @@
+@keyframes example {
+    0% {
+        color: #000000;
+    }
+    25% {
+        color: #FF0000;
+    }
+    50% {
+        color: #00FF00;
+    }
+    100% {
+        color: #0000FF;
+    }
+}
+
+div.achievement-label {
+    animation-name: example;
+    animation-duration: 4s;
+    animation-delay: 2s;
+    animation-iteration-count: infinite;
+}

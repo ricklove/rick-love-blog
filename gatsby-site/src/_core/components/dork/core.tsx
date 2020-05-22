@@ -6,18 +6,25 @@ import { triggerTimedMessage, CountDownTimer } from './components/count-down-tim
 import { artYouDead } from './art';
 import { delay } from '../../utils/async';
 import { AsciiArtViewer } from './components/ascii-art-viewer';
+import { AchievementViewer } from './components/achievement';
 
-export const createGameState = () => {
+export const createGameState = (onMessageInit: (message: GameAction) => void) => {
     const _achievements = [] as string[];
     const loadAchievements = (value: string[]) => { _achievements.splice(0, _achievements.length, ...value); };
     const getAchievements = () => { return _achievements; };
-    const addAchievement = (name: string) => { _achievements.push(name); };
+    const addAchievement = (name: string) => {
+        if (!_achievements.includes(name)) {
+            onMessageInit({ output: ``, Component: () => (<AchievementViewer name={name} />) });
+            _achievements.push(name);
+        }
+    };
 
     let gameOver = false;
     const triggerGameOver = async (onMessage: (message: GameAction) => void, lastMessage: string): Promise<GameAction> => {
 
         onMessage({ output: lastMessage });
         gameOver = true;
+        addAchievement(`⚰️ You Dead!`);
 
         await delay(3000);
         return {
