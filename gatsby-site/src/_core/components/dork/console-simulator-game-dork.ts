@@ -7,10 +7,29 @@ import { randomBinary } from '../console-simulator-utils';
 import { createDorkGame, title } from './main';
 import { GameInput, GameAction } from './types';
 
+// localStorage
+type DorkGameStorage = {
+    achievements: string[];
+};
+const loadGameStorage = () => {
+    const v = localStorage.getItem(`DorkGameStorage`);
+    if (!v) { return null; }
+    try { return JSON.parse(v) as DorkGameStorage | null; } catch{ return null; }
+};
+const saveGameStorage = (value: DorkGameStorage) => { localStorage.setItem(`DorkGameStorage`, JSON.stringify(value)); };
+
 export const dorkFile: ConFile = {
     session: `user`, path: `/`, name: `dork`,
     content: `${randomBinary(256)}${title}${randomBinary(512)}`,
-    execute: async () => {
+    execute: async (onMessage) => {
+
+        const onMessageGame = (message: GameAction) => {
+            onMessage({
+                output: message?.output,
+                Component: message?.Component,
+                addDivider: message?.addDivider,
+            });
+        };
 
         const dorkGame = createDorkGame();
 
@@ -22,20 +41,20 @@ export const dorkFile: ConFile = {
                     return {
                         query: {
                             prompt: `Are you sure you want to quit?`,
-                            respond: async (x) => x.command.startsWith(`y`) ? dorkGame.onQuit() : { output: `That was close` },
+                            respond: async (x) => {
+                                if (x.command.startsWith(`y`)) {
+                                    saveGameStorage({ achievements: dorkGame.achievements.getValue() });
+                                    return dorkGame.onQuit();
+                                }
+                                return dorkGame.onQuitNot();
+                            },
                         },
                     };
                 }
 
                 const gameInput: GameInput = {
                     ...input,
-                    onMessage: (message: GameAction) => {
-                        input.onMessage({
-                            output: message?.output,
-                            Component: message?.Component,
-                            addDivider: message?.addDivider,
-                        });
-                    },
+                    onMessage: onMessageGame,
                 };
                 const result = await dorkGame.execute(gameInput);
                 return {
@@ -45,8 +64,15 @@ export const dorkFile: ConFile = {
             },
         };
 
+        const s = loadGameStorage();
+        if (s) {
+            dorkGame.achievements.setValue(s.achievements);
+        }
+
+        await dorkGame.start(onMessageGame);
+
         return {
-            output: dorkGame.introduction,
+            output: ``,
             query: conQuery,
         };
     },

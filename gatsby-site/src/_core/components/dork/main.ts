@@ -1,8 +1,9 @@
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
-import { GameAction, GameInput, GameExecute, Game } from './types';
+import { GameAction, GameInput, GameExecute, Game, GameScene } from './types';
 import { randomItem } from '../console-simulator-utils';
 import { artMap, artMan } from './dork-art';
+import { delay } from '../../utils/async';
 
 
 export const dorkVersion = `v1.1.2`;
@@ -36,7 +37,12 @@ export const createDorkGame = (): Game => {
     const scenes = [
         createScene_01mailbox(gameState),
     ];
-    const scene = scenes[0];
+    let scene = null as null | GameScene;
+
+    const loadScene = async (value: GameScene): Promise<GameAction> => {
+        scene = value;
+        return { output: scene.introduction };
+    };
     // const containers = ;
 
     const execute: GameExecute = async (inputRaw: GameInput): Promise<GameAction> => {
@@ -60,6 +66,10 @@ export const createDorkGame = (): Game => {
         // Ensure Game Over Interrupts Execute
         if (gameState.isGameOver()) {
             return { output: ``, isGameOver: true };
+        }
+
+        if (!scene) {
+            throw new Error(`Scene not loaded - Start Game First`);
         }
 
         if (command === `look`) {
@@ -153,9 +163,30 @@ export const createDorkGame = (): Game => {
         // ` };
     };
 
-    return {
-        introduction: title + scene.introduction,
+    const start = async (onMessage: (message: GameAction) => void): Promise<void> => {
+        // Load First Scene
+        onMessage({ output: `Reading Floppy Disk...` });
+        await delay(3000);
+        onMessage({ output: title });
+        await delay(3000);
+        onMessage(await loadScene(scenes[0]));
+        gameState.achievements.addAchievement(`⌨ I can type!`);
+    };
+
+    const game: Game = {
+        title,
+        start,
         execute,
         onQuit: () => gameState.triggerQuit(),
+        onQuitNot: () => {
+            gameState.achievements.addAchievement(`😸 Hang in There!`);
+            return { output: `That was close` };
+        },
+        achievements: {
+            setValue: (achievements: string[]) => { gameState.achievements.loadAchievements(achievements); },
+            getValue: () => { return gameState.achievements.getAchievements(); },
+        },
     };
+
+    return game;
 };

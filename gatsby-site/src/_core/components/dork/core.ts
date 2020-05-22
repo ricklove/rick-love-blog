@@ -6,6 +6,10 @@ import { artYouDead } from './dork-art';
 import { delay } from '../../utils/async';
 
 export const createGameState = () => {
+    const _achievements = [] as string[];
+    const loadAchievements = (value: string[]) => { _achievements.splice(0, _achievements.length, ...value); };
+    const getAchievements = () => { return _achievements; };
+    const addAchievement = (name: string) => { _achievements.push(name); };
 
     let gameOver = false;
     const triggerGameOver = async (onMessage: (message: GameAction) => void, lastMessage: string): Promise<GameAction> => {
@@ -21,6 +25,7 @@ export const createGameState = () => {
     };
     const triggerQuit = (): GameAction => {
         gameOver = true;
+        addAchievement(`🔥 You're Fired!`);
         return { output: `****  You can't quit you're fired!  ****`, isGameOver: true };
     };
 
@@ -78,10 +83,23 @@ export const createGameState = () => {
         return !!t.find(x => item?.matches.includes(x));
     };
 
+    const achievementGameObject: GameItem = {
+        ...createGameObjectTitle(`Achievements`),
+        matches: [`achieve`, `ach`, `Achievements`],
+        description: () => getAchievements().join(`\n`),
+        lower: ``,
+    };
+    inventory.push(achievementGameObject);
+
     const utils = { randomItem, randomIndex, getValuesAsItems, moveItem };
     const components = { triggerTimedMessage, CountDownTimer };
 
     const gameState = {
+        achievements: {
+            loadAchievements,
+            getAchievements,
+            addAchievement,
+        },
         isGameOver: () => gameOver,
         triggerGameOver,
         triggerQuit,

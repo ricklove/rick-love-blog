@@ -8,9 +8,15 @@ export type GameAction = null | undefined | {
 export type GameInput = { raw: string, lower: string, command: string, target: string, onMessage: (message: GameAction) => void };
 export type GameExecute = (inputRaw: GameInput) => Promise<GameAction>;
 export type Game = {
-    introduction: string;
+    title: string;
+    start: (onMessage: (message: GameAction) => void) => Promise<void>;
     execute: GameExecute;
-    onQuit: () => void;
+    onQuit: () => GameAction;
+    onQuitNot: () => GameAction;
+    achievements: {
+        setValue: (achievements: string[]) => void;
+        getValue: () => string[];
+    };
 };
 
 export type GameItemTitle = {

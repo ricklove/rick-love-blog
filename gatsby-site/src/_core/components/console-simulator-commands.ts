@@ -164,7 +164,7 @@ export const createConsoleCommands = (initialMachineName: string) => {
 
         const file = dirFiles.find(x => x.name.toLowerCase() === command);
         if (file && file.execute) {
-            const action = await file.execute();
+            const action = await file.execute(onMessage);
             return processAction(action);
         }
 

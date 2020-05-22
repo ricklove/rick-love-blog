@@ -16,7 +16,7 @@ export type ConFile = {
     path: string;
     name: string;
     content: string;
-    execute?: () => Promise<ConAction>;
+    execute?: (onMessage: (message: ConCommandResult) => void) => Promise<ConAction>;
 };
 export type ConState = {
     readonly parent?: ConState;
