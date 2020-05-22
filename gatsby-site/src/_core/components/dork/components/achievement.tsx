@@ -4,6 +4,7 @@ import React from 'react';
 
 export const AchievementViewer = (props: { name: string }) => {
 
+
     return (
         <div>
             <div className='achievement' style={{ display: `flex` }}>

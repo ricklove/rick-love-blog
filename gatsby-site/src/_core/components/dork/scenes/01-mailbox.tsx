@@ -30,6 +30,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
         squirrel: createGameObject(`Squirrel Stuffed Animal with Nuts`, `It looks like you should be careful not to touch it's nuts!`, {
             execute: async ({ command, target, onMessage }) => {
                 if (command === `touch` && target.includes(`nuts`)) {
+                    gameState.achievements.addAchievement(`🐿️ Don't Be Touchin My Nutz!`);
+
                     return triggerTimedMessage(onMessage, {
                         output: randomItem([
                             `The squirrel goes nuts and begins to chew off your arm.`,
@@ -45,6 +47,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
         tickingPackage: createGameObject(`Ticking Package`, `Ummmm... it's ticking`, {
             execute: async ({ command, onMessage }) => {
                 if (command === `open`) {
+                    gameState.achievements.addAchievement(`💣 Your Head Explode!`);
+
                     return await triggerGameOver(onMessage, randomItem([`You have Exploded!`, `You're head acksplod!`, `You no longer hear ticking... probably because your head is gone.`]));
                 }
                 return null;
@@ -53,6 +57,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
         limeCoconut: createGameObject(`Lime & Coconut`, `It seems like I have heard about this before.`, {
             execute: async ({ command, target, onMessage }) => {
                 if (command === `put` && target.includes(`lime`) && target.includes(`coco`)) {
+                    gameState.achievements.addAchievement(`🥥 Put the Lime in the Coconut!`);
+
                     return await triggerGameOver(onMessage, `
                     You put the lime in the coconut, you drank 'em bot' up
                     Put the lime in the coconut, you drank 'em bot' up
@@ -80,6 +86,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
                     // }
                     mailbox.isOpen = true;
                     if (mailbox.package) {
+
                         return {
                             output: `The mailbox has something in it already.`,
                         };
@@ -164,6 +171,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
         mailbox.isDelivering = false;
 
         if (mailbox.package === snake) {
+
+            gameState.achievements.addAchievement(`😡 He's Got Angry Eyes`);
             return await triggerGameOver(input.onMessage, `
                 You see ${randomItem([`a UPS truck`, `an Amazon truck`, `an ambulance`, `a cop car`, `the van from down by the river`, `the ice cream truck`])} drive up.
                 The driver waves at you while carrying a package to the mailbox.
@@ -185,6 +194,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
                 pickupTruck.hasCrashed = true;
                 pickupTruck.contents.splice(pickupTruck.contents.indexOf(tickingPackage), 1);
 
+                gameState.achievements.addAchievement(`🏴‍☠️ Take the Porch Pirates!`);
                 return {
                     output: `
                     You see a package-thief drive up in an old beat up pickup truck.
@@ -202,6 +212,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
             }
 
             placeRandomItemInMailbox();
+
+            gameState.achievements.addAchievement(`📮 Return to Sender`);
             return {
                 output: `
                 You see ${randomItem([`a UPS truck`, `an Amazon truck`, `the ice cream truck`])} drive up and a driver wearing a trench coat get out.
@@ -215,6 +227,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
         }
 
         placeRandomItemInMailbox();
+        gameState.achievements.addAchievement(`🚚 Same Day Delivery!`);
         return {
             output: `
             You see ${randomItem([`a UPS truck`, `an Amazon truck`, `an ambulance`, `a cop car`, `the van from down by the river`, `the ice cream truck`])} drive up, and the driver puts a package in the mailbox.
@@ -249,6 +262,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
         }
         mailbox.isDelivering = true;
 
+        gameState.achievements.addAchievement(`📪 These Kids Keep Stealing My Mail!`);
         return triggerTimedMessage(input.onMessage, { output: `You close the mailbox.` }, 10, `normal`, () => deliverMail(input));
     };
 
@@ -257,12 +271,14 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
         if (command === `open` && target === `mailbox`) {
             if (mailbox.isOpen) {
+
                 return {
                     output: `Really? The mailbox is already open!`,
                 };
             }
 
             mailbox.isOpen = true;
+            gameState.achievements.addAchievement(`📭 You've Got Mail!`);
             return {
                 output: mailbox.package ? `You see a ${mailbox.package.title} in the mailbox.` : `There is nothing in the mailbox.`,
             };
@@ -288,8 +304,15 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
 
             if (p === tickingPackage) {
+                gameState.achievements.addAchievement(`📦 Umm... It's ticking`);
+
                 return {
-                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={async () => onMessage(await triggerGameOver(onMessage, `You obviously need to watch more TV. A ticking package is generally bad news.`))} /> || <span />),
+                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={async () => {
+                        if (!inventory.includes(tickingPackage)) { return; }
+
+                        gameState.achievements.addAchievement(`⏰ Is it Bad that It's Ticking?`);
+                        onMessage(await triggerGameOver(onMessage, `You obviously need to watch more TV. A ticking package is generally bad news.`));
+                    }} /> || <span />),
                     output: `${!wasOpen ? `You open the mailbox and` : `You`} take the ${p.title}. As you place it carefully in your backpack, you notice the ticking is getting louder.`,
                 };
             }
@@ -302,6 +325,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
         if (command === `take` && yard.contents.includes(snake) && isMatch(snake, target)) {
             const p = snake;
             moveItem(p, yard.contents, inventory);
+
+            gameState.achievements.addAchievement(`🐍 You Would do Well in Slitherin`);
             return {
                 output: `You take the ${p.title} and put it in your backpack.`,
             };
@@ -311,6 +336,8 @@ export const createScene_01mailbox = (gameState: GameState) => {
             const f = pickupTruck.contents.find(x => isMatch(x, target));
             if (f) {
                 moveItem(f, pickupTruck.contents, inventory);
+
+                gameState.achievements.addAchievement(`♻️ Another Man's Trash`);
                 return {
                     output: `You take the ${f.title} from the back of the truck.`,
                 };

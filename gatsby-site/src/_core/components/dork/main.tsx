@@ -8,7 +8,7 @@ import { delay } from '../../utils/async';
 import { AsciiArtViewer } from './components/ascii-art-viewer';
 
 
-export const dorkVersion = `v1.1.2`;
+export const dorkVersion = `v1.3.1`;
 export const title = `*** D.O.R.K. *** ${dorkVersion}`;
 
 export const createDorkGame = (onMessageInit: (message: GameAction) => void): Game => {

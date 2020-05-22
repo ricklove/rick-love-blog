@@ -14,7 +14,9 @@ export const createGameState = (onMessageInit: (message: GameAction) => void) =>
     const getAchievements = () => { return _achievements; };
     const addAchievement = (name: string) => {
         if (!_achievements.includes(name)) {
-            onMessageInit({ output: ``, Component: () => (<AchievementViewer name={name} />) });
+            setTimeout(() => {
+                onMessageInit({ output: ``, Component: () => (<AchievementViewer name={name} />) });
+            }, 1000);
             _achievements.push(name);
         }
     };
