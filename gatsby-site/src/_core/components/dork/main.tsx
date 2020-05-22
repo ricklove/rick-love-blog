@@ -138,6 +138,8 @@ export const createDorkGame = (onMessageInit: (message: GameAction) => void): Ga
             return {
                 output: `
                     Example Commands: 
+                    help
+                    inventory
                     look at mirror
                     take frog
                     open box
@@ -185,10 +187,34 @@ export const createDorkGame = (onMessageInit: (message: GameAction) => void): Ga
     const start = async (onMessage: (message: GameAction) => void): Promise<void> => {
         // Load First Scene
         onMessage({ output: `Reading Floppy Disk...` });
-        await delay(3000);
+        await delay(1000);
         onMessage({ output: title });
         onMessage({ output: ``, Component: () => (<AsciiArtViewer artwork={artMan} />) });
         await delay(3000);
+        onMessage({
+            output: ``,
+            addDivider: true,
+        });
+        onMessage({
+            output: `Type simple commands
+                Examples:` });
+        await delay(1000);
+        onMessage({
+            output: `
+                - help
+                - inventory
+                - look at mirror
+                - take frog
+                - open box
+                - close trunk
+                - put cat in submarine
+                `,
+        });
+        await delay(3000);
+        onMessage({
+            output: ``,
+            addDivider: true,
+        });
         onMessage(await loadScene(scenes[0]));
     };
 
