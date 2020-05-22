@@ -5,6 +5,7 @@
 import { ConFile, ConActionQuery } from '../console-simulator-types';
 import { randomBinary } from '../console-simulator-utils';
 import { createDorkGame, title } from './main';
+import { GameInput, GameAction } from './types';
 
 export const dorkFile: ConFile = {
     session: `user`, path: `/`, name: `dork`,
@@ -21,12 +22,22 @@ export const dorkFile: ConFile = {
                     return {
                         query: {
                             prompt: `Are you sure you want to quit?`,
-                            respond: async (x) => x.command.startsWith(`y`) ? dorkGame.onQuitGame() : { output: `That was close` },
+                            respond: async (x) => x.command.startsWith(`y`) ? dorkGame.onQuit() : { output: `That was close` },
                         },
                     };
                 }
 
-                const result = await dorkGame.execute(input);
+                const gameInput: GameInput = {
+                    ...input,
+                    onMessage: (message: GameAction) => {
+                        input.onMessage({
+                            output: message?.output,
+                            Component: message?.Component,
+                            addDivider: message?.addDivider,
+                        });
+                    },
+                };
+                const result = await dorkGame.execute(gameInput);
                 return {
                     ...result,
                     query: result?.isGameOver ? undefined : conQuery,

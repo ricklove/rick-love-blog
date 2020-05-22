@@ -1,11 +1,16 @@
-export type GameExecuteResult = { output?: string, addDivider?: boolean, prompt?: string, Component?: () => JSX.Element };
-export type GameInput = { raw: string, lower: string, command: string, target: string, onMessage: (message: GameExecuteResult) => void };
-
 export type GameAction = null | undefined | {
-    output: string;
     isGameOver?: true;
+
+    output: string;
     addDivider?: boolean;
     Component?: () => JSX.Element;
+};
+export type GameInput = { raw: string, lower: string, command: string, target: string, onMessage: (message: GameAction) => void };
+export type GameExecute = (inputRaw: GameInput) => Promise<GameAction>;
+export type Game = {
+    introduction: string;
+    execute: GameExecute;
+    onQuit: () => void;
 };
 
 export type GameItemTitle = {
@@ -19,7 +24,7 @@ export type GameItemTitleAndDescription = GameItemTitle & {
 };
 
 export type GameItem = GameItemTitleAndDescription & {
-    execute?: (input: GameInput) => Promise<GameAction>;
+    execute?: GameExecute;
 };
 
 export type GameSceneContainer = GameItem & {
@@ -31,6 +36,6 @@ export type GameScene = {
     introduction: string;
     // objects: GameItem[];
     // containers: GameSceneContainer[];
-    execute: (input: GameInput) => Promise<GameAction>;
+    execute: GameExecute;
     getLookItems: () => (GameItemTitleAndDescription | null)[];
 };

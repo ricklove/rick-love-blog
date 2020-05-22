@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ConCommandResult } from '../../console-simulator-types';
 import { GameAction } from '../types';
 
 export const CountDownTimer = (props: { time: number, color?: string, messageAfterTime?: string, onTimeElapsed: () => void }) => {
@@ -35,8 +34,8 @@ export const CountDownTimer = (props: { time: number, color?: string, messageAft
 };
 
 export const triggerTimedMessage = async (
-    onMessage: (message: ConCommandResult) => void,
-    immediateResult: ConCommandResult,
+    onMessage: (message: GameAction) => void,
+    immediateResult: GameAction,
     time: number, color: 'danger' | 'warning' | 'normal',
     getResultAfterTime: () => GameAction,
 ): Promise<GameAction> => {
@@ -50,6 +49,7 @@ export const triggerTimedMessage = async (
             resolve({ output: ``, ...getResultAfterTime(), addDivider: true });
         }} />);
         onMessage({
+            output: ``,
             ...immediateResult,
             Component,
         });

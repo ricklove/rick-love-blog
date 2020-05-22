@@ -288,7 +288,7 @@ export const createScene_01mailbox = (gameState: GameState) => {
 
             if (p === tickingPackage) {
                 return {
-                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={() => triggerGameOver(`You obviously need to watch more TV. A ticking package is generally bad news.`)} /> || <span />),
+                    Component: () => (inventory.includes(tickingPackage) && <CountDownTimer time={180} color='#FF0000' onTimeElapsed={() => onMessage(triggerGameOver(`You obviously need to watch more TV. A ticking package is generally bad news.`))} /> || <span />),
                     output: `${!wasOpen ? `You open the mailbox and` : `You`} take the ${p.title}. As you place it carefully in your backpack, you notice the ticking is getting louder.`,
                 };
             }

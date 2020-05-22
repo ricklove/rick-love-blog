@@ -1,6 +1,6 @@
 import { createGameState } from './core';
 import { createScene_01mailbox } from './scenes/01-mailbox';
-import { GameAction, GameInput } from './types';
+import { GameAction, GameInput, GameExecute, Game } from './types';
 import { randomItem } from '../console-simulator-utils';
 import { dorkAsciiMap, dorkAsciiMan } from './dork-art';
 
@@ -12,7 +12,7 @@ ${dorkAsciiMan}
 
 `;
 
-export const createDorkGame = () => {
+export const createDorkGame = (): Game => {
     const gameState = createGameState();
     const {
         isGameOver,
@@ -39,7 +39,7 @@ export const createDorkGame = () => {
     const scene = scenes[0];
     // const containers = ;
 
-    const execute = async (inputRaw: GameInput): Promise<GameAction> => {
+    const execute: GameExecute = async (inputRaw: GameInput): Promise<GameAction> => {
         const { command: commandRaw, target, onMessage: onMessageRaw } = inputRaw;
 
         // Prevent Messages if game over already
@@ -154,8 +154,8 @@ export const createDorkGame = () => {
     };
 
     return {
-        execute,
-        onQuitGame: () => gameState.triggerQuit(),
         introduction: title + scene.introduction,
+        execute,
+        onQuit: () => gameState.triggerQuit(),
     };
 };
