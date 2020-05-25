@@ -1,0 +1,1 @@
+This repo is deprecated => Goto rick-love-master <https://github.com/ricklove/rick-love-master>
